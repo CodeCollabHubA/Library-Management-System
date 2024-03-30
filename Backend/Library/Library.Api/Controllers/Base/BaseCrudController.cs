@@ -44,7 +44,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpGet]
-        [Authorize (Roles = "Admin")]
+        //[Authorize (Roles = "Admin")]
         public ActionResult<IEnumerable<TDto>> GetAll(
             [FromQuery] string? filterOn, [FromQuery] string? filterQuery, // Filtering
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,    // Sorting

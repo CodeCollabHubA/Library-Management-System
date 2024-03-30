@@ -1131,3 +1131,43 @@ in method  at :
 Message:Failed to determine the https port for redirect.
 in method  at :
 
+[24-03-30 13:08:37 Warning]Library.Api:Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware
+Message:Failed to determine the https port for redirect.
+in method  at :
+
+[24-03-30 13:14:26 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-03-30 13:14:26 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-03-30 13:19:12 Warning]Library.Api:Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware
+Message:Failed to determine the https port for redirect.
+in method  at :
+
+[24-03-30 13:19:15 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-03-30 13:19:15 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-03-30 13:23:08 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-03-30 13:23:08 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-03-30 13:24:28 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-03-30 13:24:28 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
