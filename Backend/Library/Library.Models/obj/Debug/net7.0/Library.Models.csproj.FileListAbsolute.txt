@@ -24,3 +24,16 @@ C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Libra
 C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Library.Models\obj\Debug\net7.0\refint\Library.Models.dll
 C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.pdb
 C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Library.Models\obj\Debug\net7.0\ref\Library.Models.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\bin\Debug\net7.0\Library.Models.deps.json
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\bin\Debug\net7.0\Library.Models.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\bin\Debug\net7.0\Library.Models.pdb
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.csproj.AssemblyReference.cache
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.AssemblyInfoInputs.cache
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.AssemblyInfo.cs
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.csproj.CoreCompileInputs.cache
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.sourcelink.json
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\refint\Library.Models.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\Library.Models.pdb
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Models\obj\Debug\net7.0\ref\Library.Models.dll

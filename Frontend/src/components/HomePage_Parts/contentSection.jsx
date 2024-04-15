@@ -1,4 +1,4 @@
-import CardInfo from "../utilities/_cardinfo";
+import CardInfo from "../common/_cardinfo";
 const ContentSection = () => {
     const OurService_items = {
         

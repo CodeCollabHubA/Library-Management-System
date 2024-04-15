@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Library.Services
-build_property.ProjectDir = C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Library.Services\
+build_property.ProjectDir = C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

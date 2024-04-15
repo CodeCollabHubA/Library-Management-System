@@ -1,35 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Services\\Library.Services.csproj": {}
+    "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Services\\Library.Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj": {
+    "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj",
+        "projectUniqueName": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj",
         "projectName": "Library.Dal",
-        "projectPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj",
-        "packagesPath": "C:\\Users\\Gateway\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Dal\\obj\\",
+        "projectPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj",
+        "packagesPath": "C:\\Users\\hp 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Dal\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Gateway\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\hp 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\Library.Models.csproj": {
-                "projectPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\Library.Models.csproj"
+              "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\Library.Models.csproj": {
+                "projectPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\Library.Models.csproj"
               }
             }
           }
@@ -38,6 +36,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -70,33 +73,45 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\Library.Models.csproj": {
+    "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\Library.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\Library.Models.csproj",
+        "projectUniqueName": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\Library.Models.csproj",
         "projectName": "Library.Models",
-        "projectPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\Library.Models.csproj",
-        "packagesPath": "C:\\Users\\Gateway\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\obj\\",
+        "projectPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\Library.Models.csproj",
+        "packagesPath": "C:\\Users\\hp 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Gateway\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\hp 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -109,6 +124,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -143,44 +163,56 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Services\\Library.Services.csproj": {
+    "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Services\\Library.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Services\\Library.Services.csproj",
+        "projectUniqueName": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Services\\Library.Services.csproj",
         "projectName": "Library.Services",
-        "projectPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Services\\Library.Services.csproj",
-        "packagesPath": "C:\\Users\\Gateway\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Services\\obj\\",
+        "projectPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Services\\Library.Services.csproj",
+        "packagesPath": "C:\\Users\\hp 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Gateway\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\hp 1\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj": {
-                "projectPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj"
+              "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj": {
+                "projectPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Dal\\Library.Dal.csproj"
               },
-              "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\Library.Models.csproj": {
-                "projectPath": "C:\\Users\\Gateway\\Desktop\\Library\\Library Management System\\Backend\\Library\\Library.Models\\Library.Models.csproj"
+              "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\Library.Models.csproj": {
+                "projectPath": "C:\\Users\\hp 1\\Dropbox\\My PC (MRMO-SOM3A)\\Desktop\\Library-Management-System\\Backend\\Library\\Library.Models\\Library.Models.csproj"
               }
             }
           }
@@ -189,6 +221,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -245,12 +282,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.18, 7.0.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -15,3 +15,21 @@ C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Libra
 C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Library.Services\obj\Debug\net7.0\refint\Library.Services.dll
 C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.pdb
 C:\Users\Gateway\Desktop\Library\Library Management System\Backend\Library\Library.Services\obj\Debug\net7.0\ref\Library.Services.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\bin\Debug\net7.0\Library.Services.deps.json
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\bin\Debug\net7.0\Library.Services.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\bin\Debug\net7.0\Library.Services.pdb
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\bin\Debug\net7.0\Library.Dal.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\bin\Debug\net7.0\Library.Models.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\bin\Debug\net7.0\Library.Dal.pdb
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\bin\Debug\net7.0\Library.Models.pdb
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.csproj.AssemblyReference.cache
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.AssemblyInfoInputs.cache
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.AssemblyInfo.cs
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.csproj.CoreCompileInputs.cache
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.sourcelink.json
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library..9FA24DEF.Up2Date
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\refint\Library.Services.dll
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\Library.Services.pdb
+C:\Users\hp 1\Dropbox\My PC (MRMO-SOM3A)\Desktop\Library-Management-System\Backend\Library\Library.Services\obj\Debug\net7.0\ref\Library.Services.dll

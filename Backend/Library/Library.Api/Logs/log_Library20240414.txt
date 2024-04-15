@@ -1,0 +1,12 @@
+[24-04-14 11:27:29 Warning]Library.Api:Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware
+Message:Failed to determine the https port for redirect.
+in method  at :
+
+[24-04-14 11:29:01 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
+[24-04-14 11:29:01 Warning]Library.Api:Microsoft.EntityFrameworkCore.Query
+Message:The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+in method  at :
+
