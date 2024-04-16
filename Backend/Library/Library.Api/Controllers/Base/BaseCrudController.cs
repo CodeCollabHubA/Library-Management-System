@@ -200,7 +200,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TDto>> DeleteOneAsync(int id, TEntity entity)
+        public async virtual Task<ActionResult<TDto>> DeleteOneAsync(int id, TEntity entity)
         {
             if (id != entity.Id)
             {

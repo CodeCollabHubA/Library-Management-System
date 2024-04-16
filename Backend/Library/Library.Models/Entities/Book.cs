@@ -11,6 +11,8 @@ namespace Library.Models.Entities
 
         public string? Description { get; set; }
 
+        public string? ImageURL { get; set; }
+
         [Required]
         public int NumberOfCopiesOwned { get; set; }
 
