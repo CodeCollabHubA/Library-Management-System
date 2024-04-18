@@ -2,30 +2,26 @@
 
 
 
-
-
-
-using Microsoft.AspNetCore.Authorization;
-
 namespace Library.Api.Controllers.Base
 {
     [ApiController]
     [Route("api/[controller]")]
     //[Route("api/v{version:apiVersion}/[controller]")]
-    public class BaseCrudController<TEntity, TDto, TController> : ControllerBase
+    public class BaseCrudController<TEntity, TRequestDto, TResponseDto, TController> : ControllerBase
         where TEntity : BaseEntity, new()
-        where TDto : BaseDTO, new()
+        where TRequestDto : new()
+        where TResponseDto : BaseDTO, new()
         where TController : class
     {
-        protected readonly IBaseRepo<TEntity> MainRepo;
-        protected readonly IAppLogging<TController> Logger;
-        private readonly IMapper _mapper;
+        protected readonly IBaseRepo<TEntity> _mainRepo;
+        protected readonly IAppLogging<TController> _logger;
+        protected readonly IMapper _mapper;
 
 
         protected BaseCrudController(IAppLogging<TController> logger, IBaseRepo<TEntity> mainRepo, IMapper mapper)
         {
-            MainRepo = mainRepo;
-            Logger = logger;
+            _mainRepo = mainRepo;
+            _logger = logger;
             _mapper = mapper;
 
 
@@ -45,14 +41,14 @@ namespace Library.Api.Controllers.Base
         //[ApiVersion("0.1-Beta")]
         [HttpGet]
         //[Authorize (Roles = "Admin")]
-        public ActionResult<IEnumerable<TDto>> GetAll(
+        public virtual ActionResult<IEnumerable<TResponseDto>> GetAll(
             [FromQuery] string? filterOn, [FromQuery] string? filterQuery, // Filtering
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,    // Sorting
             [FromQuery] int pageSize = 10, [FromQuery] int pageNumber = 1 // Pagination
             )
         {
 
-            return Ok(_mapper.Map<IEnumerable<TDto>>(MainRepo.GetAllIgnoreQueryFilters(
+            return Ok(_mapper.Map<IEnumerable<TResponseDto>>(_mainRepo.GetAllIgnoreQueryFilters(
                 filterOn, filterQuery,
                 sortBy, isAscending ?? true,
                 pageSize, pageNumber
@@ -76,15 +72,15 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<TDto>> GetOneAsync(int id)
+        public async virtual Task<ActionResult<TResponseDto>> GetOneAsync(int id)
         {
-            var entity = await MainRepo.FindAsync(id);
+            var entity = await _mainRepo.FindAsync(id);
 
             if (entity == null)
             {
                 return NoContent();
             }
-            return Ok(_mapper.Map<TDto>(entity));
+            return Ok(_mapper.Map<TResponseDto>(entity));
         }
 
 
@@ -118,7 +114,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<TDto>> UpdateOneAsync(int id, TEntity entity)
+        public async virtual Task<ActionResult<TResponseDto>> UpdateOneAsync(int id, TResponseDto entity)
         {
             if (id != entity.Id)
             {
@@ -129,10 +125,12 @@ namespace Library.Api.Controllers.Base
             {
                 return ValidationProblem(ModelState);
             }
+            TEntity domainEntity;
 
             try
             {
-                await MainRepo.UpdateAsync(entity);
+                domainEntity = _mapper.Map<TEntity>(entity);
+                await _mainRepo.UpdateAsync(domainEntity);
             }
 
             catch (Exception ex)
@@ -140,7 +138,7 @@ namespace Library.Api.Controllers.Base
                 return BadRequest(ex);
             }
 
-            return Ok(_mapper.Map<TDto>(entity));
+            return Ok(_mapper.Map<TResponseDto>(domainEntity));
         }
 
         /// <summary>
@@ -156,23 +154,29 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpPost]
-        public async Task<ActionResult<TDto>> AddOneAsync(TEntity entity)
+        public async virtual Task<ActionResult<TResponseDto>> AddOneAsync(TRequestDto entity)
+
         {
+
+
             if (!ModelState.IsValid)
             {
                 return ValidationProblem(ModelState);
             }
 
+            TEntity domainEntity;
             try
             {
-                await MainRepo.AddAsync(entity);
+                domainEntity = _mapper.Map<TEntity>(entity);
+                await _mainRepo.AddAsync(domainEntity);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
 
-            return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<TDto>(entity).Id }, entity);
+
+            return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<TResponseDto>(domainEntity).Id }, _mapper.Map<TResponseDto>(domainEntity));
         }
 
 
@@ -200,16 +204,17 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpDelete("{id}")]
-        public async virtual Task<ActionResult<TDto>> DeleteOneAsync(int id, TEntity entity)
+        public async virtual Task<ActionResult<TResponseDto>> DeleteOneAsync(int id, TResponseDto entity)
         {
             if (id != entity.Id)
             {
                 return BadRequest();
             }
-
+            TEntity domainEntity;
             try
             {
-                await MainRepo.DeleteAsync(entity);
+                domainEntity = _mapper.Map<TEntity>(entity);
+                await _mainRepo.DeleteAsync(domainEntity);
             }
             catch (Exception ex)
             {

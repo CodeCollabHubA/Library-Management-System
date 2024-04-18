@@ -4,6 +4,7 @@
 
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddControllers(
     config =>
     {
         config.Filters.Add(new CustomExceptionFilter(builder.Environment));
+        config.SuppressAsyncSuffixInActionNames = false;
     })
     .AddJsonOptions(options =>
     {
@@ -39,6 +41,12 @@ builder.Services.AddControllers(
         options.ClientErrorMapping[StatusCodes.Status404NotFound].Link = "https://httpstatuses.com/404";
         options.ClientErrorMapping[StatusCodes.Status404NotFound].Title = "Invalid location";
     });
+
+// Adding the IWebHostEnvironment to the DI container
+//builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
+
+// Adding the IHttpContextAccessor to the DI container
+builder.Services.AddHttpContextAccessor();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -133,6 +141,13 @@ app.UseHttpsRedirection();
 
 //Add CORS Policy
 app.UseCors("AllowAll");
+
+// Add static files
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles")),
+    RequestPath = "/StaticFiles"
+});
 
 // Auth
 app.UseAuthentication();

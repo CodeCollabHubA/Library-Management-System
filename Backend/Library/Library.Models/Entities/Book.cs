@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.AspNetCore.Http;
+
 namespace Library.Models.Entities
 {
 
@@ -12,6 +14,10 @@ namespace Library.Models.Entities
         public string? Description { get; set; }
 
         public string? ImageURL { get; set; }
+        public string? ImagePath { get; set; }
+        [NotMapped]
+        public IFormFile? Image { get; set; }
+
 
         [Required]
         public int NumberOfCopiesOwned { get; set; }
