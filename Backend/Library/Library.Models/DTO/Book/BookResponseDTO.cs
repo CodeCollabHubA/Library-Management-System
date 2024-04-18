@@ -1,16 +1,17 @@
-﻿
+
 
 
 
 namespace Library.Models.DTO
 {
-    public class BookDTO : BaseDTO
+    public class BookResponseDTO: BaseDTO
     {
         [Required]
         public string Title { get; set; }
 
         public string? Description { get; set; }
         public string? ImageURL { get; set; }
+
 
 
         [Required]
@@ -21,3 +22,5 @@ namespace Library.Models.DTO
 
     }
 }
+
+

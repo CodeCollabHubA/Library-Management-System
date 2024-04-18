@@ -14,6 +14,24 @@ namespace Library.Models.Profiles
             CreateMap<Loan, LoanDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
 
+            // ResponseDTOs
+            CreateMap<Book, BookResponseDTO>().ReverseMap();
+            CreateMap<Author, AuthorResponseDTO>().ReverseMap();
+            CreateMap<Publisher, PublisherResponseDTO>().
+                ReverseMap();
+            CreateMap<Loan, LoanResponseDTO>().
+                ReverseMap();
+
+
+
+            // RequestDTOs
+            CreateMap<Book, BookRequestDTO>().ReverseMap();
+            CreateMap<Author, AuthorRequestDTO>().ReverseMap();
+            CreateMap<Publisher, PublisherRequestDTO>().ReverseMap();
+            CreateMap<Loan, LoanRequestDTO>().ReverseMap();
+
+
+
         }
     }
 
