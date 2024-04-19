@@ -1,66 +1,48 @@
 import React, { Component } from 'react';
 import { Route, Routes } from 'react-router-dom'
 import Home from './components/homePage'
-import Login from './components/login'
-import SignUp from './components/signUp';
-import Dashboard from './components/dashboad'
-import ApiTut from '../apiTut'
-import FormTut from '../formTut';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-const schema = yup
-  .object({
-    fristName: yup.string()
-      .when('mode', {
-        is: 'signUp',
-        then:(schema)=>schema.required('must enter a first name')
-      }),
-    lastName: yup.string()
-      .when('mode', {
-        is: 'signUp',
-        then:(schema)=>schema.required('must enter a last name')
-      }),
-    password: yup.string().min(8).required('must enter a passward'),
-    email: yup.string().email('Please enter a valid email address').required('must enter an email address'),
-    phone: yup.string().when('mode',
-      {
-        is: 'signUp',
-        then: (schema) => schema.test('custom-pattern', 'Invalid phone format', (value) => {
-      const customPattern = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-      return customPattern.test(value);
-    }).required('must enter your phone number')}),
-    adminId:yup.string()
-  }).required();
+import LoginForm from './pages/loginForm'
+import RegisterForm from './components/registerForm'
+import Dashboard from './pages/Dashboard'
+import NotFound from './components/notFound'
+import Input from './components/common/_input';
+import Form from './components/common/_form';
+import Books from './pages/books';
+import BookForm from './pages/bookForm';
+import Users from './pages/users'
+import DashboardContainer from './components/dashboardContainer';
 
 
-const App = () => {
-  const mode='signUp'
-  const { register, handleSubmit, formState:{errors} } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      mode
-    }
-  })
 
-  const onSubmit = (data) => {
-    console.log(data)
-    console.log('subkkk')
+
+
+class App extends Component {
+  
+  state = {
+    inputs: [
+      { label: 'Name', name:'name', id:'name',type:'text'},
+      {label: 'Password', name:'password', id:'password',type:'password'},
+      { label: 'Email', name: 'email', id: 'email', type:'email'}
+    ]
   }
-  return (
-    <>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login register={register} handleSubmit={handleSubmit} errors={errors} onSubmit={onSubmit} />} />
-        <Route path='/signUp' element={<SignUp register={register} handleSubmit={handleSubmit} errors={errors} onSubmit={onSubmit} />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        {/* <Route path='/' element={<ApiTut />} /> */}
-        {/* <Route path='/' element={<FormTut />} /> */}
-      </Routes>
-    </>
-  );
+  
+  
+  render() { 
+    return (
+      <>
+        {/* <Form inputsNo={this.state.inputs} /> */}
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<LoginForm />} />
+          <Route path='/register' element={<RegisterForm />} />
+          <Route path='/dashboard/*' element={<DashboardContainer/>}/>
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </>
+    );
+  }
 }
 
 export default App;
 
+{/* <Input name='test' label='Test' /> */}

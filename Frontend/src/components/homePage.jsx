@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from '../components/HomePage/navbar'
-import HeroSection from '../components/HomePage/heroSection'
-import ContentSection from '../components/HomePage/contentSection'
-import FooterSection from '../components/HomePage/footerSection'
+import Navbar from './HomePage_Parts/navbar'
+import HeroSection from './HomePage_Parts/heroSection'
+import ContentSection from './HomePage_Parts/contentSection'
+import FooterSection from './HomePage_Parts/footerSection'
 
 
 const Home = () => {
