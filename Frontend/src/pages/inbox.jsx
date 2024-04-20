@@ -12,12 +12,12 @@ const Inbox = () => {
         <>
             <div className="mx-14 mt-20 pt-5 px-7 w-full  bg-white rounded-sm shadow-xl ">
                 <div className="flex flex-col justify-between">
-                    <h1 className="text-5xl font-semibold bg-green-300">Inbox</h1>
-                    <div className="mt-12  border border-gray-500  w-full">
+                    <h1 className="text-5xl font-semibold">Inbox</h1>
+                    <div className="mt-12   rounded-md bg-slate-100 shadow-lg w-full">
                         <Routes>
                             <Route index element={
                                 <div className="flex h-[29rem]">
-                                    <div className="w-1/5 p-2 border-r-2">
+                                    <div className="w-1/5 p-2 border-r-2 border-slate-50">
                                         <InboxSidebar />
                                     </div>
                                     <div className="w-full">

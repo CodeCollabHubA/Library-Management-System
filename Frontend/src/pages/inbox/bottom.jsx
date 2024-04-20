@@ -1,6 +1,6 @@
 const Bottom = () => {
     return (
-        <div className="h-12 py-2 px-4 items-center border-t-2 w-full flex justify-between">
+        <div className="h-12 py-2 px-4 items-center border-t-2 border-slate-50 w-full flex justify-between">
             <span>1-5 of 29</span>
             <div className="flex">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
