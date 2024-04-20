@@ -2,12 +2,11 @@
 
 const InboxSidebar = () => {
     const items = [
-        {src:'/src/images/inbox.svg',name:"Inbox"},
-        {src:'',name:"Started"},
-        {src:'',name:"Snoozed"},
-        {src:'',name:"Sent"},
-        {src:'',name:"Drafts"},
-        {src:'',name:"Trash"},
+        {src:'/src/images/inbox1.svg',name:"Inbox"},
+        {src:'/src/images/star.svg',name:"Started"},
+        {src:'/src/images/borrow.svg',name:"Borrows"},
+        {src:'/src/images/trash-bin1.svg',name:"Trash"},
+
     ]
     
     return ( 
@@ -17,8 +16,8 @@ const InboxSidebar = () => {
             </button>
             <ul>
                 {items.map(item => (
-                    <li  className="text-lg my-5 text-gray-600 ">
-                        <img src={item.src}/>{item.name}
+                    <li  className="text-lg my-5 text-gray-600 flex items-center rounded-md h-10 cursor-pointer hover:bg-blue-200   ">
+                        <img className="mx-3" src={item.src}/>{item.name}
                     </li>
                 )) }
             </ul>
