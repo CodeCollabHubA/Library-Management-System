@@ -2,9 +2,9 @@ const CardInfo = ({OurService_items,button}) => {
     return (
         <>
             <div className="">For Admins:</div>
-            <div className="flex justify-center my-8">
+            <div className="block md:flex justify-center my-8">
                 {Object.entries(OurService_items).map(([k_name, k_value]) => (
-                    <div key={k_name} className="flex flex-col mx-5 w-64 h-72 p-6 bg-white border 
+                    <div key={k_name} className="mx-auto flex flex-col my-5 md:mx-5 w-64 h-72 p-6 bg-white border 
                 border-gray-200 rounded-lg shadow-lg ">
                         <div className="grow flex items-center">
                             <img src={k_value.admin.icon} alt="" />
@@ -20,9 +20,9 @@ const CardInfo = ({OurService_items,button}) => {
                 ))}
             </div>
             <div className="">For Users:</div>
-            <div className="flex justify-center my-8">
+            <div className="block md:flex justify-center my-8">
                 {Object.entries(OurService_items).map(([k_name, k_value]) => (
-                    <div key={k_name} className="flex flex-col mx-5 w-64 h-72 p-6 bg-white border 
+                    <div key={k_name} className="mx-auto flex flex-col my-5 md:mx-5 w-64 h-72 p-6 bg-white border 
                 border-gray-200 rounded-lg shadow-lg ">
                         <div className="grow flex items-center">
                             <img src={k_value.user.icon} alt="" />
