@@ -20,34 +20,38 @@ const ContentSection = () => {
 
     return (
         <>
-            <div className="px-16 py-10 font-bold bg-orange-100 min-h-40">
+            <div className="px-8 md:px-16 py-10 font-bold bg-orange-100 min-h-40">
                 <h1 className="text-4xl mb-12">Services We Provide</h1>
                 <div className="servicesContainer ">
                     <CardInfo OurService_items={OurService_items} button={button} />
                 </div>
             </div>
-            <div className="joinUs flex justify-around items-center px-10 overflow-clip  bg-orange-800">
+
+
+            <div className="joinUs flex py-4 h-80 flex-col md:flex-row md:h-40 justify-around items-center md:py-0 md:px-10 overflow-clip  bg-orange-800">
                 <h1 className="text-4xl text-white">Join Us</h1>
-                <img className="relative top-6" src="/src/assets/Combined Shapecircle.svg" alt="" />
+                <img className="relative  md:top-6" src="/src/assets/Combined Shapecircle.svg" alt="" />
                 <div className=" flex ">
-                    <button className="bg-white text-orange-800 w-28 h-10 text-xl rounded-full mx-4 hover:font-bold">Sign Up</button>
-                    <button className="bg-white text-orange-800 w-28 h-10 text-xl rounded-full mx-4 hover:font-bold ">Sign In</button>
+                    <button className="bg-white text-orange-800 w-28 h-10 text-xl rounded-md mx-4 hover:font-bold">Sign Up</button>
+                    <button className="bg-white text-orange-800 w-28 h-10 text-xl rounded-md mx-4 hover:font-bold ">Sign In</button>
                 </div>
             </div>
-            <div className="py-10 px-10 flex justify-center" >
+
+
+            <div className="py-10 px-10 block md:flex justify-center" >
                 <form className="ContactUs flex flex-col w-[25rem] lg:w-[30rem]" action="">
                     <label className="text-lg mb-4" htmlFor="">
                         Name
-                        <input className="block rounded-xl" type="text" />
+                        <input className="block rounded-md" type="text" />
                     </label>
                     <label className="text-lg mb-4" htmlFor="">
                         Email
-                        <input  className="block rounded-xl" type="email" />
+                        <input  className="block rounded-md" type="email" />
                     </label>
-                    <textarea className="rounded-2xl w-96" name="textt" id="" cols="30" rows="10"></textarea>
+                    <textarea className="rounded-md w-72 h-40 md:w-96" placeholder="write a message" name="textt"></textarea>
                 </form>
                 <picture className="lg:w-[30rem] ">
-                <img src="/src/assets/Sent Message-bro.png" alt="" />
+                    <img src="/src/assets/Sent Message-bro.png" alt="" />
                 </picture>
             </div>
         </>
