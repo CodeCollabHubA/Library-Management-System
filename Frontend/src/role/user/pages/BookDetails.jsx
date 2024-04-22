@@ -2,13 +2,13 @@ let book = { id: 1, author: "Ahmed Adam", name: "book number 1", publishDate: "2
 
 const BookDetails = () => {
     return (
-        <div className="mx-14 mt-10  mb-10 pt-5  pb-10 px-7 min-h-[80%] bg-white rounded-xl shadow-xl ">
+        <div className="mx-14 mb-14 mt-[100px] pt-5  pb-10 px-7 min-h-[80%] bg-white rounded-xl shadow-xl ">
             <div className="mb-10">
                 <h1 className="text-4xl font-semibold">{book.name}</h1>
             </div>
             <div className='md:flex gap-5'>
                 <div className="img w-full md:w-1/3 xl:w-1/4">
-                    <img src={`/${book.img}`} alt={book.name} />
+                    <img src={`/src/assets/covers/${book.img}`} alt={book.name} />
                 </div>
                 <div className="info flex-1">
                     <div className="row mb-5">
