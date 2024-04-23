@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import SsideBar from '../components/SideBar/ssidebar';
+import SsideBar from '../components/SideBar/sidebar';
 import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
 
 import DashboardAvatars from '../partials/dashboard/DashboardAvatars';
