@@ -1,23 +1,21 @@
 ﻿
 
-using Library.Models.Options.JwtOptions;
 
-namespace Library.Dal.Repos
+using Library.Services.DataServices.Helpers;
+
+namespace Library.Services.DataServices.Dal
 {
-    public class AuthRepo : IAuthRepo
+    public class UserDalDataService : DalDataServiceBase<User, UserDalDataService>, IUserDataService
     {
-        private readonly ApplicationDbContext _context;
-
-        public AuthRepo(ApplicationDbContext context)
+        public UserDalDataService(IUserRepo mainRepo, IAppLogging<UserDalDataService> logger) : base(mainRepo, logger)
         {
-            _context = context;
         }
-
         public async Task<string> LoginUserAsync(LoginUserRequestDTO userDTO, JwtOptions jwtOptions)
         {
 
             // check if a user with this email exists
-            User? user = await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(userDTO.Email));
+            
+            User user = await ((IUserRepo)_mainRepo).FindByEmailAsync(userDTO.Email);
 
             if (user == null)
             {
@@ -31,7 +29,7 @@ namespace Library.Dal.Repos
             {
                 throw new Exception("Invalid Password");
             }
-            
+
             // Generate Jwt token 
             string accessToken = JwtHelpers.GenerateJwtToken(user, jwtOptions);
 
@@ -46,9 +44,9 @@ namespace Library.Dal.Repos
 
 
             // check if a user with this email already exists
-            User? user = await _context.Users.FirstOrDefaultAsync(_ => _.Email.Equals(userDTO.Email));
+            User user = await ((IUserRepo)_mainRepo).FindByEmailAsync(userDTO.Email);
 
-            if(!(user == null))
+            if (!(user == null))
             {
                 throw new Exception("User with the same email already exists");
             }
@@ -56,29 +54,23 @@ namespace Library.Dal.Repos
             // Map the DTO to a user
             user = new User
             {
-                Name= userDTO.Name,
+                Name = userDTO.Name,
                 Email = userDTO.Email,
-                Address= userDTO.Address,
-                Phone= userDTO.Phone,
+                Address = userDTO.Address,
+                Phone = userDTO.Phone,
                 PasswordHash = JwtHelpers.HashPassword(userDTO.Password),
                 UserRole = Role.User,
             };
 
 
             // Add the new user to the database
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            await _mainRepo.AddAsync(user);
+            await _mainRepo.SaveChangesAsync();
 
             // Generate Jwt token
             string accessToken = JwtHelpers.GenerateJwtToken(user, jwtOptions);
 
             return accessToken;
-
-
-
-
-
-            
 
 
         }

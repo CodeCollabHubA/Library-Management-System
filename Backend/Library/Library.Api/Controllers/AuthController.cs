@@ -2,6 +2,8 @@
 
 
 
+using Library.Services.DataServices.Interfaces;
+
 namespace Library.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -10,12 +12,12 @@ namespace Library.Api.Controllers
     {
 
         private readonly JwtOptions _jwtOptions;
-        private readonly IAuthRepo _authRepo;
+        private readonly IUserDataService _userDataService;
 
-        public AuthController(JwtOptions jwtOptions, IAuthRepo authRepo)
+        public AuthController(JwtOptions jwtOptions, IUserDataService userDataService)
         {
             _jwtOptions = jwtOptions;
-            _authRepo = authRepo;
+            _userDataService = userDataService; 
         }
 
 
@@ -33,7 +35,7 @@ namespace Library.Api.Controllers
             }
 
             // TODO: handle the error better
-            string accessToken = await _authRepo.RegisterUserAsync(registerRequestDto, _jwtOptions);
+            string accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
 
 
             return Ok(accessToken);
@@ -55,7 +57,7 @@ namespace Library.Api.Controllers
 
 
             // handle the error better
-           string accessToken = await _authRepo.LoginUserAsync(user, _jwtOptions);
+           string accessToken = await _userDataService.LoginUserAsync(user, _jwtOptions);
 
 
             return Ok(accessToken);

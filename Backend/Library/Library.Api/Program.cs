@@ -72,6 +72,9 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 // Data Access Layer Repos
 builder.Services.AddRepositories();
 
+// Data Services
+builder.Services.AddDataServices();
+
 
 // Authentication
 var jwtOptions = builder.Configuration.GetSection("jwt").Get<JwtOptions>();

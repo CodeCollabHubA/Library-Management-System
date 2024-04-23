@@ -59,6 +59,12 @@
             </remarks>
             <returns>Nothing</returns>
         </member>
+        <member name="M:Library.Api.Controllers.BookController.AddOneAsync(Library.Models.DTO.BookCreateRequestDTO)">
+            <summary>
+            Adds a single record
+            </summary>
+            <returns>Added record</returns>
+        </member>
         <member name="M:Library.Api.Controllers.BookController.UpdateOneAsync(System.Int32,Library.Models.DTO.BookUpdateRequestDTO)">
             <summary>
             Updates a single record
@@ -79,12 +85,6 @@
             <param name="id">Primary key of the record to update</param>
             <param name="entity">Entity to update</param>
             <returns>Single record</returns>
-        </member>
-        <member name="M:Library.Api.Controllers.BookController.AddOneAsync(Library.Models.DTO.BookCreateRequestDTO)">
-            <summary>
-            Adds a single record
-            </summary>
-            <returns>Added record</returns>
         </member>
     </members>
 </doc>

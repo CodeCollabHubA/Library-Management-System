@@ -5,7 +5,7 @@ global using Library.Api.Swagger.Models;
 global using Library.Api.Filters.Exception;
 
 
-
+global using Library.Services.DataServices.Interfaces;
 global using Library.Services.Logging.Configuration;
 global using Library.Services.Logging.Interfaces;
 global using Library.Services.DataServices;
@@ -47,6 +47,7 @@ global using Swashbuckle.AspNetCore.Annotations;
 global using Swashbuckle.AspNetCore.SwaggerGen;
 
 global using AutoMapper;
+
 
 
 global using System.ComponentModel.DataAnnotations;

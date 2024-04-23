@@ -1,20 +1,14 @@
 ﻿
-
-using Library.Models.Options.JwtOptions;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
-
-namespace Library.Dal.Helpers
+namespace Library.Services.DataServices.Helpers
 {
-
-    
-    public class JwtHelpers 
+    public static class JwtHelpers
     {
-        
-        public static string  GenerateJwtToken(User user, JwtOptions jwtOptions )
+
+        public static string GenerateJwtToken(User user, JwtOptions jwtOptions)
         {
             // Generate the token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -46,9 +40,9 @@ namespace Library.Dal.Helpers
             return accessToken;
         }
 
-        
-        
-        
+
+
+
         public static int? ValidateJwtToken(string token)
         {
             throw new NotImplementedException();
@@ -57,7 +51,7 @@ namespace Library.Dal.Helpers
 
         public static string HashPassword(string password)
         {
-            
+
             // Generate a salt for the password hash
             var salt = BCrypt.Net.BCrypt.GenerateSalt();
 
@@ -65,7 +59,7 @@ namespace Library.Dal.Helpers
             return BCrypt.Net.BCrypt.HashPassword(password, salt);
         }
 
-        
+
         public static bool VerifyPasswordHash(string password, string storedHash)
         {
             // Use BCrypt to verify the password hash
