@@ -57,7 +57,7 @@ namespace Library.Dal.Initialization
             new() { Id = 4, Name = "Osman Elamin", Email = "osman@example.com", Phone = "987-654-3210", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
             new() { Id = 5, Name = "khojalei abbas", Email = "khojalei@example.com", Phone = "321-654-9870", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" }
         };
-        public static List<Loan> Loans => new()
+        public static List<Borrowing> Borrowings => new()
         {
             new() { Id = 1, UserId = 3, DateOut = DateTime.Now.AddDays(1)},
             new() { Id = 2, UserId = 4, DateOut = DateTime.Now.AddDays(3)},
@@ -65,12 +65,12 @@ namespace Library.Dal.Initialization
 
         };
 
-        public static List<BookLoan> BookLoans => new()
+        public static List<BookBorrowing> BookBorrowings => new()
         {
-            new() { Id = 1, BookId = 1, LoanId = 1},
-            new() { Id = 2, BookId = 2, LoanId = 2},
-            new() { Id = 3, BookId = 3, LoanId = 2},
-            new() { Id = 4, BookId = 3, LoanId = 3}
+            new() { Id = 1, BookId = 1, BorrowingId = 1},
+            new() { Id = 2, BookId = 2, BorrowingId = 2},
+            new() { Id = 3, BookId = 3, BorrowingId = 2},
+            new() { Id = 4, BookId = 3, BorrowingId = 3}
 
 
 

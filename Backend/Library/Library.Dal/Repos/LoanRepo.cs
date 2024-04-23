@@ -1,7 +1,7 @@
 ﻿
 namespace Library.Dal.Repos
 {
-    public class LoanRepo : BaseRepo<Loan>, ILoanRepo
+    public class LoanRepo : BaseRepo<Borrowing>, ILoanRepo
     {
         public LoanRepo(ApplicationDbContext context) : base(context)
         {

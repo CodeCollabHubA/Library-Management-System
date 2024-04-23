@@ -57,26 +57,26 @@ namespace Library.Models.Entities.Configuration
 
 
 
-            // Many-to-Many relationship between Books and Loans
-            // using the BookLoan entity
+            // Many-to-Many relationship between Books and Borrowings
+            // using the BookBorrowing entity
             builder
-            .HasMany(b => b.Loans)
+            .HasMany(b => b.Borrowings)
             .WithMany(a => a.Books)
-            .UsingEntity<BookLoan>(
+            .UsingEntity<BookBorrowing>(
                 l => l
-                   .HasOne(ba => ba.LoanNavigation)
-                   .WithMany(a => a.BookLoans)
-                   .HasForeignKey(nameof(BookLoan.LoanId))
+                   .HasOne(ba => ba.BorrowingNavigation)
+                   .WithMany(a => a.BookBorrowings)
+                   .HasForeignKey(nameof(BookBorrowing.BorrowingId))
                    .OnDelete(DeleteBehavior.Cascade),
                r => r
                    .HasOne(ba => ba.BookNavigation)
-                   .WithMany(b => b.BookLoans)
-                   .HasForeignKey(nameof(BookLoan.BookId))
+                   .WithMany(b => b.BookBorrowings)
+                   .HasForeignKey(nameof(BookBorrowing.BookId))
                    .OnDelete(DeleteBehavior.Cascade),
 
                j =>
                {
-                   j.HasKey(ba => new { ba.BookId, ba.LoanId });
+                   j.HasKey(ba => new { ba.BookId, ba.BorrowingId });
                });
 
 

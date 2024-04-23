@@ -27,14 +27,14 @@ namespace Library.Models.Entities
 
 
 
-        // Loans where a copy of the book involved
-        // Many-To-Many with the Loan entity
-        [InverseProperty(nameof(Loan.Books))]
-        public ICollection<Loan> Loans { get; set; } = new List<Loan>();
+        // Borrowings where a copy of the book involved
+        // Many-To-Many with the Borrowing entity
+        [InverseProperty(nameof(Borrowing.Books))]
+        public ICollection<Borrowing> Borrowings { get; set; } = new List<Borrowing>();
 
         // join table
-        [InverseProperty(nameof(BookLoan.BookNavigation))]
-        public ICollection<BookLoan> BookLoans { get; set; }
+        [InverseProperty(nameof(BookBorrowing.BookNavigation))]
+        public ICollection<BookBorrowing> BookBorrowings { get; set; }
 
 
 

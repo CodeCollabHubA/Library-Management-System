@@ -17,9 +17,9 @@ namespace Library.Dal.EFStructures
 
         public DbSet<Author> Authors { get; set; }
         public DbSet<BookAuthor> BookAuthors { get; set; }
-
-        public DbSet<Loan> Loans { get; set; }
-        public DbSet<BookLoan> BookLoans { get; set; }
+        
+        public DbSet<Borrowing> Borrowings { get; set; }
+        public DbSet<BookBorrowing> BookBorrowings { get; set; }
 
         public DbSet<User> Users { get; set; }
         public DbSet<SeriLogEntry> SeriLogEntries { get; set; }
@@ -34,7 +34,7 @@ namespace Library.Dal.EFStructures
 
             // Entity specific configurations
             new SeriLogEntryConfiguration().Configure(modelBuilder.Entity<SeriLogEntry>());
-            new LoanConfiguration().Configure(modelBuilder.Entity<Loan>());
+            new BorrowingConfiguration().Configure(modelBuilder.Entity<Borrowing>());
             new BookConfiguration().Configure(modelBuilder.Entity<Book>());
             new UserConfiguration().Configure(modelBuilder.Entity<User>());
 

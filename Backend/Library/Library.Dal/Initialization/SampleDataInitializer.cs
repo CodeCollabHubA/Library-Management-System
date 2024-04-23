@@ -22,10 +22,10 @@ namespace Library.Dal.Initialization
                 ProcessInsert(context, context.Authors, SampleData.Authors);
                 ProcessInsert(context, context.Publishers, SampleData.Publishers);
                 ProcessInsert(context, context.Users, SampleData.Users);
-                ProcessInsert(context, context.Loans, SampleData.Loans);
+                ProcessInsert(context, context.Borrowings, SampleData.Borrowings);
                 ProcessInsert(context, context.BookAuthors, SampleData.BookAuthors);
                 ProcessInsert(context, context.BookPublishers, SampleData.BookPublishers);
-                ProcessInsert(context, context.BookLoans, SampleData.BookLoans);
+                ProcessInsert(context, context.BookBorrowings, SampleData.BookBorrowings);
 
             }
             catch(Exception ex) {

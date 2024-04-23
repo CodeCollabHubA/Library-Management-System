@@ -16,7 +16,7 @@ namespace Library.Models.Profiles
             CreateMap<Author, AuthorResponseDTO>().ReverseMap();
             CreateMap<Publisher, PublisherResponseDTO>().
                 ReverseMap();
-            CreateMap<Loan, LoanResponseDTO>().
+            CreateMap<Borrowing, BorrowingResponseDTO>().
                 ReverseMap();
 
 
@@ -25,20 +25,20 @@ namespace Library.Models.Profiles
             CreateMap<Book, BookCreateRequestDTO>().ReverseMap();
             CreateMap<Author, AuthorCreateRequestDTO>().ReverseMap();
             CreateMap<Publisher, PublisherCreateRequestDTO>().ReverseMap();
-            CreateMap<Loan, LoanCreateRequestDTO>().ReverseMap();
+            CreateMap<Borrowing, BorrowingCreateRequestDTO>().ReverseMap();
 
 
             // UpdateRequestDTOs
             CreateMap<BookUpdateRequestDTO, Book>();
             CreateMap<AuthorUpdateRequestDTO, Author>();
             CreateMap<PublisherUpdateRequestDTO, Publisher>();
-            CreateMap<LoanUpdateRequestDTO, Loan>();
+            CreateMap<BorrowingUpdateRequestDTO, Borrowing>();
 
             // Map from the BaseDTO, as it's the DTO for the delete
             CreateMap<BaseDTO, Book>();
             CreateMap<BaseDTO, Author>();
             CreateMap<BaseDTO, Publisher>();
-            CreateMap<BaseDTO, Loan>();
+            CreateMap<BaseDTO, Borrowing>();
 
             // Same type mappers
             CreateMap<Book, Book>()
