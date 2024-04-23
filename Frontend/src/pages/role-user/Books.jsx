@@ -1,4 +1,4 @@
-import BookItem from "../books/BookItem";
+import BookItem from "../../components/role-user/books/BookItem";
 
 let arr = [
     { id: 1, name: "book name1", author: "Ahmed Adam", publishDate: "2020", price: 2, img: "1.jpeg" },
@@ -12,19 +12,14 @@ let arr = [
 ]
 const Books = () => {
     return (
-        <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            <div className="mx-14 mb-14 mt-20 py-5 px-7 bg-white rounded-sm shadow-xl ">
-                <div className="mb-10">
-                    <h1 className="text-5xl font-semibold">book list</h1>
-                </div>
-                <div className='grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
-                    {arr.map(book =>
-                        <BookItem key={book.id} id={book.id} name={book.name} author={book.author} publishDate={book.publishDate} price={book.price} img={book.img} />
-                    )}
-                </div>
+        <div>
+            <h1 className="text-5xl font-semibold mb-10">book list</h1>
+            <div className='grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
+                {arr.map(book =>
+                    <BookItem key={book.id} id={book.id} name={book.name} author={book.author} publishDate={book.publishDate} price={book.price} img={book.img} />
+                )}
             </div>
         </div>
-
     );
 }
 

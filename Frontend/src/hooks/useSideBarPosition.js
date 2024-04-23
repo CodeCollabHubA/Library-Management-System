@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 
 export default () => {
     const footerRef = useRef(null);
-    const [asidePosition, setAsidePosition] = useState("fixed");
+    const [sideBarPosition, setSideBarPosition] = useState("fixed");
 
     const handleScroll = () => {
         let isFooterApearInScreen = (footerRef.current.getBoundingClientRect().top - window.innerHeight) < 0
         if (isFooterApearInScreen) {
-            setAsidePosition("absolute")
+            setSideBarPosition("absolute")
         } else {
-            setAsidePosition("fixed")
+            setSideBarPosition("fixed")
         }
     };
 
@@ -19,5 +19,5 @@ export default () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-    return { footerRef, asidePosition }
+    return { footerRef, sideBarPosition }
 }
