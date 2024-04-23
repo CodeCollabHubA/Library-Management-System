@@ -30,28 +30,28 @@ namespace Library.Models.Entities
         // Loans where a copy of the book involved
         // Many-To-Many with the Loan entity
         [InverseProperty(nameof(Loan.Books))]
-        public IEnumerable<Loan> Loans { get; set; } = new List<Loan>();
+        public ICollection<Loan> Loans { get; set; } = new List<Loan>();
 
         // join table
         [InverseProperty(nameof(BookLoan.BookNavigation))]
-        public IEnumerable<BookLoan> BookLoans { get; set; }
+        public ICollection<BookLoan> BookLoans { get; set; }
 
 
 
         // Many-To-Many with Author entity
         [InverseProperty(nameof(Author.Books))]
-        public virtual IEnumerable<Author> Authors { get; set; } = new List<Author>();
+        public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
 
         [InverseProperty(nameof(BookAuthor.BookNavigation))]
-        public IEnumerable<BookAuthor> BookAuthors { get; set; }
+        public ICollection<BookAuthor> BookAuthors { get; set; }
 
 
 
         // Many-To-Many with the Publisher entity
         [InverseProperty(nameof(Publisher.Books))]
-        public virtual IEnumerable<Publisher> Publishers { get; set; } = new List<Publisher>();
+        public virtual ICollection<Publisher> Publishers { get; set; } = new List<Publisher>();
 
         [InverseProperty(nameof(BookPublisher.BookNavigation))]
-        public IEnumerable<BookPublisher> BookPublishers { get; set; }
+        public ICollection<BookPublisher> BookPublishers { get; set; }
     }
 }

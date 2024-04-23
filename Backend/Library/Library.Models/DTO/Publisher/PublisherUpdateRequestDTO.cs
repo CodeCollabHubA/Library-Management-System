@@ -2,10 +2,10 @@
 
 namespace Library.Models.DTO
 {
-    public class PublisherRequestDTO 
+    public class PublisherUpdateRequestDTO : BaseDTO
     {
-        [Required]
-        public string Name { get; set; }
+      
+        public string? Name { get; set; }
 
 
         [EmailAddress]

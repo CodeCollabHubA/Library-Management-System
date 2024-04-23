@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Library.Models.DTO
 {
-    public class BookRequestDTO
+    public class BookCreateRequestDTO
     {
         [Required]
         public string Title { get; set; }

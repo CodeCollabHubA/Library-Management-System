@@ -1,7 +1,7 @@
 ﻿
 namespace Library.Models.DTO
 {
-    public class AuthorRequestDTO 
+    public class AuthorCreateRequestDTO 
     {
         [Required]
         public string Name { get; set; }
