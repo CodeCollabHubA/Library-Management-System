@@ -1,6 +1,6 @@
 const Top = () => {
     return (
-        <div className="h-14 flex justify-between border-b-2 ">
+        <div className="h-14 flex justify-between border-b-2 border-slate-50 ">
             <div id="options" className="mx-2 flex items-center  w-[10rem]">
                 <input type="checkbox" className="me-2"/>
                 <svg xmlns="http://www.w3.org/2000/svg" className="me-2" width="24" height="24" fill="none" viewBox="0 0 24 24">

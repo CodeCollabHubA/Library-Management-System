@@ -1,0 +1,4 @@
+{
+    "usersEndpoint": "http://localhost:5053/api/User",
+    "booksEndpoint": "http://localhost:5053/api/Book"
+}
