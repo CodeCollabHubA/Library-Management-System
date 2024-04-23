@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library.Models.DTO
 {
-    internal class LoanUpdateRequestDTO
+    internal class BorrowingCreateRequestDTO
     {
     }
 }

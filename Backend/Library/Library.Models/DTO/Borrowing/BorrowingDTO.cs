@@ -1,7 +1,7 @@
 ﻿
 namespace Library.Models.DTO
 {
-    public class LoanDTO : BaseDTO
+    public class BorrowingDTO : BaseDTO
     {
         public int? UserId { get; set; }
 

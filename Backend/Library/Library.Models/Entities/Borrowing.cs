@@ -2,8 +2,8 @@
 
 namespace Library.Models.Entities
 {
-    [EntityTypeConfiguration(typeof(LoanConfiguration))]
-    public class Loan : BaseEntity
+    [EntityTypeConfiguration(typeof(BorrowingConfiguration))]
+    public class Borrowing : BaseEntity
     {
 
 
@@ -16,11 +16,11 @@ namespace Library.Models.Entities
 
 
         // Many books can be involved in a single loan
-        [InverseProperty(nameof(Book.Loans))]
+        [InverseProperty(nameof(Book.Borrowings))]
         public ICollection<Book> Books { get; set; } = new List<Book>();
 
-        [InverseProperty(nameof(BookLoan.LoanNavigation))]
-        public ICollection<BookLoan> BookLoans { get; set; }
+        [InverseProperty(nameof(BookBorrowing.BorrowingNavigation))]
+        public ICollection<BookBorrowing> BookBorrowings { get; set; }
 
 
 

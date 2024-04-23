@@ -29,8 +29,8 @@ namespace Library.Models.Entities
         [Column("Role")]
         public Role UserRole { get; set; }
 
-        [InverseProperty(nameof(Loan.UserNavigation))]
-        public ICollection<Loan> Loans { get; set; } = new List<Loan>();
+        [InverseProperty(nameof(Borrowing.UserNavigation))]
+        public ICollection<Borrowing> Borrowings { get; set; } = new List<Borrowing>();
 
 
         [JsonIgnore]
