@@ -12,7 +12,7 @@ import ProfileForm from "../pages/role-user/form/profileForm";
 import PasswordForm from "../pages/role-user/form/passwordForm";
 
 import FooterSection from "./HomePage_Parts/footerSection";
-import SideBar from "./SideBar/ssidebar";
+import SideBar from "./SideBar/sidebar";
 import Nav from "./common/_nav";
 
 import NotFound from "./notFound";
