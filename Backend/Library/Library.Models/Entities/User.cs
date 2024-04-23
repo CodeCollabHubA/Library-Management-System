@@ -30,7 +30,7 @@ namespace Library.Models.Entities
         public Role UserRole { get; set; }
 
         [InverseProperty(nameof(Loan.UserNavigation))]
-        public IEnumerable<Loan> Loans { get; set; } = new List<Loan>();
+        public ICollection<Loan> Loans { get; set; } = new List<Loan>();
 
 
         [JsonIgnore]

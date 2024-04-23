@@ -17,10 +17,10 @@ namespace Library.Models.Entities
 
         // Many books can be involved in a single loan
         [InverseProperty(nameof(Book.Loans))]
-        public IEnumerable<Book> Books { get; set; } = new List<Book>();
+        public ICollection<Book> Books { get; set; } = new List<Book>();
 
         [InverseProperty(nameof(BookLoan.LoanNavigation))]
-        public IEnumerable<BookLoan> BookLoans { get; set; }
+        public ICollection<BookLoan> BookLoans { get; set; }
 
 
 

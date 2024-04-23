@@ -36,6 +36,8 @@ namespace Library.Dal.Repos.Base
         public virtual async Task<int> UpdateAsync(T entity, bool persist = true)
         {
             Table.Update(entity);
+            Context.ChangeTracker.DetectChanges();
+            Console.WriteLine(Context.ChangeTracker.DebugView.LongView);
             return persist ? await SaveChangesAsync() : 0;
         }
 

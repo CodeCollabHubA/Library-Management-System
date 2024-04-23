@@ -10,9 +10,9 @@ namespace Library.Models.Entities
 
 
         [InverseProperty(nameof(Book.Authors))]
-        public IEnumerable<Book> Books { get; set; } = new List<Book>();
+        public ICollection<Book> Books { get; set; } = new List<Book>();
 
         [InverseProperty(nameof(BookAuthor.AuthorNavigation))]
-        public IEnumerable<BookAuthor> BookAuthors { get; set; }
+        public ICollection<BookAuthor> BookAuthors { get; set; }
     }
 }
