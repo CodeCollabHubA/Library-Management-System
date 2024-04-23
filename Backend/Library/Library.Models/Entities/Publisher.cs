@@ -16,9 +16,9 @@ namespace Library.Models.Entities
         public string? Address { get; set; }
 
         [InverseProperty(nameof(Book.Publishers))]
-        public virtual IEnumerable<Book> Books { get; set; } = new List<Book>();
+        public virtual ICollection<Book> Books { get; set; } = new List<Book>();
 
         [InverseProperty(nameof(BookPublisher.PublisherNavigation))]
-        public IEnumerable<BookPublisher> BookPublishers { get; set; }
+        public ICollection<BookPublisher> BookPublishers { get; set; }
     }
 }

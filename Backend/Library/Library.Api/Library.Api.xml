@@ -4,20 +4,20 @@
         <name>Library.Api</name>
     </assembly>
     <members>
-        <member name="M:Library.Api.Controllers.Base.BaseCrudController`4.GetAll(System.String,System.String,System.String,System.Nullable{System.Boolean},System.Int32,System.Int32)">
+        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.GetAll(System.String,System.String,System.String,System.Nullable{System.Boolean},System.Int32,System.Int32)">
             <summary>
             Gets all records
             </summary>
             <returns>All records</returns>
         </member>
-        <member name="M:Library.Api.Controllers.Base.BaseCrudController`4.GetOneAsync(System.Int32)">
+        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.GetOneAsync(System.Int32)">
             <summary>
             Gets a single record
             </summary>
             <param name="id">Primary key of the record</param>
             <returns>Single record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.Base.BaseCrudController`4.UpdateOneAsync(System.Int32,`2)">
+        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.UpdateOneAsync(System.Int32,`2)">
             <summary>
             Updates a single record
             </summary>
@@ -38,13 +38,13 @@
             <param name="entity">Entity to update</param>
             <returns>Single record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.Base.BaseCrudController`4.AddOneAsync(`1)">
+        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.AddOneAsync(`1)">
             <summary>
             Adds a single record
             </summary>
             <returns>Added record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.Base.BaseCrudController`4.DeleteOneAsync(System.Int32,`2)">
+        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.DeleteOneAsync(System.Int32,Library.Models.DTO.Base.BaseDTO)">
             <summary>
             Deletes a single record
             </summary>
@@ -59,7 +59,28 @@
             </remarks>
             <returns>Nothing</returns>
         </member>
-        <member name="M:Library.Api.Controllers.BookController.AddOneAsync(Library.Models.DTO.BookRequestDTO)">
+        <member name="M:Library.Api.Controllers.BookController.UpdateOneAsync(System.Int32,Library.Models.DTO.BookUpdateRequestDTO)">
+            <summary>
+            Updates a single record
+            </summary>
+            <remarks>
+            Sample body:
+            <pre>
+            {
+              "Id": 1,
+              "TimeStamp": "AAAAAAAAB+E="
+              "MakeId": 1,
+              "Color": "Black",
+              "PetName": "Zippy",
+              "MakeColor": "VW (Black)",
+            }
+            </pre>
+            </remarks>
+            <param name="id">Primary key of the record to update</param>
+            <param name="entity">Entity to update</param>
+            <returns>Single record</returns>
+        </member>
+        <member name="M:Library.Api.Controllers.BookController.AddOneAsync(Library.Models.DTO.BookCreateRequestDTO)">
             <summary>
             Adds a single record
             </summary>

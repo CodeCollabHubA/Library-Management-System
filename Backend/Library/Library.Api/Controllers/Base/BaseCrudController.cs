@@ -7,9 +7,10 @@ namespace Library.Api.Controllers.Base
     [ApiController]
     [Route("api/[controller]")]
     //[Route("api/v{version:apiVersion}/[controller]")]
-    public class BaseCrudController<TEntity, TRequestDto, TResponseDto, TController> : ControllerBase
+    public class BaseCrudController<TEntity, TCreateRequestDto, TUpdateRequestDto ,TResponseDto, TController> : ControllerBase
         where TEntity : BaseEntity, new()
-        where TRequestDto : new()
+        where TCreateRequestDto : new()
+        where TUpdateRequestDto : BaseDTO, new()
         where TResponseDto : BaseDTO, new()
         where TController : class
     {
@@ -114,7 +115,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpPut("{id}")]
-        public async virtual Task<ActionResult<TResponseDto>> UpdateOneAsync(int id, TResponseDto entity)
+        public async virtual Task<ActionResult<TResponseDto>> UpdateOneAsync(int id, TUpdateRequestDto entity)
         {
             if (id != entity.Id)
             {
@@ -154,7 +155,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpPost]
-        public async virtual Task<ActionResult<TResponseDto>> AddOneAsync(TRequestDto entity)
+        public async virtual Task<ActionResult<TResponseDto>> AddOneAsync(TCreateRequestDto entity)
 
         {
 
@@ -204,7 +205,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpDelete("{id}")]
-        public async virtual Task<ActionResult<TResponseDto>> DeleteOneAsync(int id, TResponseDto entity)
+        public async virtual Task<ActionResult<TResponseDto>> DeleteOneAsync(int id, BaseDTO entity)
         {
             if (id != entity.Id)
             {

@@ -6,21 +6,22 @@ namespace Library.Dal.Initialization
     {
         public static List<Book> Books => new()
         {
-            new() { Id = 1, Title = "To Kill a Mockingbird", Description = "A novel by Harper Lee. Set in the 1930s, it explores the irrationality of adult attitudes toward race and class in the Deep South of the United States.", NumberOfCopiesOwned = 25, NumberOfCopiesExist = 24 },
-            new() { Id = 2, Title = "1984", Description = "A dystopian social science fiction novel by George Orwell. It follows the life of Winston Smith, a low-ranking member of the ruling Party in a totalitarian superstate.", NumberOfCopiesOwned = 18, NumberOfCopiesExist = 17 },
-            new() { Id = 3, Title = "The Great Gatsby", Description = "A novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, the novel depicts narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby.", NumberOfCopiesOwned = 12, NumberOfCopiesExist = 10 },
-            new() { Id = 4, Title = "Pride and Prejudice", Description = "A romantic novel of manners written by Jane Austen. The novel follows the character development of Elizabeth Bennet, the dynamic protagonist of the book.", NumberOfCopiesOwned = 15, NumberOfCopiesExist = 15 },
-            new() { Id = 5, Title = "To the Lighthouse", Description = "A novel by Virginia Woolf. It centers on the Ramsay family and their visits to the Isle of Skye in Scotland between 1910 and 1920.", NumberOfCopiesOwned = 10, NumberOfCopiesExist = 10 }
+            new() { Id = 1, Title = "The Old Man and the Sea", Description = "A novel by Ernest Hemingway. It tells the story of an aging Cuban fisherman who struggles with a giant marlin far out in the Gulf Stream.", ImageURL = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", NumberOfCopiesOwned = 25, NumberOfCopiesExist = 24 },
+            new() { Id = 2, Title = "1984", Description = "A dystopian social science fiction novel by George Orwell. It follows the life of Winston Smith, a low-ranking member of the ruling Party in a totalitarian superstate.", ImageURL = "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg", ImagePath= "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg" , NumberOfCopiesOwned = 18, NumberOfCopiesExist = 17 },
+            new() { Id = 3, Title = "The 7 Habits of Highly Effective People", Description = "A self-help book by Stephen R. Covey. It provides a holistic approach to personal and interpersonal effectiveness.", ImageURL = "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg" , NumberOfCopiesOwned = 12, NumberOfCopiesExist = 10 },
+            new() { Id = 4, Title = "How to Win Friends & Influence People", Description = "A self-help book by Dale Carnegie. It offers practical advice on how to successfully navigate social and business interactions.", ImageURL = "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg" , NumberOfCopiesOwned = 20, NumberOfCopiesExist = 20 },
+            new() { Id = 5, Title = "Atomic Habits", Description = "A self-help book by James Clear. It provides practical strategies for building good habits, breaking bad ones, and mastering the tiny behaviors that lead to remarkable results.", ImageURL = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", NumberOfCopiesOwned = 15, NumberOfCopiesExist = 15 },
         };
 
         public static List<Author> Authors => new()
         {
-            new() { Id = 1, Name = "Harper Lee" },
+            new() { Id = 1, Name = "Ernest Hemingway" },
             new() { Id = 2, Name = "George Orwell" },
-            new() { Id = 3, Name = "F. Scott Fitzgerald" },
-            new() { Id = 4, Name = "Jane Austen" },
-            new() { Id = 5, Name = "Virginia Woolf" }
+            new() { Id = 3, Name = "Stephen R. Covey" },
+            new() { Id = 4, Name = "Dale Carnegie" },
+            new() { Id = 5, Name = "James Clear" },
         };
+
         public static List<BookAuthor> BookAuthors => new()
         {
             new() {Id = 1, BookId = 1, AuthorId = 1},
@@ -75,7 +76,7 @@ namespace Library.Dal.Initialization
 
         };
 
-       
+
 
     }
 }
