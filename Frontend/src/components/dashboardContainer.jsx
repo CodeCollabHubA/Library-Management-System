@@ -1,37 +1,49 @@
-
-import Dashboard from "../pages/Dashboard";
-import SideBar from "./SideBar/ssidebar";
-// import Books from "../pages/books";
-import Books from "../role/user/pages/Books";
-import BookDetails from "../role/user/pages/BookDetails";
-import Borrow from "../role/user/pages/Borrow";
-import Profile from "../role/user/pages/Profile";
-import ProfileForm from "../role/user/form/profileForm";
-import PasswordForm from "../role/user/form/passwordForm";
-import Users from "../pages/users";
 import { Outlet, Routes, Route } from "react-router-dom";
+
+// import Books from "../pages/books";
+import Dashboard from "../pages/Dashboard";
+import Users from "../pages/users";
 import Inbox from "../pages/inbox";
+
+import Books from "../pages/role-user/Books";
+import BookDetails from "../pages/role-user/BookDetails";
+import Profile from "../pages/role-user/Profile";
+import ProfileForm from "../pages/role-user/form/profileForm";
+import PasswordForm from "../pages/role-user/form/passwordForm";
+
+import FooterSection from "./HomePage_Parts/footerSection";
+import SideBar from "./SideBar/ssidebar";
+import Nav from "./common/_nav";
+
 import NotFound from "./notFound";
+
+import useSideBarPosition from "../hooks/useSideBarPosition";
+import MarginWrapper from "./MainWrapper";
 const DashboardContainer = () => {
+    const { footerRef, sideBarPosition } = useSideBarPosition()
+
     return (
         <>
-            <SideBar />
-            <section className="content bg-slate-100 min-h-lvh lg:ml-[16rem] md:ml-[12rem] sm:ml-[9rem]">
-                <div className="flex h-screen">
+            <Nav />
+            <div className="main relative mt-[70px]">
+                <SideBar sideBarPosition={sideBarPosition} />
+                <section className="p bg-slate-100 min-h-lvh h-full lg:ml-[16rem] md:ml-[12rem] sm:ml-[9rem]">
                     <Routes>
                         <Route index element={<Dashboard />} />
-                        <Route path='inbox/*' element={<Inbox />} />
-                        <Route path='books' element={<Books />} />
-                        <Route path='books/:id' element={<BookDetails />} />
-                        <Route path='borrow/:id' element={<Borrow />} />
-                        <Route path='profile' element={<Profile />} />
-                        <Route path='profile/update' element={<ProfileForm />} />
-                        <Route path='profile/update/updatePassword' element={<PasswordForm />} />
-                        <Route path='users/*' element={<Users />} />
+                        <Route path="/" element={<MarginWrapper />}>
+                            <Route path='inbox/*' element={<Inbox />} />
+                            <Route path='books' element={<Books />} />
+                            <Route path='books/:id' element={<BookDetails />} />
+                            <Route path='profile' element={<Profile />} />
+                            <Route path='profile/update' element={<ProfileForm />} />
+                            <Route path='profile/update/updatePassword' element={<PasswordForm />} />
+                            <Route path='users/*' element={<Users />} />
+                        </Route>
                         <Route path="*" element={<NotFound />} />
                     </Routes>
-                </div>
-            </section>
+                </section>
+            </div>
+            <FooterSection footerRef={footerRef} />
         </>
     );
 }

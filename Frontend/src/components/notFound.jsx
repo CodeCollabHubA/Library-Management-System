@@ -11,9 +11,9 @@ const NotFound = () => {
                     <span>Return Home</span>
                 </Link>
             </div>
-            
+
         </div>
     )
 }
- 
+
 export default NotFound;

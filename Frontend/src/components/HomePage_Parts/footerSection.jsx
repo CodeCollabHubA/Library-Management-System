@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-const FooterSection = () => {
+const FooterSection = ({ footerRef }) => {
     return (
-        <div className="bg-slate-900 text-white min-h-40">
+        <div ref={footerRef} className="bg-slate-900 text-white min-h-40">
             <div className="bg-slate-900 text-white min-h-40 text-center md:flex wrap pt-16 px-10 mb-10 ">
                 <Link className="md:w-1/3 text-center text-4xl font-bold" to='#'>Library.ai</Link>
                 <div className=" mt-5 md:w-1/4"><h2 className="text-lg mb-2">MENU</h2>
@@ -29,5 +29,5 @@ const FooterSection = () => {
         </div>
     );
 }
- 
+
 export default FooterSection;

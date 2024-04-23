@@ -1,18 +1,16 @@
-import Button from "../components/Button";
+import Button from "../../components/role-user/Button";
 
 let book = { id: 1, author: "Ahmed Adam", name: "book number 1", publishDate: "2020", price: 2, img: "1.jpeg", descriotion: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore a explicabo iste pariatur! Dignissimos id eius error delectus repellat, consequatur nemo, totam, praesentium dolorem nisi sapiente voluptatibus est quaerat mollitia? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore a explicabo iste pariatur! Dignissimos id eius error delectus repellat, consequatur nemo, totam, praesentium dolorem nisi sapiente voluptatibus est quaerat mollitia?" }
 
-const Borrow = () => {
+const BookDetail = () => {
 
     function handleClick() {
-        alert("y")
+        alert("borrow")
     }
 
     return (
-        <div className="mx-14 mb-14 mt-[100px] pt-5  pb-10 px-7 min-h-[80%] bg-white rounded-xl shadow-xl ">
-            <div className="mb-10">
-                <h1 className="text-4xl font-semibold">borrow {book.name}</h1>
-            </div>
+        <div>
+            <h1 className="text-4xl font-semibold mb-10">{book.name}</h1>
             <div className='md:flex gap-5'>
                 <div className="img w-full md:w-1/3 xl:w-1/4">
                     <img src={`/src/assets/covers/${book.img}`} alt={book.name} />
@@ -41,4 +39,4 @@ const Borrow = () => {
     );
 }
 
-export default Borrow;
+export default BookDetail;
