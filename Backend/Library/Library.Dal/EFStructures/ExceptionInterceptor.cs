@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 namespace Library.Dal.EFStructures
 {
     public class ExceptionInterceptor : SaveChangesInterceptor

@@ -1,13 +1,13 @@
 ﻿
-using Library.Models.Options.JwtOptions;
 
-namespace Library.Dal.Repos.interfaces
+
+namespace Library.Services.DataServices.Interfaces
 {
-    public interface IAuthRepo
+    public interface IUserDataService: IDataServiceBase<User>
     {
         Task<string> LoginUserAsync(LoginUserRequestDTO userDTO, JwtOptions jwtOptions);
-
         Task<string> RegisterUserAsync(RegisterUserRequestDTO userDTO, JwtOptions jwtOptions);
+
 
     }
 }

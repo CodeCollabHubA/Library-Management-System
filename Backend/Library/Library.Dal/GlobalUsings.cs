@@ -13,8 +13,9 @@ global using Library.Models.Entities;
 global using Library.Models.Entities.Configuration;
 
 
+global using AutoMapper;
+
 
 global using Microsoft.EntityFrameworkCore;
-global using Microsoft.EntityFrameworkCore.Diagnostics;
 
 global using System.Reflection;

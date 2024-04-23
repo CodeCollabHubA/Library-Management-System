@@ -1,20 +1,58 @@
 ﻿
 
 
-using Library.Models.Entities;
 
 namespace Library.Api.Controllers
 {
     public class BookController : BaseCrudController<Book, BookCreateRequestDTO, BookUpdateRequestDTO, BookResponseDTO, BookController>
     {
-        private readonly IAuthorRepo _authorRepo;
-        private readonly IPublisherRepo _publisherRepo;
 
-        public BookController(IAppLogging<BookController> logger, IBookRepo mainRepo, IAuthorRepo authorRepo, IPublisherRepo publisherRepo, IMapper mapper) : base(logger, mainRepo, mapper)
+        private readonly IBookDataService _bookDataService;
+
+        public BookController(IAppLogging<BookController> logger, IBookRepo mainRepo, IBookDataService bookDataService, IMapper mapper) : base(logger, mainRepo, mapper)
         {
-            _authorRepo = authorRepo;
-            _publisherRepo = publisherRepo;
+
+            _bookDataService = bookDataService;
         }
+
+        /// <summary>
+        /// Adds a single record
+        /// </summary>
+        /// <returns>Added record</returns>
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(201, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [SwaggerResponse(401, "Unauthorized access attempted")]
+        //[ApiVersion("0.1-Beta")]
+        [HttpPost]
+        public async override Task<ActionResult<BookResponseDTO>> AddOneAsync([FromForm] BookCreateRequestDTO entity)
+        {
+
+            ValidateImageUpload(entity);
+
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            Book domainEntity;
+            try
+            {
+                domainEntity = _mapper.Map<Book>(entity);
+                domainEntity = await _bookDataService.AddAsync(domainEntity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+
+            return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<BookResponseDTO>(domainEntity).Id }, _mapper.Map<BookResponseDTO>(domainEntity));
+        }
+
 
 
         /// <summary>
@@ -49,7 +87,7 @@ namespace Library.Api.Controllers
         {
             if (id != editedBookDto.Id)
             {
-                return BadRequest();
+                throw new ArgumentException("Id in route and body do not match", nameof(id));
             }
 
             if (!ModelState.IsValid)
@@ -67,64 +105,16 @@ namespace Library.Api.Controllers
                 // Map all but Authors and Publishers
                 editedBook = _mapper.Map<Book>(editedBookDto);
 
-                await _mainRepo.UpdateAsync(editedBook);
+                await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBook);
             }
 
-            catch (Exception ex)
+            catch
             {
-                return BadRequest(ex.Message);
+                throw new Exception("Something went wrong !");
             }
 
             return Ok(_mapper.Map<BookResponseDTO>(editedBook));
         }
-
-
-
-
-
-
-        /// <summary>
-        /// Adds a single record
-        /// </summary>
-        /// <returns>Added record</returns>
-        [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [SwaggerResponse(201, "The execution was successful")]
-        [SwaggerResponse(400, "The request was invalid")]
-        [SwaggerResponse(401, "Unauthorized access attempted")]
-        //[ApiVersion("0.1-Beta")]
-        [HttpPost]
-        public async override Task<ActionResult<BookResponseDTO>> AddOneAsync([FromForm] BookCreateRequestDTO entity)
-        {
-
-            ValidateImageUpload(entity);
-
-            if (!ModelState.IsValid)
-            {
-                return ValidationProblem(ModelState);
-            }
-
-
-
-
-
-            Book domainEntity;
-            try
-            {
-                domainEntity = _mapper.Map<Book>(entity);
-                await _mainRepo.AddAsync(domainEntity);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-
-
-            return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<BookResponseDTO>(domainEntity).Id }, _mapper.Map<BookResponseDTO>(domainEntity));
-        }
-
 
 
         private void ValidateImageUpload(BookCreateRequestDTO entity)
