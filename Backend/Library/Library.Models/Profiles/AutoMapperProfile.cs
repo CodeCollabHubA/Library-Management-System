@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Library.Models.DTO.User;
 
 
 namespace Library.Models.Profiles
@@ -14,10 +15,16 @@ namespace Library.Models.Profiles
             CreateMap<Book, BookResponseDTO>()
                 .ReverseMap();
             CreateMap<Author, AuthorResponseDTO>().ReverseMap();
-            CreateMap<Publisher, PublisherResponseDTO>().
-                ReverseMap();
-            CreateMap<Borrowing, BorrowingResponseDTO>().
-                ReverseMap();
+            CreateMap<Publisher, PublisherResponseDTO>()
+                .ReverseMap();
+
+            CreateMap<BookBorrowing, BookBorrowingResponseDTO>()
+                .ReverseMap();
+            CreateMap<Borrowing, BorrowingResponseDTO>()
+                .ReverseMap();
+
+            CreateMap<User, UserResponseDTO>()
+                .ReverseMap();
 
 
 

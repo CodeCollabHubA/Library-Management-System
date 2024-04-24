@@ -86,5 +86,32 @@
             <param name="entity">Entity to update</param>
             <returns>Single record</returns>
         </member>
+        <member name="M:Library.Api.Controllers.BorrowingController.BorrowBookAsync(Library.Models.DTO.BorrowingCreateRequestDTO)">
+            <summary>
+            Borrow book or list of books
+            </summary>
+            <returns>Added borrowing record</returns>
+        </member>
+        <member name="M:Library.Api.Controllers.BorrowingController.ReturnBorrowedBookAsync(System.Int32,Library.Models.DTO.Borrowing.BorrowedBookReturnRequestDTO)">
+            <summary>
+            Return a list of borrowed book
+            </summary>
+            <remarks>
+            Sample body:
+            <pre>
+            {
+              "Id": 1,
+              "TimeStamp": "AAAAAAAAB+E="
+              "MakeId": 1,
+              "Color": "Black",
+              "PetName": "Zippy",
+              "MakeColor": "VW (Black)",
+            }
+            </pre>
+            </remarks>
+            <param name="borrowingId">Primary key of borrowing record</param>
+            <param name="borrowingReturnRequestDTO">Contain the userId and books ids for the books to return</param>
+            <returns>Single record</returns>
+        </member>
     </members>
 </doc>

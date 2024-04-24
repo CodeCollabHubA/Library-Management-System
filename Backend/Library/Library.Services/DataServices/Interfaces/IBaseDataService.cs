@@ -3,7 +3,7 @@ using Library.Models.Entities.Base;
 
 namespace Library.Services.DataServices.Interfaces
 {
-    public interface IDataServiceBase<TEntity> where TEntity : BaseEntity, new()
+    public interface IBaseDataService<TEntity> where TEntity : BaseEntity, new()
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> FindAsync(int id);

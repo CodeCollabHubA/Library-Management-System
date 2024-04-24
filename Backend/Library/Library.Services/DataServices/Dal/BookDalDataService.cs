@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Library.Services.DataServices.Dal
 {
-    public class BookDalDataService : DalDataServiceBase<Book, BookDalDataService>, IBookDataService
+    public class BookDalDataService : BaseDalDataService<Book, BookDalDataService>, IBookDataService
 
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

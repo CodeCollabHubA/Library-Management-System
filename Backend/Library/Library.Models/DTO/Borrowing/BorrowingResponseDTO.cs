@@ -1,12 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Library.Models.DTO
 {
-    internal class BorrowingResponseDTO
+    public class BorrowingResponseDTO :BaseDTO
     {
+        public int? UserId { get; set; }
+
+
+
+        public ICollection<BookBorrowingResponseDTO> BookBorrowings { get; set; }
+
+
+
+       
+        public DateTime DateOut { get; set; }
+
+
+        public DateTime DueDate { get; set; }
+
+
+
+
+
     }
 }

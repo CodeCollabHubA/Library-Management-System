@@ -12,6 +12,8 @@ namespace Library.Models.DTO
 
         public string? Description { get; set; }
 
+        public int Credit { get; set; }
+
         public IEnumerable<AuthorUpdateRequestDTO>? Authors { get; set; }
 
         public IEnumerable<PublisherUpdateRequestDTO>? Publishers { get; set; }
