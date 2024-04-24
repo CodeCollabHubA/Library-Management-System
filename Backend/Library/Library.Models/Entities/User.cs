@@ -15,6 +15,9 @@ namespace Library.Models.Entities
 
         public string? Address { get; set; }
 
+        public int Credit { get; set; }
+
+
 
         [Required]
         [EmailAddress]

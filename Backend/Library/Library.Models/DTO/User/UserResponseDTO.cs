@@ -1,12 +1,9 @@
 ﻿
 
-
-namespace Library.Models.DTO
+namespace Library.Models.DTO.User
 {
-    public class UserDTO : BaseDTO
+    public class UserResponseDTO : BaseDTO
     {
-
-        [Required]
         public string Name { get; set; }
 
 
@@ -16,16 +13,10 @@ namespace Library.Models.DTO
 
 
 
-        [Required]
-        [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        [Phone]
         public string Phone { get; set; }
 
-
-        [Required]
         public Role UserRole { get; set; }
     }
 }

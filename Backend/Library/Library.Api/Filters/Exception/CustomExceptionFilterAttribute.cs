@@ -26,6 +26,15 @@ public class CustomExceptionFilter : ExceptionFilterAttribute
                     StatusCode = 502
                 };
                 break;
+
+            case AggregateException ae:
+                error = "Aggregate Issue.";
+                actionResult = new ObjectResult(
+                    new { Error = error, Message = new List<string>() { message }, StackTrace = stackTrace })
+                {
+                    StatusCode = 500
+                };
+                break;
             default:
                 error = "Server Error.";
                 actionResult = new ObjectResult(

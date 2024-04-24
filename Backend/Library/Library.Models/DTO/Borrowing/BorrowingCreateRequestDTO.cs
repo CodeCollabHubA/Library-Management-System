@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Library.Models.DTO
 {
-    internal class BorrowingCreateRequestDTO
+    public class BorrowingCreateRequestDTO
     {
+        public int UserId { get; set; }
+
+        public List<int> BookIds { get; set; }
+
     }
 }

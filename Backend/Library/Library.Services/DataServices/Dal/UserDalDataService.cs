@@ -5,7 +5,7 @@ using Library.Services.DataServices.Helpers;
 
 namespace Library.Services.DataServices.Dal
 {
-    public class UserDalDataService : DalDataServiceBase<User, UserDalDataService>, IUserDataService
+    public class UserDalDataService : BaseDalDataService<User, UserDalDataService>, IUserDataService
     {
         public UserDalDataService(IUserRepo mainRepo, IAppLogging<UserDalDataService> logger) : base(mainRepo, logger)
         {

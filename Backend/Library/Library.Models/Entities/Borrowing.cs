@@ -10,6 +10,7 @@ namespace Library.Models.Entities
 
         public int? UserId { get; set; }
 
+
         [ForeignKey(nameof(UserId))]
         public User UserNavigation { get; set; }
 

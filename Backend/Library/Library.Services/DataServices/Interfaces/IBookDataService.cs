@@ -4,7 +4,7 @@
 
 namespace Library.Services.DataServices.Interfaces
 {
-    public interface IBookDataService: IDataServiceBase<Book>
+    public interface IBookDataService: IBaseDataService<Book>
     {
         Task<Book> UpdateBookAndItsPublishersAndAuthorsAsync(Book editedBook, bool persist = true);
 

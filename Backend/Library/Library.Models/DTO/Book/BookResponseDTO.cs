@@ -10,6 +10,9 @@ namespace Library.Models.DTO
         public string Title { get; set; }
 
         public string? Description { get; set; }
+
+        public int Credit { get; set; }
+
         public string? ImageURL { get; set; }
 
         public IEnumerable<AuthorResponseDTO>? Authors { get; set; } 

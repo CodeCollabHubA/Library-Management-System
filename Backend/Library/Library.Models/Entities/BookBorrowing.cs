@@ -4,6 +4,7 @@ namespace Library.Models.Entities
 {
     public class BookBorrowing:BaseEntity
     {
+        public bool IsReturned { get; set; }
 
         public int? BookId { get; set; }
 
@@ -13,7 +14,10 @@ namespace Library.Models.Entities
 
         public int? BorrowingId { get; set; }
 
+
+
         [ForeignKey(nameof(BorrowingId))]
         public virtual Borrowing BorrowingNavigation { get; set; }
+
     }
 }

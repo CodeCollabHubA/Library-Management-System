@@ -12,7 +12,7 @@ namespace Library.Services.DataServices
             services.AddScoped<IBookRepo, BookRepo>();
             services.AddScoped<IAuthorRepo, AuthorRepo>();
             services.AddScoped<IPublisherRepo, PublisherRepo>();
-            services.AddScoped<ILoanRepo, LoanRepo>();
+            services.AddScoped<IBorrowingRepo, BorrowingRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
             return services;
         }
@@ -22,6 +22,8 @@ namespace Library.Services.DataServices
 
             services.AddScoped<IBookDataService, BookDalDataService>();
             services.AddScoped<IUserDataService, UserDalDataService>();
+            services.AddScoped<IBorrowingDataService, BorrowingDalDataService>();
+
 
 
             return services;

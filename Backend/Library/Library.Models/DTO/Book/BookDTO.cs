@@ -11,6 +11,9 @@ namespace Library.Models.DTO
 
         public string? Description { get; set; }
 
+        public int Credit { get; set; }
+
+
         [Required]
         public int NumberOfCopiesOwned { get; set; }
 

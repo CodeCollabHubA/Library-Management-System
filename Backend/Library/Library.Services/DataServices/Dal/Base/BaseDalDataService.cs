@@ -1,7 +1,7 @@
 ﻿
 namespace Library.Services.DataServices.Dal.Base
 {
-    public abstract class DalDataServiceBase<TEntity, TDataService>
+    public abstract class BaseDalDataService<TEntity, TDataService>
         where TEntity : BaseEntity, new()
         where TDataService : class
 
@@ -9,7 +9,7 @@ namespace Library.Services.DataServices.Dal.Base
         protected readonly IBaseRepo<TEntity> _mainRepo;
         protected readonly IAppLogging<TDataService> _logger;
 
-        protected DalDataServiceBase(IBaseRepo<TEntity> mainRepo, IAppLogging<TDataService> logger)
+        protected BaseDalDataService(IBaseRepo<TEntity> mainRepo, IAppLogging<TDataService> logger)
         {
             _mainRepo = mainRepo;
             _logger = logger;
