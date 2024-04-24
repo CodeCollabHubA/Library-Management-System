@@ -4,11 +4,11 @@ const HeroSection = () => {
     return ( 
         <div className=" hero block mt-10 lg:mt-0 md:flex flex-wrap items-center justify-center ">
             <section className="md:w-1/2">
-                <div className=" mx-auto">
-                    <h1 className="text-orange-800 text-center text-5xl mt-10 md:mt-0 md:text-7xl">
+                <div className=" mx-auto md:px-1">
+                    <h1 className="text-orange-800 text-center text-5xl mt-10 md:mt-0 md:text-8xl ">
                         Find your next favourite book
                     </h1>
-                    <p className="text-lg font-light my-14 mx-10 text-center">
+                    <p className="text-2xl  font-light my-14 mx-10 text-center">
                         Library.ai is a Library Management System. it automates all your library processes.
                     </p>
                     <div className=" flex justify-center">

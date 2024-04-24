@@ -1,7 +1,4 @@
-import Loans from "../components/loans/loans";
-import Borrows from "../components/borrows/borrows";
 import { Route, Routes } from "react-router-dom";
-import Table from "../components/common/table";
 import Top from "./inbox/top";
 import Middile from "./inbox/middile";
 import Bottom from "./inbox/bottom";
@@ -24,10 +21,7 @@ const Inbox = () => {
                                 <Bottom />
                             </div>
                         </div>
-
                     } />
-                    <Route path="loans/*" element={<Loans />} />
-                    <Route path="borrows/*" element={<Borrows />} />
                 </Routes>
             </div>
         </div>
@@ -35,4 +29,3 @@ const Inbox = () => {
 }
 
 export default Inbox;
-
