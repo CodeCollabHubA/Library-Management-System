@@ -5,8 +5,7 @@
 */obj
 */.vs
 
-*/StaticFiles/Images/Books/*
-!*/StaticFiles/Images/Books/
+
 
 */Logs/*
 !*/Logs/

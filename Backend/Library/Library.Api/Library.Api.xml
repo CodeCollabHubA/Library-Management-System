@@ -17,7 +17,7 @@
             <param name="id">Primary key of the record</param>
             <returns>Single record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.UpdateOneAsync(System.Int32,`2)">
+        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.UpdateOneAsync(System.Int32,`3)">
             <summary>
             Updates a single record
             </summary>
@@ -38,7 +38,7 @@
             <param name="entity">Entity to update</param>
             <returns>Single record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.AddOneAsync(`1)">
+        <member name="M:Library.Api.Controllers.Base.BaseCrudController`5.AddOneAsync(`2)">
             <summary>
             Adds a single record
             </summary>

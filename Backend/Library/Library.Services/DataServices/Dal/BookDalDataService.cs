@@ -41,10 +41,12 @@ namespace Library.Services.DataServices.Dal
 
             if (!timestampValid)
             {
+                _logger.LogAppWarning("Book has already been deleted or modified, try again using updated book data");
                 throw new Exception("Book has already been deleted or modified, try again using updated book data");
             }
             if (existingBook == null)
             {
+                _logger.LogAppWarning("Book not Found");
                 throw new Exception("Book not Found");
             }
 
@@ -80,7 +82,7 @@ namespace Library.Services.DataServices.Dal
             {
                 string imageName = Path.GetFileName(entity.Image.FileName);
 
-               
+
                 var localImagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles",
                     "Images", "Books",
                     $"{imageName}");
@@ -136,6 +138,7 @@ namespace Library.Services.DataServices.Dal
                         Publisher newPublisher = await _publisherRepo.FindAsync(publisher.Id);
                         if (newPublisher == null)
                         {
+                            _logger.LogAppWarning("Can not a add publisher that does not exist in the database");
                             throw new Exception("Can not a add publisher that does not exist in the database");
                         }
                         // Add the publisher
@@ -175,6 +178,8 @@ namespace Library.Services.DataServices.Dal
                         Author newAuthor = await _authorRepo.FindAsync(author.Id);
                         if (newAuthor == null)
                         {
+
+                            _logger.LogAppWarning("Can not add an author that does not exist in the database");
                             throw new Exception("Can not add an author that does not exist in the database");
                         }
 

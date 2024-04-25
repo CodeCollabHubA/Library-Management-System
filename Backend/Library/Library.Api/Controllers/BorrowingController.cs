@@ -3,7 +3,7 @@ using Library.Models.DTO.Borrowing;
 
 namespace Library.Api.Controllers
 {
-    public class BorrowingController : BaseCrudController<Borrowing, BorrowingDTO, BorrowingDTO, BorrowingResponseDTO, BorrowingController>
+    public class BorrowingController : BaseCrudController<Borrowing, BorrowingController, BorrowingDTO, BorrowingDTO, BorrowingResponseDTO>
     {
         private readonly IBorrowingDataService _borrwingDataService;
 
@@ -21,6 +21,7 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(201, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
@@ -78,6 +79,7 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
@@ -87,7 +89,8 @@ namespace Library.Api.Controllers
         {
             if (borrowingId != entity.BorrwingId)
             {
-                throw new Exception("Borrowing Id on the entity does not match the route parameter");
+                _logger.LogAppWarning("Id in route and body do not match");
+                throw new ArgumentException("Id in route and body do not match", nameof(borrowingId));
             }
 
             if (!ModelState.IsValid)
@@ -104,7 +107,7 @@ namespace Library.Api.Controllers
 
             catch (Exception ex)
             {
-                throw new AggregateException(ex);
+                throw new Exception(ex.Message);
             }
 
             return Ok(_mapper.Map<BorrowingResponseDTO>(domainEntity));

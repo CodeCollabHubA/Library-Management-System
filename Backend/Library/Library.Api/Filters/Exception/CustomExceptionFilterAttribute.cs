@@ -1,54 +1,49 @@
-namespace Library.Api.Filters.Exception;
+namespace Library.Api.Filters.ExceptionFilters;
 
 public class CustomExceptionFilter : ExceptionFilterAttribute
 {
     private readonly IWebHostEnvironment _hostEnviroment;
+    
 
     public CustomExceptionFilter(IWebHostEnvironment hostEnviroment)
     {
         _hostEnviroment = hostEnviroment;
+
     }
 
     public override void OnException(ExceptionContext context)
+
     {
-        var ex = context.Exception;
-        string stackTrace = _hostEnviroment.IsDevelopment() ? ex.StackTrace : string.Empty;
-        string message = ex.Message;
-        string error;
-        IActionResult actionResult;
-        switch (ex)
+        var problemDetails = new ProblemDetails
         {
-            case DatabaseException de:
-                error = "Database Issue.";
-                actionResult = new ObjectResult(
-                    new { Error = error, Message = message, StackTrace = stackTrace })
-                {
-                    StatusCode = 502
-                };
-                break;
+            Status = 500,
+            Title = "An error occurred",
+            Detail = context.Exception.Message,
+            Instance = context.HttpContext.Request.Path
+        };
 
-            case AggregateException ae:
-                error = "Aggregate Issue.";
-                actionResult = new ObjectResult(
-                    new { Error = error, Message = new List<string>() { message }, StackTrace = stackTrace })
-                {
-                    StatusCode = 500
-                };
-                break;
-            default:
-                error = "Server Error.";
-                actionResult = new ObjectResult(
-                    new { Error = error, Message = message, StackTrace = stackTrace })
-                {
-                    StatusCode = 500
-                };
 
-                break;
+        var traceId = context.HttpContext.TraceIdentifier;
+        if (!string.IsNullOrEmpty(traceId))
+        {
+            problemDetails.Extensions["traceId"] = traceId;
+        }
+
+        if (_hostEnviroment.IsDevelopment())
+        {
+            problemDetails.Extensions["stackTrace"] = context.Exception.StackTrace;
 
         }
 
+        context.Result = new ObjectResult(problemDetails)
+        {
+            StatusCode = problemDetails.Status,
+        };
 
-
-        context.Result = actionResult;
+        context.ExceptionHandled = true;
     }
+
+   
+
+
 }
