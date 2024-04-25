@@ -14,7 +14,7 @@ namespace Library.Services.DataServices.Dal
         {
 
             // check if a user with this email exists
-            
+
             User user = await ((IUserRepo)_mainRepo).FindByEmailAsync(userDTO.Email);
 
             if (user == null)
@@ -77,5 +77,26 @@ namespace Library.Services.DataServices.Dal
 
 
         }
+
+        public override async Task<User> UpdateAsync(User entity, bool persist = true)
+        {
+
+            // check if user with this id exist
+            User user = await _mainRepo.FindAsNoTrackingAsync(entity.Id);
+            if(user == null)
+            {
+                _logger.LogAppWarning($"User with id {entity.Id} doesnot exist");
+                throw new Exception($"User with id {entity.Id} doesnot exist");
+            }
+
+            
+
+            entity.PasswordHash = user.PasswordHash;
+
+            await _mainRepo.UpdateAsync(entity, persist);
+            return entity;
+        }
+
+
     }
 }

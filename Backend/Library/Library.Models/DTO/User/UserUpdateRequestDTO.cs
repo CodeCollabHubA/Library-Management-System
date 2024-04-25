@@ -1,8 +1,7 @@
 ﻿
-
 namespace Library.Models.DTO
 {
-    public class UserResponseDTO : BaseDTO
+    public class UserUpdateRequestDTO : BaseDTO
     {
         public string Name { get; set; }
 
@@ -13,10 +12,14 @@ namespace Library.Models.DTO
 
 
 
+        [EmailAddress]
         public string Email { get; set; }
 
+        [Phone]
         public string Phone { get; set; }
 
+
+        [Column("Role")]
         public Role UserRole { get; set; }
     }
 }

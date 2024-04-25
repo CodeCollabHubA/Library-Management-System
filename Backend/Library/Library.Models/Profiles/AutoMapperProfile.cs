@@ -1,6 +1,5 @@
 ﻿
 using AutoMapper;
-using Library.Models.DTO.User;
 
 
 namespace Library.Models.Profiles
@@ -40,12 +39,16 @@ namespace Library.Models.Profiles
             CreateMap<AuthorUpdateRequestDTO, Author>();
             CreateMap<PublisherUpdateRequestDTO, Publisher>();
             CreateMap<BorrowingUpdateRequestDTO, Borrowing>();
+            CreateMap<UserUpdateRequestDTO, User>().ReverseMap();
+
 
             // Map from the BaseDTO, as it's the DTO for the delete
             CreateMap<BaseDTO, Book>();
             CreateMap<BaseDTO, Author>();
             CreateMap<BaseDTO, Publisher>();
             CreateMap<BaseDTO, Borrowing>();
+            CreateMap<BaseDTO, User>();
+
 
             // Same type mappers
             CreateMap<Book, Book>()
