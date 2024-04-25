@@ -13,6 +13,23 @@ namespace Library.Api.Controllers
         }
 
 
+
+        // Unused endpoints
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async override Task<ActionResult<BorrowingResponseDTO>> UpdateOneAsync(int id, BorrowingDTO entity)
+        {
+            return NoContent();
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async override Task<ActionResult<BorrowingResponseDTO>> AddOneAsync(BorrowingDTO entity)
+        { 
+            return NoContent();
+        
+        }
+
+
+
         /// <summary>
         /// Borrow book or list of books
         /// </summary>
