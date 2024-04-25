@@ -7,12 +7,12 @@ namespace Library.Api.Controllers.Base
     [ApiController]
     [Route("api/[controller]")]
     //[Route("api/v{version:apiVersion}/[controller]")]
-    public class BaseCrudController<TEntity, TCreateRequestDto, TUpdateRequestDto ,TResponseDto, TController> : ControllerBase
+    public class BaseCrudController<TEntity, TController, TCreateRequestDto, TUpdateRequestDto, TResponseDto> : ControllerBase
         where TEntity : BaseEntity, new()
+        where TController : class
         where TCreateRequestDto : new()
         where TUpdateRequestDto : BaseDTO, new()
         where TResponseDto : BaseDTO, new()
-        where TController : class
     {
         protected readonly IBaseRepo<TEntity> _mainRepo;
         protected readonly IAppLogging<TController> _logger;
@@ -67,6 +67,7 @@ namespace Library.Api.Controllers.Base
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(204, "No content")]
         [SwaggerResponse(400, "The request was invalid")]
@@ -110,6 +111,7 @@ namespace Library.Api.Controllers.Base
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
@@ -119,7 +121,9 @@ namespace Library.Api.Controllers.Base
         {
             if (id != entity.Id)
             {
-                return BadRequest();
+                _logger.LogAppWarning("Id in the route and the entity do not match");
+                throw new ArgumentException
+                    ("Id in the route and the entity do not match");
             }
 
             if (!ModelState.IsValid)
@@ -136,7 +140,8 @@ namespace Library.Api.Controllers.Base
 
             catch (Exception ex)
             {
-                return BadRequest(ex);
+
+                throw new Exception(ex.Message);
             }
 
             return Ok(_mapper.Map<TResponseDto>(domainEntity));
@@ -150,6 +155,7 @@ namespace Library.Api.Controllers.Base
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(201, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
@@ -173,7 +179,7 @@ namespace Library.Api.Controllers.Base
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                throw new Exception(ex.Message);
             }
 
 
@@ -200,6 +206,7 @@ namespace Library.Api.Controllers.Base
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
@@ -209,7 +216,8 @@ namespace Library.Api.Controllers.Base
         {
             if (id != entity.Id)
             {
-                return BadRequest();
+                _logger.LogAppWarning("Id in the route and the entity do not match");
+                throw new ArgumentException("Id in the route and the entity do not match", nameof(id));
             }
             TEntity domainEntity;
             try
@@ -219,7 +227,7 @@ namespace Library.Api.Controllers.Base
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(ex.GetBaseException()?.Message);
+                throw new Exception(ex.Message);
             }
 
             return Ok();

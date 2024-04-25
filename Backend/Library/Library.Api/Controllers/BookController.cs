@@ -4,7 +4,7 @@
 
 namespace Library.Api.Controllers
 {
-    public class BookController : BaseCrudController<Book, BookCreateRequestDTO, BookUpdateRequestDTO, BookResponseDTO, BookController>
+    public class BookController : BaseCrudController<Book, BookController, BookCreateRequestDTO, BookUpdateRequestDTO, BookResponseDTO>
     {
 
         private readonly IBookDataService _bookDataService;
@@ -23,6 +23,7 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(201, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
@@ -46,7 +47,7 @@ namespace Library.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                throw new Exception(ex.Message);
             }
 
 
@@ -78,6 +79,7 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
@@ -87,6 +89,7 @@ namespace Library.Api.Controllers
         {
             if (id != editedBookDto.Id)
             {
+                _logger.LogAppWarning("Id in route and body do not match");
                 throw new ArgumentException("Id in route and body do not match", nameof(id));
             }
 
@@ -108,9 +111,9 @@ namespace Library.Api.Controllers
                 await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBook);
             }
 
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Something went wrong !");
+                throw new Exception(ex.Message);
             }
 
             return Ok(_mapper.Map<BookResponseDTO>(editedBook));

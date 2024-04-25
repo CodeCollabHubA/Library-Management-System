@@ -21,7 +21,7 @@ builder.Services.RegisterLoggingInterfaces();
 builder.Services.AddControllers(
     config =>
     {
-        config.Filters.Add(new CustomExceptionFilter(builder.Environment));
+        config.Filters.Add(typeof(CustomExceptionFilter));
         config.SuppressAsyncSuffixInActionNames = false;
     })
     .AddJsonOptions(options =>

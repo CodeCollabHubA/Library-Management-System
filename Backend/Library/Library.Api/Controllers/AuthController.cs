@@ -17,7 +17,7 @@ namespace Library.Api.Controllers
         public AuthController(JwtOptions jwtOptions, IUserDataService userDataService)
         {
             _jwtOptions = jwtOptions;
-            _userDataService = userDataService; 
+            _userDataService = userDataService;
         }
 
 
@@ -27,15 +27,22 @@ namespace Library.Api.Controllers
         public async Task<ActionResult<string>> Register([FromBody] RegisterUserRequestDTO registerRequestDto)
         {
 
-            // TODO: Validate first, and look if the database already contains the user
             if (!ModelState.IsValid)
             {
                 return ValidationProblem(ModelState);
 
             }
 
-            // TODO: handle the error better
-            string accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
+            string accessToken;
+            try
+            {
+
+                accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
 
             return Ok(accessToken);
@@ -54,11 +61,17 @@ namespace Library.Api.Controllers
                 return ValidationProblem(ModelState);
 
             }
+            string accessToken;
 
+            try
+            {
 
-            // handle the error better
-           string accessToken = await _userDataService.LoginUserAsync(user, _jwtOptions);
-
+                accessToken = await _userDataService.LoginUserAsync(user, _jwtOptions);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
             return Ok(accessToken);
         }

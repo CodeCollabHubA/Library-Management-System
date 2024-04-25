@@ -2,7 +2,7 @@
 global using Library.Api.Controllers.Base;
 global using Library.Api.Swagger;
 global using Library.Api.Swagger.Models;
-global using Library.Api.Filters.Exception;
+global using Library.Api.Filters.ExceptionFilters;
 
 
 global using Library.Services.DataServices.Interfaces;
@@ -28,7 +28,8 @@ global using Library.Dal.EFStructures;
 global using Library.Dal.Repos;
 global using Library.Dal.Repos.interfaces;
 global using Library.Dal.Initialization;
-global using Library.Dal.Exceptions;
+
+
 
 
 

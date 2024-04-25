@@ -25,7 +25,10 @@ namespace Library.Services.DataServices.Dal
             {
                 Book book = await _bookRepo.FindAsync(bookId);
                 if (book == null || book.NumberOfCopiesExist <= 0)
-                    throw new Exception($"Book with id {bookId} is not avalable for borrowing");
+                {
+                    _logger.LogAppWarning($"Book with id {bookId} is not available for borrowing");
+                    throw new Exception($"Book with id {bookId} is not available for borrowing");
+                }
 
 
 
@@ -41,11 +44,13 @@ namespace Library.Services.DataServices.Dal
             User user = await _userRepo.FindAsync(borrowingCreateDto.UserId);
             if (user == null)
             {
+                _logger.LogAppWarning("User does not exist");
                 throw new Exception("User does not exist");
 
             }
             if (user.Credit < cumulativeCost)
             {
+                _logger.LogAppWarning("User does not have enough credit");
                 throw new Exception("User does not have enough credit");
             }
 
@@ -83,12 +88,14 @@ namespace Library.Services.DataServices.Dal
 
             if (borrowing == null)
             {
+                _logger.LogAppWarning("Borrowing does not exist");
                 throw new Exception("Borrowing does not exist");
             }
 
             // check if the book is borrowed by this user
             if (borrowing.UserId != borrowingReturnRequestDTO.UserId)
             {
+                _logger.LogAppWarning($"Borrowing with id = {borrowingReturnRequestDTO.BorrwingId} is not associated with user with id {borrowingReturnRequestDTO.UserId}");
                 throw new Exception($"Borrowing with id = {borrowingReturnRequestDTO.BorrwingId} is not associated with user with id {borrowingReturnRequestDTO.UserId}");
             }
 
@@ -111,6 +118,7 @@ namespace Library.Services.DataServices.Dal
                     }
                     else
                     {
+                        _logger.LogAppWarning($"Book with id {book.Id} is already returned");
                         throw new Exception($"Book with id {book.Id} is already returned");
                     }
 
@@ -120,7 +128,7 @@ namespace Library.Services.DataServices.Dal
 
             await _mainRepo.SaveChangesAsync();
 
-           
+
             return borrowing;
 
 

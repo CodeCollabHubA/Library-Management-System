@@ -3,7 +3,6 @@
 namespace Library.Dal.Repos.Base
 {
     public abstract class BaseRepo<T> : BaseViewRepo<T>, IBaseRepo<T> where T : BaseEntity, new()
-
     {
         protected BaseRepo(ApplicationDbContext context) : base(context) { }
 

@@ -19,6 +19,7 @@ namespace Library.Services.DataServices.Dal
 
             if (user == null)
             {
+                _logger.LogAppWarning("Invalid email!");
                 throw new Exception("Invalid email!");
             }
 
@@ -27,6 +28,7 @@ namespace Library.Services.DataServices.Dal
 
             if (!passwordIsValid)
             {
+                _logger.LogAppWarning("Invalid Password");
                 throw new Exception("Invalid Password");
             }
 
@@ -48,6 +50,7 @@ namespace Library.Services.DataServices.Dal
 
             if (!(user == null))
             {
+                _logger.LogAppWarning("User with the same email already exists");
                 throw new Exception("User with the same email already exists");
             }
 
