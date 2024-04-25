@@ -4,7 +4,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from "axios";
+
+import auth from "../../services/authService";
 import * as config from '../../config.json';
+
 import '../styles/loginPage.scss'
 
 
@@ -13,7 +16,7 @@ import '../styles/loginPage.scss'
 
 
 const apiEndpoint = config.apiUrl + '/Auth/Login';
-const LoginForm = () => {
+const LoginForm = ({errorss}) => {
 
     const inputs = [
         { label: 'Email', name: 'email', id: 'email', type: 'email' },
@@ -30,22 +33,24 @@ const LoginForm = () => {
         resolver: yupResolver(schema),
     });
 
-    const navigate = useNavigate();
 
-    const onSubmit = async (data) => {
+
+    const onSubmit = async ({email,password}) => {
         console.log(data)
         try {
-            const response = await axios.post(apiEndpoint, data);
-            console.log(response.data);
-            localStorage.setItem('token', response.data);
-            navigate('/dashboard');
+            await auth.login(email,password);
+            window.location = '/dashboard';
             
         } catch (ex) {
-            if(ex.response&&ex.response.status === 400){
+            if(ex.response&&ex.response.status === 400||500){
                 console.log('wrong!!!');
+                const errors = { ...errorss };
+                errors.username = ex.response.data;
+                console.log(errors.username);
+
             }
         }
-        console.log('submitted')
+        
     };
     
     return (

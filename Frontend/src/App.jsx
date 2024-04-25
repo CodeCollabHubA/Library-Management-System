@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Route, Routes } from 'react-router-dom'
+import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+
 import Home from './components/homePage'
 import LoginForm from './pages/loginForm'
 import RegisterForm from './components/registerForm'
+import Logout from './pages/logout';
 import NotFound from './components/notFound'
 import DashboardContainer from './components/dashboardContainer';
-import axios from 'axios';
 import * as config from '../config.json'
 
 
@@ -21,14 +24,20 @@ class App extends Component {
       { label: 'Email', name: 'email', id: 'email', type:'email'}
     ],
     users:[],
-    books:[],
+    books: [],
+    errors: {},
+    user: {}
     
   }
 
-  async componentDidMount(){
-    const respose = await axios.get(`http://localhost:5053/api/User`);
-
-    console.log(respose.data);
+  componentDidMount(){
+    try {
+      const jwt = localStorage.getItem('token')
+      const user = jwtDecode(jwt)
+      this.setState({user})
+    } catch (ex) {
+      
+    }
   }
   
   
@@ -37,9 +46,10 @@ class App extends Component {
       <>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<LoginForm />} />
+          <Route path='/login' element={<LoginForm errorss={this.state.errors } />} />
+          <Route path='/logout' element={<Logout/>} />
           <Route path='/register' element={<RegisterForm />} />
-          <Route path='/dashboard/*' element={<DashboardContainer/>}/>
+          <Route path='/dashboard/*' element={<DashboardContainer user={this.state.user} />}/>
           <Route path='*' element={<NotFound />} />
         </Routes>
       </>
