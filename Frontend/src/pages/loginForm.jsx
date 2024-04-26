@@ -1,18 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../components/common/_input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import axios from "axios";
-import * as config from '../../config.json';
+import { ToastContainer, toast } from 'react-toastify';
+
+import auth from "../../services/authService";
+import Input from "../components/common/_input";
+
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/loginPage.scss'
 
 
-
-
-
-
-const apiEndpoint = config.apiUrl + '/Auth/Login';
 const LoginForm = () => {
 
     const inputs = [
@@ -29,27 +27,25 @@ const LoginForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
-
-    const navigate = useNavigate();
-
-    const onSubmit = async (data) => {
-        console.log(data)
+    
+    
+    const onSubmit = async ({ email, password }) => {
         try {
-            const response = await axios.post(apiEndpoint, data);
-            console.log(response.data);
-            localStorage.setItem('token', response.data);
-            navigate('/dashboard');
+            await auth.login(email, password);
+            toast.success('enterd')
+            setTimeout(() => { window.location = '/dashboard' }, 2000);
+            
+
             
         } catch (ex) {
-            if(ex.response&&ex.response.status === 400){
-                console.log('wrong!!!');
-            }
+
         }
-        console.log('submitted')
+        
     };
     
     return (
         <div className="enterPage">
+            <ToastContainer />
             <div className="formContainer w-80 rounded-md mx-auto mt-16 md:mt-32 pt-4  ">
                 <form className="w-[90%] mx-auto mb-8 " onSubmit={handleSubmit(onSubmit)}>
                     {inputs.map(item => (

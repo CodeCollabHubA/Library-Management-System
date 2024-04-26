@@ -19,7 +19,7 @@ import NotFound from "./notFound";
 
 import useSideBarPosition from "../hooks/useSideBarPosition";
 import MarginWrapper from "./MainWrapper";
-const DashboardContainer = () => {
+const DashboardContainer = ({user}) => {
     const { footerRef, sideBarPosition } = useSideBarPosition()
 
     return (

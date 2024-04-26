@@ -4,6 +4,7 @@ import HeroSection from './HomePage_Parts/heroSection'
 import ContentSection from './HomePage_Parts/contentSection'
 import FooterSection from './HomePage_Parts/footerSection'
 import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -23,6 +24,7 @@ const Home = () => {
     return (
         <>
             <Navbar navbarItem={navbarItem} handleClick={handleClick} showMenu={showMenu} />
+            <ToastContainer />
             <div className={showMenu?'relative h-screen md:hidden bg-slate-600':'hidden' }>
                 <ul className='w-full mx-auto'>
                     {navbarItem.map(item => (

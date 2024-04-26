@@ -3,7 +3,7 @@ import { NavLink, Link} from "react-router-dom";
 const Navbar = ({navbarItem,handleClick,showMenu}) => {
     
     
-    console.log(showMenu);
+    // console.log(showMenu);
     return (
         <>
             <nav className=" z-20 flex items-center justify-between bg-slate-100 sticky top-0 p-5">
