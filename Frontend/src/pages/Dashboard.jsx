@@ -20,12 +20,14 @@ import DashboardCard11 from '../partials/dashboard/DashboardCard11';
 import DashboardCard12 from '../partials/dashboard/DashboardCard12';
 import DashboardCard13 from '../partials/dashboard/DashboardCard13';
 import Banner from '../partials/Banner';
+import { ToastContainer } from 'react-toastify';
 
 function Dashboard() {
 
 
   return (
     <main>
+      <ToastContainer />
       <div className="px-4 mt-10 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
         {/* Welcome banner */}
         <WelcomeBanner />

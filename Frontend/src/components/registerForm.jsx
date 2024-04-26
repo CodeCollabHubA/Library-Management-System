@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import Input from "./common/_input";
 import { useForm } from "react-hook-form";
+import { ToastContainer } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import '../styles/loginPage.scss'
-
+import axios from "axios";
+import config from "../../config.json"
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const RegisterForm = () => {
@@ -21,13 +24,19 @@ const RegisterForm = () => {
         resolver: yupResolver(schema),
     })
     
-    const onSubmit = (data) => {
-        console.log(data)
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post(config.apiUrl, data);
+            
+        } catch (error) {
+            
+        }
         console.log('registered')
     }
 
     return (
         <div className=" enterPage">
+            <ToastContainer />
                  <div className="formContainer flex justify-center  w-[70%] rounded-md mx-auto mt-16 md:mt-32 pt-4">
                     <form className="w-[40%] ms-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
                         <Input label="Frist Name" name="fristName" register={register} errors={errors} />

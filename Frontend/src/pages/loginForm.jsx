@@ -1,22 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../components/common/_input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
 import auth from "../../services/authService";
-import * as config from '../../config.json';
+import Input from "../components/common/_input";
 
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/loginPage.scss'
 
 
-
-
-
-
-const apiEndpoint = config.apiUrl + '/Auth/Login';
-const LoginForm = ({errorss}) => {
+const LoginForm = () => {
 
     const inputs = [
         { label: 'Email', name: 'email', id: 'email', type: 'email' },
@@ -32,29 +27,25 @@ const LoginForm = ({errorss}) => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
-
-
-
-    const onSubmit = async ({email,password}) => {
-        console.log(data)
+    
+    
+    const onSubmit = async ({ email, password }) => {
         try {
-            await auth.login(email,password);
-            window.location = '/dashboard';
+            await auth.login(email, password);
+            toast.success('enterd')
+            setTimeout(() => { window.location = '/dashboard' }, 2000);
+            
+
             
         } catch (ex) {
-            if(ex.response&&ex.response.status === 400||500){
-                console.log('wrong!!!');
-                const errors = { ...errorss };
-                errors.username = ex.response.data;
-                console.log(errors.username);
 
-            }
         }
         
     };
     
     return (
         <div className="enterPage">
+            <ToastContainer />
             <div className="formContainer w-80 rounded-md mx-auto mt-16 md:mt-32 pt-4  ">
                 <form className="w-[90%] mx-auto mb-8 " onSubmit={handleSubmit(onSubmit)}>
                     {inputs.map(item => (
