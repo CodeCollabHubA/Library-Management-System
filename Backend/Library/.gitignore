@@ -8,6 +8,9 @@
 */StaticFiles/Images/Books/*
 !*/StaticFiles/Images/Books/
 
+*/StaticFiles/Images/Users/*
+!*/StaticFiles/Images/Users/
+
 
 */Logs/*
 !*/Logs/
