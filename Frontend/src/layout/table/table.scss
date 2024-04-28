@@ -1,0 +1,17 @@
+tbody {
+  tr {
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  tr:hover {
+    background-color: #f3f4f6;
+  }
+
+  td {
+    padding: 1.5rem 2.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

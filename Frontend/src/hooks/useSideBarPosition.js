@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default () => {
+const useSideBarPosition = () => {
     const footerRef = useRef(null);
     const [sideBarPosition, setSideBarPosition] = useState("fixed");
 
@@ -21,3 +21,4 @@ export default () => {
     }, []);
     return { footerRef, sideBarPosition }
 }
+export default useSideBarPosition

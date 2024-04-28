@@ -1,77 +1,56 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom'
+import { useState } from 'react';
+import { Outlet, Route, Routes } from 'react-router-dom'
+
+import LandingPage from './pages/LandingPage';
+import Logout from './layout/form/Logout';
+import LoginForm from './layout/form/LoginForm';
+import SignupForm from './layout/form/SignupForm';
+import Dashboard from './pages/Dashboard';
+import Navbar from './layout/landingPage/Navbar';
+import NotFound from './layout/shared/NotFound';
+import FooterSection from './layout/shared/FooterSection';
+import useAppInitialLoad from './hooks/useAppInitialLoad';
+import { navbarItem } from "./utils/constant"
+import { useMyContext } from './context/ContextProvider';
 
 
-import Home from './components/homePage'
-import LoginForm from './pages/loginForm'
-import RegisterForm from './components/registerForm'
-import Logout from './pages/logout';
-import NotFound from './components/notFound'
-import DashboardContainer from './components/dashboardContainer';
-import { ToastContainer } from 'react-toastify';
+const App = () => {
 
-import auth from '../services/authService';
+  const [showMenu, setShowMenu] = useState(false)
 
+  useAppInitialLoad()
 
-
-
-
-
-class App extends Component {
+  const { user } = useMyContext()
   
-  state = {
-    inputs: [
-      { label: 'Name', name:'name', id:'name',type:'text'},
-      {label: 'Password', name:'password', id:'password',type:'password'},
-      { label: 'Email', name: 'email', id: 'email', type:'email'}
-    ],
-    users:[],
-    books: [],
-    errors: {},
-    user: {}
-    
-  }
-
-  componentDidMount(){
-    const user= auth.getCurrentUser()
-    this.setState({ user })
-  }
-  handleAdd = async (data) => {
-    const {response:user} = await axios.post(config.apiUrl, data);
-    const users = { ...this.state.users, user };
-    this.setState({ users });
-  }
-  handleDelete = async (data) => {
-    const originalData = { ...this.state.users };
-    const users = this.state.users.filter(user => (user.id !== data.id));
-    this.setState({ users });
-    try {
-      const { response: user } = await axios.delete(config.apiUrl + "/" + data.id);
-
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        alert('user already deleted');
-      this.setState({users: originalData });
-    }
-    
-  }
+  console.log(user);
   
-  render() { 
-    return (
-      <>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<LoginForm />} />
-          <Route path='/logout' element={<Logout/>} />
-          <Route path='/register' element={<RegisterForm />} />
-          <Route path='/dashboard/*' element={<DashboardContainer user={this.state.user} />}/>
+
+  const handleClick = () => {
+    setShowMenu(!showMenu)
+  }
+
+
+  return (
+    <>
+      <Routes>
+        <Route path='/'
+          element={
+            <>
+              <Navbar navbarItem={navbarItem} handleClick={handleClick} showMenu={showMenu} />
+              <Outlet />
+              <FooterSection />
+            </>
+          }>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/logout' element={<Logout />} />
           <Route path='*' element={<NotFound />} />
-        </Routes>
-      </>
-    );
-  }
+        </Route>
+        <Route path='/login' element={<LoginForm />} />
+        <Route path='/signup' element={<SignupForm />} />
+        <Route path='/dashboard/*' element={<Dashboard />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
-
-{/* <Input name='test' label='Test' /> */}

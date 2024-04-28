@@ -2,7 +2,7 @@ import resolveConfig from 'tailwindcss/resolveConfig';
 
 export const tailwindConfig = () => {
   // Tailwind config
-  return resolveConfig('./src/css/tailwind.config.js')
+  return resolveConfig('./src/assets/css/tailwind.config.js')
 }
 
 export const hexToRGB = (h) => {
