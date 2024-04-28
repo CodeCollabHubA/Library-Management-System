@@ -28,10 +28,12 @@ namespace Library.Dal.Repos
             );
 
             // include the authors and publishers names
-            table = Table.Where(b => table.Select(x => x.Id).Contains(b.Id))
+            var bookIds = table.Select(x => x.Id).ToList();
+            Table.Where(b => bookIds.Contains(b.Id))
                     .Include(b => b.Authors)
                     .Include(b => b.Publishers).ToList();
 
+            
             return table;
         }
 
