@@ -1,7 +1,9 @@
 ﻿
+using Microsoft.AspNetCore.Http;
+
 namespace Library.Models.DTO
 {
-    public class UserUpdateRequestDTO : BaseDTO
+    public class UserUpdateRequestDTO : BaseDTO, IImageUploadable
     {
         public string Name { get; set; }
 
@@ -9,6 +11,8 @@ namespace Library.Models.DTO
         public string? Address { get; set; }
 
         public int Credit { get; set; }
+
+        public IFormFile? Image { get; set; }
 
 
 

@@ -51,11 +51,11 @@ namespace Library.Dal.Initialization
 
         public static List<User> Users => new()
          {
-            new() { Id = 1, Name = "Ahmed Yassin",Credit = 1000, Address = "Sharja, Majaz 3", Email = "ahmed@example.com", Phone = "123-456-7890", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
-            new() { Id = 2, Name = "Mohammed Ismaiel",Credit = 100, Address = "Sharja, Nahda", Email = "moahmed@example.com", Phone = "456-789-1234", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
-            new() { Id = 3, Name = "Ali Hassan",Credit = 50, Address = "789 Oak St", Email = "ali@example.com", Phone = "789-123-4567", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
-            new() { Id = 4, Name = "Osman Elamin",Credit = 30, Email = "osman@example.com", Phone = "987-654-3210", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
-            new() { Id = 5, Name = "khojalei abbas",Credit = 10, Email = "khojalei@example.com", Phone = "321-654-9870", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" }
+            new() { Id = 1, Name = "Ahmed Yassin",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 1000, Address = "Sharja, Majaz 3", Email = "ahmed@example.com", Phone = "123-456-7890", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
+            new() { Id = 2, Name = "Mohammed Ismaiel",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 100, Address = "Sharja, Nahda", Email = "moahmed@example.com", Phone = "456-789-1234", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
+            new() { Id = 3, Name = "Ali Hassan",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 50, Address = "789 Oak St", Email = "ali@example.com", Phone = "789-123-4567", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
+            new() { Id = 4, Name = "Osman Elamin",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 30, Email = "osman@example.com", Phone = "987-654-3210", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
+            new() { Id = 5, Name = "khojalei abbas",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 10, Email = "khojalei@example.com", Phone = "321-654-9870", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" }
         };
         public static List<Borrowing> Borrowings => new()
         {

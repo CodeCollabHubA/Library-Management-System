@@ -1,5 +1,4 @@
-
-namespace Library.Api.Attributes.Authorization;
+namespace Library.Api.Filters.Authorization;
 
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
@@ -19,7 +18,7 @@ public class CustomAuthorizeAttribute : Attribute, IAuthorizationFilter
         // skip if the CustomAllowAnonymous attribute is applied
         var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<CustomAllowAnonymousAttribute>().Any();
 
-        if(allowAnonymous)
+        if (allowAnonymous)
         {
             return;
 
@@ -27,7 +26,7 @@ public class CustomAuthorizeAttribute : Attribute, IAuthorizationFilter
 
         // authorize
         var user = (UserDTO)context.HttpContext.Items["User"];
-        if(user == null || (_roles.Any() && !_roles.Contains(user.UserRole)))
+        if (user == null || _roles.Any() && !_roles.Contains(user.UserRole))
         {
             context.Result = new JsonResult(new { message = "Unauthorized" })
             {

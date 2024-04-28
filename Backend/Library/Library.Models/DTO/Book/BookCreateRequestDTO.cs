@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Library.Models.DTO
 {
-    public class BookCreateRequestDTO
+    public class BookCreateRequestDTO: IImageUploadable
     {
         [Required]
         public string Title { get; set; }

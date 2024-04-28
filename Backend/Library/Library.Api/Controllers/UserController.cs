@@ -2,6 +2,7 @@
 
 
 
+using Library.Api.Filters.Action;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 
@@ -25,12 +26,13 @@ namespace Library.Api.Controllers
         }
 
 
-        public async override Task<ActionResult<UserResponseDTO>> UpdateOneAsync(int id, UserUpdateRequestDTO entity)
+        [ValidateImageUpload("entity")]
+        public async override Task<ActionResult<UserResponseDTO>> UpdateOneAsync(int id, [FromForm] UserUpdateRequestDTO entity)
         {
             if (!ModelState.IsValid)
             {
                 // check if the role is a valid role
-                if(ModelState["$.userRole"].ValidationState == ModelValidationState.Invalid)
+                if(ModelState["UserRole"].ValidationState == ModelValidationState.Invalid)
                 {
                     _logger.LogAppWarning("Client provided invalid role for the user");
                     throw new ArgumentException("Invalid user role, (User/Admin) are the only roles allowed");
@@ -63,8 +65,10 @@ namespace Library.Api.Controllers
                 throw new Exception(ex.Message);
             }
 
-            return Ok(_mapper.Map<UserUpdateRequestDTO>(domainEntity));
+            return Ok(_mapper.Map<UserResponseDTO>(domainEntity));
         }
+
+
 
 
     }

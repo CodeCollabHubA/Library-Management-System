@@ -2,6 +2,8 @@
 
 
 
+using Library.Api.Filters.Action;
+
 namespace Library.Api.Controllers
 {
     public class BookController : BaseCrudController<Book, BookController, BookCreateRequestDTO, BookUpdateRequestDTO, BookResponseDTO>
@@ -29,10 +31,9 @@ namespace Library.Api.Controllers
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpPost]
+        [ValidateImageUpload("entity")]
         public async override Task<ActionResult<BookResponseDTO>> AddOneAsync([FromForm] BookCreateRequestDTO entity)
         {
-
-            ValidateImageUpload(entity);
 
             if (!ModelState.IsValid)
             {
@@ -117,22 +118,7 @@ namespace Library.Api.Controllers
         }
 
 
-        private void ValidateImageUpload(BookCreateRequestDTO entity)
-        {
-            var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };
-            if (entity.Image == null)
-            {
-                return;
-            }
-            if (!allowedExtensions.Contains(Path.GetExtension(entity.Image.FileName)))
-            {
-                ModelState.AddModelError("file", "Unsupported file extension");
-            }
-
-            if (entity.Image.Length > 10485760)
-            {
-                ModelState.AddModelError("file", "File size more than 10MB, please upload a smaller size file.");
-            }
-        }
+      
+    
     }
 }
