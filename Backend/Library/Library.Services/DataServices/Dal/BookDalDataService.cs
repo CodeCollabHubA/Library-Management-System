@@ -31,13 +31,15 @@ namespace Library.Services.DataServices.Dal
 
 
 
-        public async Task<Book> UpdateBookAndItsPublishersAndAuthorsAsync(Book editedBook, bool persist = true)
+        public async Task<Book> UpdateBookAndItsPublishersAndAuthorsAsync(BookUpdateRequestDTO editedBookDto, bool persist = true)
         {
 
-            // Look if the book exists
-            Book existingBook = await _mainRepo.FindAsync(editedBook.Id);
 
-            bool timestampValid = (existingBook.TimeStamp).SequenceEqual(editedBook.TimeStamp);
+
+            // Look if the book exists
+            Book existingBook = await _mainRepo.FindAsync(editedBookDto.Id);
+
+            bool timestampValid = (existingBook.TimeStamp).SequenceEqual(editedBookDto.TimeStamp);
 
             if (!timestampValid)
             {
@@ -50,17 +52,18 @@ namespace Library.Services.DataServices.Dal
                 throw new Exception("Book not Found");
             }
 
+
             // Map all but Authors and Publishers
-            _mapper.Map(editedBook, existingBook);
+            _mapper.Map(editedBookDto, existingBook);
 
             // Map Authors:
-            await AddAuthorToBook(editedBook, existingBook);
+            await AddAuthorToBook(editedBookDto, existingBook);
 
-            DeleteAuthorFromBook(editedBook, existingBook);
+            DeleteAuthorFromBook(editedBookDto, existingBook);
 
             // Map Publishers:
-            await AddPublisherToBook(editedBook, existingBook);
-            DeletePublisherFromBook(editedBook, existingBook);
+            await AddPublisherToBook(editedBookDto, existingBook);
+            DeletePublisherFromBook(editedBookDto, existingBook);
 
 
 
@@ -69,10 +72,9 @@ namespace Library.Services.DataServices.Dal
                 await _mainRepo.SaveChangesAsync();
             }
 
-            // Map the new book to the editBook to return it back in the response later
-            _mapper.Map(existingBook, editedBook);
+            
 
-            return editedBook;
+            return existingBook;
         }
 
         public override async Task<Book> AddAsync(Book entity, bool persist = true)
@@ -110,52 +112,51 @@ namespace Library.Services.DataServices.Dal
 
         // Utils
 
-        private static void DeletePublisherFromBook(Book editedBook, Book existingBook)
+        private static void DeletePublisherFromBook(BookUpdateRequestDTO editedBookDto, Book existingBook)
         {
             // delete publisher from the list of existing book publishers
             var existingBookPublishers = existingBook.Publishers.ToList();
+
             for (int Id = existingBookPublishers.Count - 1; Id >= 0; Id--)
             {
                 Publisher publisher = existingBookPublishers[Id];
-                if (!editedBook.Publishers.Any(a => a.Id == publisher.Id))
+                if (!editedBookDto.PublishersIds.Any(id => id == publisher.Id))
                 {
                     existingBook.Publishers.Remove(publisher);
                 }
             }
         }
 
-        private async Task AddPublisherToBook(Book editedBook, Book existingBook)
+        private async Task AddPublisherToBook(BookUpdateRequestDTO editedBookDto, Book existingBook)
         {
             // Add new publisher to the list of existing book publishers 
-            foreach (Publisher publisher in editedBook.Publishers)
+            foreach (int publisherId in editedBookDto.PublishersIds)
             {
                 // Add Publishr: check if author exists and only add it if it does not exist
                 // in the existing book publishers
-                if (!existingBook.Publishers.Any(a => a.Id == publisher.Id))
+                if (!existingBook.Publishers.Any(a => a.Id == publisherId))
                 {
-                    if (publisher.Id != null)
+                    Publisher newPublisher = await _publisherRepo.FindAsync(publisherId);
+                    if (newPublisher == null)
                     {
-                        Publisher newPublisher = await _publisherRepo.FindAsync(publisher.Id);
-                        if (newPublisher == null)
-                        {
-                            _logger.LogAppWarning("Can not a add publisher that does not exist in the database");
-                            throw new Exception("Can not a add publisher that does not exist in the database");
-                        }
-                        // Add the publisher
-                        existingBook.Publishers.Add(newPublisher);
+                        _logger.LogAppWarning("Can not a add publisher that does not exist in the database");
+                        throw new Exception("Can not a add publisher that does not exist in the database");
                     }
+                    // Add the publisher
+                    existingBook.Publishers.Add(newPublisher);
                 }
             }
+
         }
 
-        private static void DeleteAuthorFromBook(Book editedBook, Book existingBook)
+        private static void DeleteAuthorFromBook(BookUpdateRequestDTO editedBookDto, Book existingBook)
         {
             // delete author from the list of existing book authors
             var existingBookAuthors = existingBook.Authors.ToList();
             for (int Id = existingBookAuthors.Count - 1; Id >= 0; Id--)
             {
                 Author author = existingBookAuthors[Id];
-                if (!editedBook.Authors.Any(a => a.Id == author.Id))
+                if (!editedBookDto.AuthorsIds.Any(id => id == author.Id))
                 {
                     existingBook.Authors.Remove(author);
 
@@ -164,29 +165,28 @@ namespace Library.Services.DataServices.Dal
             }
         }
 
-        private async Task AddAuthorToBook(Book editedBook, Book existingBook)
+        private async Task AddAuthorToBook(BookUpdateRequestDTO editedBookDto, Book existingBook)
         {
             // Add new author to the list of existing book authors 
-            foreach (Author author in editedBook.Authors)
+            foreach (int authorId in editedBookDto.AuthorsIds)
             {
                 // Add Author: check if author exists and only add it if it does not exist
                 // in the existing book authors
-                if (!existingBook.Authors.Any(a => a.Id == author.Id))
+                if (!existingBook.Authors.Any(a => a.Id == authorId))
                 {
-                    if (author.Id != null)
+
+                    Author newAuthor = await _authorRepo.FindAsync(authorId);
+                    if (newAuthor == null)
                     {
-                        Author newAuthor = await _authorRepo.FindAsync(author.Id);
-                        if (newAuthor == null)
-                        {
 
-                            _logger.LogAppWarning("Can not add an author that does not exist in the database");
-                            throw new Exception("Can not add an author that does not exist in the database");
-                        }
-
-                        // Add the author
-                        existingBook.Authors.Add(newAuthor);
-
+                        _logger.LogAppWarning("Can not add an author that does not exist in the database");
+                        throw new Exception("Can not add an author that does not exist in the database");
                     }
+
+                    // Add the author
+                    existingBook.Authors.Add(newAuthor);
+
+
                 }
             }
         }

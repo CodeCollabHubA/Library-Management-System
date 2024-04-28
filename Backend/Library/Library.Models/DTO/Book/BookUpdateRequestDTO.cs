@@ -14,9 +14,9 @@ namespace Library.Models.DTO
 
         public int Credit { get; set; }
 
-        public IEnumerable<AuthorUpdateRequestDTO>? Authors { get; set; }
+        public List<int>? AuthorsIds { get; set; }
 
-        public IEnumerable<PublisherUpdateRequestDTO>? Publishers { get; set; }
+        public List<int>? PublishersIds { get; set; }
 
         public int NumberOfCopiesOwned { get; set; }
 

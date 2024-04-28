@@ -105,10 +105,7 @@ namespace Library.Api.Controllers
             try
             {
 
-                // Map all but Authors and Publishers
-                editedBook = _mapper.Map<Book>(editedBookDto);
-
-                await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBook);
+               editedBook =  await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBookDto);
             }
 
             catch(Exception ex)
