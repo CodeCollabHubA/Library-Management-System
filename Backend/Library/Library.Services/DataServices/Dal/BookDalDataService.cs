@@ -33,9 +33,6 @@ namespace Library.Services.DataServices.Dal
 
         public async Task<Book> UpdateBookAndItsPublishersAndAuthorsAsync(BookUpdateRequestDTO editedBookDto, bool persist = true)
         {
-
-
-
             // Look if the book exists
             Book existingBook = await _mainRepo.FindAsync(editedBookDto.Id);
 

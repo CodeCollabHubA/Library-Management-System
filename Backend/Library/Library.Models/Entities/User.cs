@@ -1,6 +1,7 @@
 ﻿
 
 
+using Microsoft.AspNetCore.Http;
 using System.Text.Json.Serialization;
 
 namespace Library.Models.Entities
@@ -16,6 +17,11 @@ namespace Library.Models.Entities
         public string? Address { get; set; }
 
         public int Credit { get; set; }
+
+        public string? ImageURL { get; set; }
+        public string? ImagePath { get; set; }
+        [NotMapped]
+        public IFormFile? Image { get; set; }
 
 
 

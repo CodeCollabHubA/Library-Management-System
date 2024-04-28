@@ -2,13 +2,17 @@
 
 
 using Library.Services.DataServices.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace Library.Services.DataServices.Dal
 {
     public class UserDalDataService : BaseDalDataService<User, UserDalDataService>, IUserDataService
     {
-        public UserDalDataService(IUserRepo mainRepo, IAppLogging<UserDalDataService> logger) : base(mainRepo, logger)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public UserDalDataService(IUserRepo mainRepo, IHttpContextAccessor httpContextAccessor, IAppLogging<UserDalDataService> logger) : base(mainRepo, logger)
         {
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<string> LoginUserAsync(LoginUserRequestDTO userDTO, JwtOptions jwtOptions)
         {
@@ -54,6 +58,16 @@ namespace Library.Services.DataServices.Dal
                 throw new Exception("User with the same email already exists");
             }
 
+
+            // Default image
+            string imageName = "User.png";
+            var localImagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles",
+                    "Images", "Users",
+                    $"{imageName}");
+
+            var imageUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}/StaticFiles/Images/Users/{imageName}";
+
+
             // Map the DTO to a user
             user = new User
             {
@@ -63,6 +77,8 @@ namespace Library.Services.DataServices.Dal
                 Phone = userDTO.Phone,
                 PasswordHash = JwtHelpers.HashPassword(userDTO.Password),
                 UserRole = Role.User,
+                ImagePath = localImagePath,
+                ImageURL = imageUrl
             };
 
 
@@ -83,13 +99,42 @@ namespace Library.Services.DataServices.Dal
 
             // check if user with this id exist
             User user = await _mainRepo.FindAsNoTrackingAsync(entity.Id);
-            if(user == null)
+            if (user == null)
             {
                 _logger.LogAppWarning($"User with id {entity.Id} doesnot exist");
                 throw new Exception($"User with id {entity.Id} doesnot exist");
             }
 
-            
+
+            // Set image paths for a fallback image
+            string imageName = "User.png";
+            var localImagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles",
+                    "Images", "Users",
+                    $"{imageName}");
+
+            var imageUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}/StaticFiles/Images/Users/{imageName}";
+
+            // If image exist, register it for user
+            if (entity.Image != null)
+            {
+                var newImageName = Path.GetFileName(entity.Image.FileName);
+
+
+                localImagePath = localImagePath.Replace(imageName, newImageName);
+
+                // Upload the image to the local StaticFiles Folder
+                using var stream = new FileStream(localImagePath, FileMode.Create);
+
+                await entity.Image.CopyToAsync(stream);
+
+                imageUrl = imageUrl.Replace(imageName, newImageName);
+
+            }
+
+            entity.ImagePath = localImagePath;
+            entity.ImageURL = imageUrl;
+
+
 
             entity.PasswordHash = user.PasswordHash;
 

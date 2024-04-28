@@ -1,5 +1,4 @@
-
-namespace Library.Api.Attributes.Authorization;
+namespace Library.Api.Filters.Authorization;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class CustomAllowAnonymousAttribute : Attribute

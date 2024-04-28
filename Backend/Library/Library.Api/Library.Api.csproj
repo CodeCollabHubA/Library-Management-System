@@ -16,13 +16,6 @@
     <NoWarn>1701;1702;1591;</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Filters\Authorization\**" />
-    <Content Remove="Filters\Authorization\**" />
-    <EmbeddedResource Remove="Filters\Authorization\**" />
-    <None Remove="Filters\Authorization\**" />
-  </ItemGroup>
-
 	<ItemGroup>
 		<None Update="Library.Api.xml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
