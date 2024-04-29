@@ -24,7 +24,7 @@ const Navbar = ({ navbarItem, handleClick, showMenu }) => {
                 <div className=" hidden md:flex ms-8 justify-between items-center" >
                     <ul className="flex">
                         {navbarItem.map(item => (
-                            <li key={item.name} className=" mx-4">
+                            <li key={item.id} className=" mx-4">
                                 <NavLink to={item.to}>{item.name}</NavLink>
                             </li>
                         ))}
@@ -42,7 +42,7 @@ const Navbar = ({ navbarItem, handleClick, showMenu }) => {
             <div className={showMenu ? 'relative h-screen md:hidden bg-slate-600' : 'hidden'}>
                 <ul className='w-full mx-auto'>
                     {navbarItem.map(item => (
-                        <li className='text-center p-10 text-5xl hover:text-gray-600 bg hover:bg-slate-300'>
+                        <li key={item.id} className='text-center p-10 text-5xl hover:text-gray-600 bg hover:bg-slate-300'>
                             <Link to={item.to}>{item.name}</Link>
                         </li>
                     ))}

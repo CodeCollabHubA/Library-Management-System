@@ -12,17 +12,17 @@ import FooterSection from './layout/shared/FooterSection';
 import useAppInitialLoad from './hooks/useAppInitialLoad';
 import { navbarItem } from "./utils/constant"
 import { useMyContext } from './context/ContextProvider';
+import ProtectedRoute from './components/common/protectedRoute';
 
 
 const App = () => {
-
+  
   const [showMenu, setShowMenu] = useState(false)
-
+  
   useAppInitialLoad()
 
   const { user } = useMyContext()
-  
-  console.log(user);
+  user&&localStorage.setItem('role',user.role)
   
 
   const handleClick = () => {
@@ -47,7 +47,9 @@ const App = () => {
         </Route>
         <Route path='/login' element={<LoginForm />} />
         <Route path='/signup' element={<SignupForm />} />
-        <Route path='/dashboard/*' element={<Dashboard />} />
+        <Route element={<ProtectedRoute/>}>
+          <Route path='/dashboard/*' element={<Dashboard />} />
+        </Route>
       </Routes>
     </>
   );
