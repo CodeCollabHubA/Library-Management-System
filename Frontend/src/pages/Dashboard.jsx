@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import BookGallery from "./BookGallery";
 import AdminInbox from "./AdminInbox";
 import AdminBooks from "./AdminBooks";
+import AdminBorrowing from "./AdminBorrowing";
 import AdminUsers from "./AdminUsers";
 import AdminAuthors from "./AdminAuthors";
 import AdminPublishers from "./AdminPublishers";
@@ -18,6 +19,7 @@ import MarginWrapper from "../layout/shared/MainWrapper";
 import NotFound from "../layout/shared/NotFound";
 import FooterSection from "../layout/shared/FooterSection";
 import useSideBarPosition from "../hooks/useSideBarPosition";
+import ProtectedRoute from "../components/common/protectedRoute";
 
 
 const DashboardContainer = () => {
@@ -32,12 +34,15 @@ const DashboardContainer = () => {
           <Routes>
             <Route index element={<Statistics />} />
             <Route path="/" element={<MarginWrapper />}>
-              <Route path='inbox/*' element={<AdminInbox />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path='inbox/*' element={<AdminInbox />} />
+                <Route path='books/*' element={<AdminBooks />} />
+                <Route path='users/*' element={<AdminUsers />} />
+                <Route path='authors/*' element={<AdminAuthors />} />
+                <Route path='borrowings/*' element={<AdminBorrowing />} />
+                <Route path='publishers/*' element={<AdminPublishers />} />
+              </Route>
               <Route path='booksGallery/*' element={<BookGallery />} />
-              <Route path='books/*' element={<AdminBooks />} />
-              <Route path='users/*' element={<AdminUsers />} />
-              <Route path='authors/*' element={<AdminAuthors />} />
-              <Route path='publishers/*' element={<AdminPublishers />} />
               <Route path='profile' element={<Profile />} />
               <Route path='profile/update' element={<ProfileForm />} />
               <Route path='profile/updatePassword' element={<ProfilePasswordForm />} />

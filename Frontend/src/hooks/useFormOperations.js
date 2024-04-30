@@ -8,7 +8,7 @@ import { createUpdateApi } from "../services/createUpdateApi";
 
 const useFormOperations = ({ schema }) => {
 
-    const [file, setFile] = useState({});
+    const [file, setFile] = useState("");
     const [defaultValues, setDefaultValues] = useState({});
 
     const location = useLocation();
@@ -24,8 +24,8 @@ const useFormOperations = ({ schema }) => {
     }, [data])
 
     const onSubmit = async (data) => {
-        const form = { ...defaultValues, ...data, imageURL: file }
-        const res = await createUpdateApi({ myContext, form, id: form.id, resource, operation, method, setState: myContext.setState })
+        const form = { ...defaultValues, ...data, ...(file ? { imageURL: file } : {}) }
+        const res = await createUpdateApi({ myContext, setDefaultValues, form, id: form.id, resource, operation, method, setState: myContext.setState })
         console.log("submited!!");
         console.log(res);
     };

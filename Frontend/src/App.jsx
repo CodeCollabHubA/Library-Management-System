@@ -21,9 +21,6 @@ const App = () => {
   useAppInitialLoad()
 
   const { user } = useMyContext()
-  
-  console.log(user);
-  
 
   const handleClick = () => {
     setShowMenu(!showMenu)

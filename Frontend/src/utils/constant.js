@@ -1,9 +1,11 @@
 export const navbarItem = [
-    { name: 'Services', to: '#' },
-    { name: 'Our Developer', to: '#' },
-    { name: 'Contact Us', to: '#' },
-    { name: 'About', to: '#' },
+    { id: 1, name: 'Services', to: '#' },
+    { id: 2, name: 'Our Developer', to: '#' },
+    { id: 3, name: 'Contact Us', to: '#' },
+    { id: 4, name: 'About', to: '#' },
 ]
+
+export const textLikeInput = ["text", "number", "email", "password"]
 
 export const statusArray = ["success", "info", "error"]
 

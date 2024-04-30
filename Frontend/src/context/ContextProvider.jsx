@@ -11,7 +11,7 @@ const ContextProvider = ({ children }) => {
     const [publishers, setPublishers] = useState()
     const [authors, setAuthors] = useState()
     const [users, setUsers] = useState()
-    const [borrowing, setBorrowing] = useState()
+    const [borrowings, setBorrowings] = useState()
 
     const value = {
         state, setState,
@@ -20,7 +20,7 @@ const ContextProvider = ({ children }) => {
         publishers, setPublishers,
         authors, setAuthors,
         users, setUsers,
-        borrowing, setBorrowing,
+        borrowings, setBorrowings,
     }
 
     return (
