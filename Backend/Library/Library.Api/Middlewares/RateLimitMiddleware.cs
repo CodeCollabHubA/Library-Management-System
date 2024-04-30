@@ -26,19 +26,19 @@ namespace Library.Api.Middlewares
                     Requests = 0
                 };
 
-                _cache.Set(cacheKey, rateLimit, TimeSpan.FromSeconds(1));
+                _cache.Set(cacheKey, rateLimit, TimeSpan.FromMinutes(1));
             }
 
             var timeSinceLastRequest = DateTime.UtcNow - rateLimit.LastRequest;
 
-            if (timeSinceLastRequest.TotalSeconds >= 1) 
+            if (timeSinceLastRequest.TotalMinutes >= 1) 
             {
                 rateLimit.Requests = 0;
                 rateLimit.LastRequest = DateTime.UtcNow;
-                _cache.Set(cacheKey, rateLimit, TimeSpan.FromSeconds(1)); 
+                _cache.Set(cacheKey, rateLimit, TimeSpan.FromMinutes(1)); 
             }
 
-            if (rateLimit.Requests >= 10) 
+            if (rateLimit.Requests >= 200) 
             {
                 context.Response.StatusCode = 429;
                 await context.Response.WriteAsync("Rate limit exceeded.");
@@ -46,7 +46,7 @@ namespace Library.Api.Middlewares
             }
 
             rateLimit.Requests++;
-            _cache.Set(cacheKey, rateLimit, TimeSpan.FromSeconds(1)); 
+            _cache.Set(cacheKey, rateLimit, TimeSpan.FromMinutes(1)); 
 
             await _next(context);
         }
