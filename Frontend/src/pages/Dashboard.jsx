@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import BookGallery from "./BookGallery";
 import AdminInbox from "./AdminInbox";
 import AdminBooks from "./AdminBooks";
+import AdminBorrowing from "./AdminBorrowing";
 import AdminUsers from "./AdminUsers";
 import AdminAuthors from "./AdminAuthors";
 import AdminPublishers from "./AdminPublishers";
@@ -33,11 +34,12 @@ const DashboardContainer = () => {
           <Routes>
             <Route index element={<Statistics />} />
             <Route path="/" element={<MarginWrapper />}>
-              <Route element={<ProtectedRoute/>}>
+              <Route element={<ProtectedRoute />}>
                 <Route path='inbox/*' element={<AdminInbox />} />
                 <Route path='books/*' element={<AdminBooks />} />
                 <Route path='users/*' element={<AdminUsers />} />
                 <Route path='authors/*' element={<AdminAuthors />} />
+                <Route path='borrowings/*' element={<AdminBorrowing />} />
                 <Route path='publishers/*' element={<AdminPublishers />} />
               </Route>
               <Route path='booksGallery/*' element={<BookGallery />} />

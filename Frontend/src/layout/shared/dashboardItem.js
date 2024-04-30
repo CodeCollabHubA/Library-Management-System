@@ -7,7 +7,7 @@ export const dashboardItem = [
         to: '/dashboard',
         icon: faGauge,
         name: 'Dashboard',
-        role: ['Admin','User']
+        role: ['Admin', 'User']
     },
     {
         id: 2,
@@ -28,13 +28,20 @@ export const dashboardItem = [
         to: '/dashboard/booksGallery',
         icon: faBook,
         name: 'Book Gallery',
-        role: ['Admin','User']
+        role: ['Admin', 'User']
     },
     {
         id: 5,
         to: '/dashboard/books',
         icon: faSwatchbook,
         name: 'Book List',
+        role: ['Admin']
+    },
+    {
+        id: 5.1,
+        to: '/dashboard/borrowings',
+        icon: faSwatchbook,
+        name: 'Borrowing',
         role: ['Admin']
     },
     {
@@ -56,13 +63,13 @@ export const dashboardItem = [
         to: '/dashboard/profile',
         icon: faAddressCard,
         name: 'Profile',
-        role: ['Admin','User']
+        role: ['Admin', 'User']
     },
     {
         id: 9,
         to: '/logout',
         icon: faRightFromBracket,
         name: 'Logout',
-        role: ['Admin','User']
+        role: ['Admin', 'User']
     },
 ];

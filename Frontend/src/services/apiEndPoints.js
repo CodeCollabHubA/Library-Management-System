@@ -6,8 +6,7 @@ const apiEndPoints = {
   publishersApi: `${apiUrl}/Publisher`,
   authorsApi: `${apiUrl}/Author`,
   usersApi: `${apiUrl}/User`,
-  borrowingApi: `${apiUrl}/Borrowing`
+  borrowingsApi: `${apiUrl}/Borrowing`,
 }
-
 
 export default apiEndPoints

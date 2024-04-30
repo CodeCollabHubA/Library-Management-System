@@ -15,8 +15,8 @@ const Table = ({ children, resource, header }) => {
                 }
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
-                <table className="w-full capitalize text-sm text-left rtl:text-right text-gray-500 ">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                <table className="capitalize w-full text-sm text-left rtl:text-right text-gray-500 ">
+                    <thead className="text-xs text-gray-700 bg-gray-50 ">
                         <tr>
                             {header.map((item, i) =>
                                 <th key={i} scope="col" className="text-center px-6 py-3">
