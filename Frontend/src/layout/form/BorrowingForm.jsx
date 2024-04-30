@@ -27,7 +27,7 @@ const BookForm = () => {
 
     const selectHandleChange = {
         userId: (selected) => {
-            setUserId(item.value)
+            setUserId(selected.value)
         },
 
         bookIds: (selected) => {
