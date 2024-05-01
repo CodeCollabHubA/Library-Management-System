@@ -5,7 +5,6 @@ namespace Library.Dal.Repos.Base
     public abstract class BaseRepo<T> : BaseViewRepo<T>, IBaseRepo<T> where T : BaseEntity, new()
     {
         protected BaseRepo(ApplicationDbContext context) : base(context) { }
-
         
 
         public virtual async Task<T> FindAsync(int id)
@@ -67,8 +66,20 @@ namespace Library.Dal.Repos.Base
 
         public async Task<int> SaveChangesAsync()
         {
-            
+            try
+            {
+
             return await Context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new UnknownDatabaseException("Fallback Database Error, report unknown error", ex);
+            }
 
         }
 
