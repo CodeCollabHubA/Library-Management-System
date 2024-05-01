@@ -3,16 +3,20 @@
 
     public class ValidationException : ApplicationException
     {
-        public ValidationException()
+        private IDictionary<string, string[]> _errors;
+
+        public ValidationException() { }
+        public ValidationException(IDictionary<string, string[]> errors) : this(errors, String.Empty, null)
         {
         }
 
-        public ValidationException(string? message) : base(message)
-        {
+        public ValidationException(IDictionary<string, string[]> errors, string? message) : this(errors, message, null)
+        { 
         }
 
-        public ValidationException(string? message, Exception? innerException) : base(message, innerException)
+        public ValidationException(IDictionary<string, string[]> errors, string? message, Exception? innerException) : base(message, innerException)
         {
+            _errors = errors;
         }
 
 
