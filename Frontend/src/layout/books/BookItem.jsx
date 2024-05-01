@@ -10,8 +10,8 @@ import Modal from '../../components/common/pupUpModal';
 
 
 
-const BookItem = ({ id, imageURL, title, description, authors, publishers, credit, numberOfCopiesOwned, numberOfCopiesExist }) => {
-    const [open,setOpen]=useState(false)
+const BookItem = ({handleBorrow,open,setOpen,handleClose, id, imageURL, title, description, authors, publishers, credit, numberOfCopiesOwned, numberOfCopiesExist }) => {
+    
     
 
     return (
@@ -23,7 +23,7 @@ const BookItem = ({ id, imageURL, title, description, authors, publishers, credi
                     <Button type="primary" to={`../books/${id}`} className="hover:border-transparent"><FontAwesomeIcon icon={faEye} /></Button>
                 </div>
             </div >
-            <Modal open={open} onClick={() => setOpen(false)}>
+            <Modal open={open} onClose={handleClose} onClick={() => setOpen(false)}>
                 <div className='text-center w-52'>
                     <FontAwesomeIcon fontSize={"3rem"} icon={faClipboardCheck} />
                     <div className='mx-auto my-4 w-48'>
@@ -33,11 +33,11 @@ const BookItem = ({ id, imageURL, title, description, authors, publishers, credi
                             Are you sure you want to borrow this book?
                         </p>
                     </div>
-                    <div className='flex gap-4'>
-                        <Button type={'primary'}>
+                    <div className='flex justify-between'>
+                        <Button onClick={handleBorrow} type={'primary'}>
                             Confirm
                         </Button>
-                        <Button type={'info'}>
+                        <Button onClick={handleClose} type={'info'}>
                             Cancle
                         </Button>
                     </div>

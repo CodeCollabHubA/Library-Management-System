@@ -11,11 +11,11 @@ const SearchAndFilter = () => {
                 <label htmlFor="search" className='relative p-0 bg-red-500'>
                     <Input id="search" placeholder="SearchHere" name="search" errors={errors} register={register} inputStyle="search" />
                     <span className='absolute right-2 top-1/2 -translate-y-1/2'>
-                        <FontAwesomeIcon icon={faSearch} />
+                        <FontAwesomeIcon fontSize={'1.5rem'} icon={faSearch} />
                     </span>
                 </label>
                 <span>
-                    <FontAwesomeIcon icon={faFilter} />
+                    <FontAwesomeIcon fontSize={'1.5rem'} icon={faFilter} />
                 </span>
 
             </div>

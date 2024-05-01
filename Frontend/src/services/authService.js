@@ -14,6 +14,8 @@ export async function signUp(data) {
 export async function login(email, password) {
     const { data: jwt } = await http.post(LogApiEndpoint, { email, password });
     localStorage.setItem(tokenKey, jwt);
+    const user = jwtDecode(jwt)
+    user&&localStorage.setItem('role',user.role)
 }
 
 export function logout() {
@@ -24,8 +26,10 @@ export function logout() {
 
 export function getCurrentUser() {
     try {
-        const jwt = localStorage.getItem(tokenKey);
-        return jwtDecode(jwt);
+        // const jwt = localStorage.getItem(tokenKey);
+        // const user = jwtDecode(jwt)
+        // user&&localStorage.setItem('role',user.role)
+        return null;
     } catch (ex) {
         return null;
     }

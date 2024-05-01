@@ -19,14 +19,25 @@ import NotFound from "../layout/shared/NotFound";
 import FooterSection from "../layout/shared/FooterSection";
 import useSideBarPosition from "../hooks/useSideBarPosition";
 import ProtectedRoute from "../components/common/protectedRoute";
+import { useState } from "react";
 
 
 const DashboardContainer = () => {
   const { footerRef, sideBarPosition } = useSideBarPosition()
 
+  const [open, setOpen] = useState(false)
+  const [noBorrow,setNoBorrow] = useState(null)
+  const handleBorrow = () => {
+    setNoBorrow(noBorrow + 1)
+    setOpen(!open)
+  }
+  const handleClose = () => {
+      setOpen(!open)
+  }
+
   return (
     <>
-      <Navbar />
+      <Navbar noBorrow={noBorrow} />
       <div className="main relative mt-[70px]">
         <SideBar sideBarPosition={sideBarPosition} />
         <section className="p bg-slate-100 min-h-lvh h-full lg:ml-[16rem] md:ml-[12rem] sm:ml-[9rem]">
@@ -40,7 +51,7 @@ const DashboardContainer = () => {
                 <Route path='authors/*' element={<AdminAuthors />} />
                 <Route path='publishers/*' element={<AdminPublishers />} />
               </Route>
-              <Route path='booksGallery/*' element={<BookGallery />} />
+              <Route path='booksGallery/*' element={<BookGallery handleBorrow={handleBorrow} handleClose={handleClose} setOpen={setOpen} open={open} noBorrow={noBorrow} />} />
               <Route path='profile' element={<Profile />} />
               <Route path='profile/update' element={<ProfileForm />} />
               <Route path='profile/updatePassword' element={<ProfilePasswordForm />} />
