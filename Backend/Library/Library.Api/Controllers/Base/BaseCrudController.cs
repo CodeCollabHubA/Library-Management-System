@@ -2,7 +2,6 @@
 
 
 
-using customWebExceptions = Library.Api.Exceptions;
 
 namespace Library.Api.Controllers.Base
 {
@@ -144,10 +143,10 @@ namespace Library.Api.Controllers.Base
                     ("Id in the route and the entity do not match");
             }
 
-            TEntity domainEntity;
 
 
-            domainEntity = _mapper.Map<TEntity>(entity);
+
+            TEntity domainEntity = _mapper.Map<TEntity>(entity);
             await _mainRepo.UpdateAsync(domainEntity);
 
 
@@ -189,9 +188,8 @@ namespace Library.Api.Controllers.Base
                 throw new customWebExceptions.ValidationException(errors);
             }
 
-            TEntity domainEntity;
 
-            domainEntity = _mapper.Map<TEntity>(entity);
+            TEntity domainEntity = _mapper.Map<TEntity>(entity);
             await _mainRepo.AddAsync(domainEntity);
 
 
@@ -247,9 +245,8 @@ namespace Library.Api.Controllers.Base
                 _logger.LogAppWarning("Id in the route and the entity do not match");
                 throw new ArgumentException("Id in the route and the entity do not match", nameof(id));
             }
-            TEntity domainEntity;
 
-            domainEntity = _mapper.Map<TEntity>(entity);
+            TEntity domainEntity = _mapper.Map<TEntity>(entity);
             await _mainRepo.DeleteAsync(domainEntity);
 
 

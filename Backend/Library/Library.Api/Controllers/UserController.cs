@@ -1,18 +1,17 @@
 ﻿
 
 
-
 using Library.Api.Filters.Action;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 
 namespace Library.Api.Controllers
 {
-    public class UserController : BaseCrudController<User, UserController, UserDTO, UserUpdateRequestDTO,UserResponseDTO>
+    public class UserController : BaseCrudController<User, UserController, UserDTO, UserUpdateRequestDTO, UserResponseDTO>
     {
         private readonly IUserDataService _userDataService;
 
-        public UserController(IAppLogging<UserController> logger, IUserRepo mainRepo,IUserDataService userDataService, IMapper mapper) : base(logger, mainRepo, mapper)
+        public UserController(IAppLogging<UserController> logger, IUserRepo mainRepo, IUserDataService userDataService, IMapper mapper) : base(logger, mainRepo, mapper)
         {
             _userDataService = userDataService;
         }
@@ -21,24 +20,26 @@ namespace Library.Api.Controllers
         // Unused endppoints
         [ApiExplorerSettings(IgnoreApi = true)]
         public async override Task<ActionResult<UserResponseDTO>> AddOneAsync(UserDTO entity)
-        { 
+        {
             return NoContent();
         }
+
+
+
 
 
         [ValidateImageUpload("entity")]
         public async override Task<ActionResult<UserResponseDTO>> UpdateOneAsync(int id, [FromForm] UserUpdateRequestDTO entity)
         {
+
             if (!ModelState.IsValid)
             {
-                // check if the role is a valid role
-                if(ModelState["UserRole"].ValidationState == ModelValidationState.Invalid)
-                {
-                    _logger.LogAppWarning("Client provided invalid role for the user");
-                    throw new ArgumentException("Invalid user role, (User/Admin) are the only roles allowed");
-                }
 
-                return ValidationProblem(ModelState);
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
             }
 
 
@@ -49,21 +50,12 @@ namespace Library.Api.Controllers
                     ("Id in the route and the entity do not match");
             }
 
-            
-            User domainEntity;
 
-            try
-            {
-                domainEntity = _mapper.Map<User>(entity);
 
-                domainEntity = await _userDataService.UpdateAsync(domainEntity);
-            }
+            User domainEntity = _mapper.Map<User>(entity);
 
-            catch (Exception ex)
-            {
+            domainEntity = await _userDataService.UpdateAsync(domainEntity);
 
-                throw new Exception(ex.Message);
-            }
 
             return Ok(_mapper.Map<UserResponseDTO>(domainEntity));
         }
