@@ -57,7 +57,7 @@
             }
             </pre>
             </remarks>
-            <returns>Nothing</returns>
+            <returns>Success</returns>
         </member>
         <member name="M:Library.Api.Controllers.BookController.AddOneAsync(Library.Models.DTO.BookCreateRequestDTO)">
             <summary>

@@ -203,7 +203,7 @@ namespace Library.Api.Controllers.Base
         /// }
         /// </pre>
         /// </remarks>
-        /// <returns>Nothing</returns>
+        /// <returns>Success</returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -214,7 +214,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         //[ApiVersion("0.1-Beta")]
         [HttpDelete("{id}")]
-        public async virtual Task<ActionResult<TResponseDto>> DeleteOneAsync(int id, BaseDTO entity)
+        public async virtual Task<ActionResult> DeleteOneAsync(int id, BaseDTO entity)
         {
             if (id != entity.Id)
             {
