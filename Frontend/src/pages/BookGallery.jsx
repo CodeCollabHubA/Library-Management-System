@@ -4,7 +4,7 @@ import BookItem from "../layout/books/BookItem";
 import EmptyTable from "../layout/table/common/EmptyTable";
 
 
-const BookGallery = () => {
+const BookGallery = ({handleBorrow,handleClose,setOpen,open}) => {
 
     const { books = [] } = useMyContext()
 
@@ -18,6 +18,10 @@ const BookGallery = () => {
                 {books?.length > 0 ?
                     books.map(book =>
                         <BookItem
+                            handleBorrow={handleBorrow}
+                            handleClose={handleClose}
+                            open={open}
+                            setOpen={setOpen}
                             key={book?.id}
                             id={book?.id}
                             imageURL={book.imageURL}

@@ -7,6 +7,7 @@ const Logout = () => {
 
     useEffect(() => {
         logout()
+        localStorage.clear()
         window.location = '/'
 
     }, []);
