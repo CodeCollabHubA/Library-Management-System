@@ -8,7 +8,7 @@ import http from '../services/httpService';
 import { statusArray, statusEmoji } from '../utils/constant';
 
 
-const { booksApi, publishersApi, authorsApi, usersApi, borrowingApi } = apiEndPoints
+const { booksApi, publishersApi, authorsApi, usersApi, borrowingsApi } = apiEndPoints
 const useAppInitialLoad = () => {
 
     const {
@@ -20,7 +20,7 @@ const useAppInitialLoad = () => {
         setPublishers,
         setAuthors,
         setUsers,
-        setBorrowing
+        setBorrowings
     } = useMyContext()
 
     const loadData = async () => {
@@ -29,14 +29,14 @@ const useAppInitialLoad = () => {
             const { data: publishers } = await http.get(publishersApi)
             const { data: authors } = await http.get(authorsApi)
             const { data: users } = await http.get(usersApi)
-            const { data: borrowing } = await http.get(borrowingApi)
+            const { data: borrowings } = await http.get(borrowingsApi)
             const dataUser = getCurrentUser()
             setUser(dataUser)
             setBooks(books)
             setPublishers(publishers)
             setAuthors(authors)
             setUsers(users)
-            setBorrowing(borrowing)
+            setBorrowings(borrowings)
             setState({ status: "success", message: "Data Fetched" })
         } catch (err) {
             setState({ status: "error", message: "error Fetching data" })

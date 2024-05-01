@@ -3,7 +3,9 @@
 
 
 
+using Library.Api.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure logging with Serilog
 builder.ConfigureSerilog();
 builder.Services.RegisterLoggingInterfaces();
+
+
 
 
 
@@ -42,8 +46,8 @@ builder.Services.AddControllers(
         options.ClientErrorMapping[StatusCodes.Status404NotFound].Title = "Invalid location";
     });
 
-// Adding the IWebHostEnvironment to the DI container
-//builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
+// Adding Memory cache
+builder.Services.AddMemoryCache();
 
 // Adding the IHttpContextAccessor to the DI container
 builder.Services.AddHttpContextAccessor();
@@ -133,6 +137,12 @@ if (app.Environment.IsDevelopment())
     }
 }
 
+// Add rate limiting middleware
+using (var scope = app.Services.CreateScope())
+{
+    var memoryCache = scope.ServiceProvider.GetRequiredService<IMemoryCache>();
+    app.UseMiddleware<RateLimitMiddleware>(memoryCache);
+}
 
 // Swagger
 app.UseSwagger();
@@ -140,6 +150,7 @@ app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();
+
 
 
 //Add CORS Policy

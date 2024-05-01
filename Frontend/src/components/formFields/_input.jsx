@@ -1,4 +1,7 @@
-const textLikeInput = ["text", "number", "email", "password"]
+import ReactSelect from "react-select";
+
+import { textLikeInput } from "../../utils/constant";
+
 
 const fieldStyles = {
     basic: "w-full p-2.5 text-sm text-gray-900",
@@ -26,5 +29,22 @@ const Input = ({ type, name, label, style, className, defaultValue, divClass, re
             {errors?.[name] && <p className="text-right text-red-600">{errors?.[name]?.message}</p>}
         </div>)
     else return <span>unsupported input type</span>
+}
+
+
+export const Select = ({ className, name, options, onChange, label, defaultValue, isMulti, ...rest }) => {
+    return (
+        <div className={className}>
+            {label && <label className="block font-normal" htmlFor={name}>{label}</label>}
+            <ReactSelect
+                options={options}
+                onChange={onChange}
+                isMulti={isMulti}
+                isSearchable={true}
+                defaultValue={defaultValue ? Array.from(defaultValue, ((value, index) => ({ label: name, value, value }))) : defaultValue}
+                placeholder="Search or select..."
+                {...rest}
+            />
+        </div >)
 }
 export default Input;

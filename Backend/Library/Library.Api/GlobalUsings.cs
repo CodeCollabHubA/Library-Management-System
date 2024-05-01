@@ -32,6 +32,7 @@ global using Library.Dal.Initialization;
 
 
 
+global using Microsoft.Extensions.Caching.Memory;
 
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Filters;

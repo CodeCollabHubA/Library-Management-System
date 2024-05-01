@@ -9,6 +9,7 @@ export const userResource = "user"
 export const publisherResource = "publisher"
 export const bookResource = "book"
 export const authorResource = "author"
+export const borrowingResource = "borrowing"
 
 
 
@@ -88,11 +89,11 @@ export const bookHeader = [
     { name: "numberOfCopiesExist" }
 ]
 
-export const bookInputs = [
+export const bookInputs = ({ authorOptions, publisherOptions }) => [
     { name: "title", label: "title", type: "text" },
     { name: "description", label: "description", type: "text" },
-    { name: "authors", label: "authors", type: "text" },
-    { name: "publishers", label: "publishers", type: "text" },
+    { name: "authors", label: "authors", type: "select", options: authorOptions, isMulti: true },
+    { name: "publishers", label: "publishers", type: "select", options: publisherOptions, isMulti: true },
     { name: "credit", label: "credit", type: "number" },
     { name: "numberOfCopiesOwned", label: "numberOfCopiesOwned", type: "number" },
     { name: "numberOfCopiesExist", label: "numberOfCopiesExist", type: "number" }
@@ -101,11 +102,37 @@ export const bookInputs = [
 export const bookSchema = yup.object({
     title: yup.string().required(),
     description: yup.string().required(),
-    authors: yup.string().required(),
-    publishers: yup.string().required(),
+    // authors: yup.number().required(),
+    // publishers: yup.number().required(),
     credit: yup.number().required(),
     numberOfCopiesOwned: yup.number().required(),
     numberOfCopiesExist: yup.number().required(),
+}).required();
+
+
+
+
+// ******************
+// borrowing
+// ******************
+
+export const borrowingHeader = [
+    { name: "user" },
+    { name: "book" },
+    { name: "isReturned" },
+    { name: "credit" },
+    { name: "dueDate" },
+    { name: "dateOut" },
+]
+
+export const borrowingInputs = ({ usersOptions, bookOptions }) => [
+    { name: "userId", label: "user", type: "select", options: usersOptions, isMulti: false },
+    { name: "bookIds", label: "books", type: "select", options: bookOptions, isMulti: true },
+]
+
+export const borrowingSchema = yup.object({
+    // userId: yup.number().required(),
+    // bookIds: yup.number().required(),
 }).required();
 
 
