@@ -5,9 +5,9 @@ import Button from "../../components/common/buttons/_button";
 
 const InboxSidebar = () => {
     const items = [
-        { icon: <FontAwesomeIcon style={{ marginInline: '1rem' }} icon={faInbox} />, name: "Inbox" },
-        { icon: <FontAwesomeIcon style={{ marginInline: '1rem' }} icon={faStar} />, name: "Started" },
-        { icon: <FontAwesomeIcon style={{ marginInline: '1rem' }} icon={faBell} />, name: "Borrows" },
+        { icon: faInbox , name: "Inbox" },
+        { icon: faStar , name: "Started" },
+        { icon: faBell , name: "Borrows" },
 
     ]
 
@@ -17,7 +17,8 @@ const InboxSidebar = () => {
             <ul>
                 {items.map(item => (
                     <li className="text-lg my-5 text-gray-600 flex items-center rounded-md h-10 cursor-pointer hover:bg-blue-200   ">
-                        {item.icon}{item.name}
+                        <FontAwesomeIcon style={{ marginInline: '1rem' }} icon={item.icon} />
+                        {item.name}
                     </li>
                 ))}
             </ul>
