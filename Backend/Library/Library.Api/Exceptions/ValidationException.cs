@@ -3,7 +3,7 @@
 
     public class ValidationException : ApplicationException
     {
-        private IDictionary<string, string[]> _errors;
+        public IDictionary<string, string[]> Errors { get; } = new Dictionary<string, string[]>();
 
         public ValidationException() { }
         public ValidationException(IDictionary<string, string[]> errors) : this(errors, String.Empty, null)
@@ -16,7 +16,7 @@
 
         public ValidationException(IDictionary<string, string[]> errors, string? message, Exception? innerException) : base(message, innerException)
         {
-            _errors = errors;
+            Errors = errors;
         }
 
 
