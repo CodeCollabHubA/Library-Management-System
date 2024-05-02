@@ -1,18 +1,23 @@
 ﻿namespace Library.Api.Exceptions
 {
 
-    public class UnauthorizedException : ApplicationException
+    public class UnauthorizedException : WebException
     {
-        public UnauthorizedException()
+        public UnauthorizedException(): this(string.Empty)
         {
         }
 
-        public UnauthorizedException(string? message) : base(message)
+        public UnauthorizedException(string? message) : this(message, null)
         {
         }
 
-        public UnauthorizedException(string? message, Exception? innerException) : base(message, innerException)
+        public UnauthorizedException(string? message, Exception? innerException) : base(string.IsNullOrWhiteSpace(message) ? "You are not authenticated!" : message, innerException)
         {
+
+            Type = TypeBase + "unauthorized";
+            Status = 401;
+            Title = "Unauthorized";
+            Code = "Unauthorized";
         }
 
 

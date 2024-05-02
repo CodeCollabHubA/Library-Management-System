@@ -1,18 +1,23 @@
 ﻿namespace Library.Api.Exceptions
 {
 
-    public class ForbiddenException : ApplicationException
+    public class ForbiddenException : WebException
     {
-        public ForbiddenException()
+        public ForbiddenException(): this (string.Empty)
         {
         }
 
-        public ForbiddenException(string? message) : base(message)
+        public ForbiddenException(string? message) : this(message, null)
         {
         }
 
-        public ForbiddenException(string? message, Exception? innerException) : base(message, innerException)
+        public ForbiddenException(string? message, Exception? innerException) : base(string.IsNullOrWhiteSpace(message) ? "You do not have enough permissions to perform this action" : message, innerException)
         {
+    
+            Type = TypeBase + "forbidden";
+            Status = 403;
+            Title = "Forbidden";
+            Code = "UserNotAdmin";
         }
 
 
