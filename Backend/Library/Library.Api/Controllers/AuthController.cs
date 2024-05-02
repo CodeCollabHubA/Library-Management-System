@@ -1,10 +1,4 @@
-﻿
-
-
-
-using Library.Services.DataServices.Interfaces;
-
-namespace Library.Api.Controllers
+﻿namespace Library.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -29,20 +23,18 @@ namespace Library.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
 
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
             }
 
-            string accessToken;
-            try
-            {
 
-                accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            string accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
+
 
 
             return Ok(accessToken);
@@ -58,20 +50,22 @@ namespace Library.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
+
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
 
             }
-            string accessToken;
+            
 
-            try
-            {
 
-                accessToken = await _userDataService.LoginUserAsync(user, _jwtOptions);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            string accessToken = await _userDataService.LoginUserAsync(user, _jwtOptions);
+
+
+
 
             return Ok(accessToken);
         }
