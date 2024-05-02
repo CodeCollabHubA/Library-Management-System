@@ -40,9 +40,8 @@ namespace Library.Api.Middlewares
 
             if (rateLimit.Requests >= 200) 
             {
-                context.Response.StatusCode = 429;
-                await context.Response.WriteAsync("Rate limit exceeded.");
-                return;
+                throw new customWebExceptions.RateLimitExceededException("Rate limit exceeded, please try again later");
+                
             }
 
             rateLimit.Requests++;
