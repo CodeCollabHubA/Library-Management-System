@@ -41,7 +41,7 @@
                 }
                 else
                 {
-                    throw new ArgumentException($"The action parameter {_parameterName} must implement IImageUploadable.");
+                    throw new ArgumentException($"The action parameter {_parameterName} must have an image.");
                 }
             }
             else
