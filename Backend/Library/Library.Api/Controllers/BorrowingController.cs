@@ -136,7 +136,7 @@ namespace Library.Api.Controllers
             if (borrowingId != entity.BorrwingId)
             {
                 _logger.LogAppWarning("Id in route and body do not match");
-                throw new ArgumentException("Id in route and body do not match", nameof(borrowingId));
+                throw new customWebExceptions.ConflictException("Id in route and body do not match");
             }
 
 

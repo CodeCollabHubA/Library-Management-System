@@ -141,7 +141,7 @@ namespace Library.Api.Controllers.Base
             if (id != entity.Id)
             {
                 _logger.LogAppWarning("Id in the route and the entity do not match");
-                throw new ArgumentException
+                throw new customWebExceptions.ConflictException
                     ("Id in the route and the entity do not match");
             }
 
@@ -274,7 +274,7 @@ namespace Library.Api.Controllers.Base
             if (id != entity.Id)
             {
                 _logger.LogAppWarning("Id in the route and the entity do not match");
-                throw new ArgumentException("Id in the route and the entity do not match", nameof(id));
+                throw new customWebExceptions.ConflictException("Id in the route and the entity do not match");
             }
 
             TEntity domainEntity = _mapper.Map<TEntity>(entity);
