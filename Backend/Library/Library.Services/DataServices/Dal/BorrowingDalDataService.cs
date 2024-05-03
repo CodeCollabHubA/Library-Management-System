@@ -46,7 +46,7 @@ namespace Library.Services.DataServices.Dal
             if (user == null)
             {
                 _logger.LogAppWarning("User does not exist");
-                throw new BorrowingNotAllowedException("User with id does not exist");
+                throw new BorrowingNotAllowedException($"User with id {borrowingCreateDto.UserId} does not exist");
 
             }
             if (user.Credit < cumulativeCost)
