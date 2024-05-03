@@ -138,7 +138,7 @@ namespace Library.Services.DataServices.Dal
                     if (newPublisher == null)
                     {
                         _logger.LogAppWarning("Can not a add publisher that does not exist in the database");
-                        throw new Exception("Can not a add publisher that does not exist in the database");
+                        throw new BookUpdateConflictException("Can not a add publisher that does not exist in the database");
                     }
                     // Add the publisher
                     existingBook.Publishers.Add(newPublisher);
@@ -178,7 +178,7 @@ namespace Library.Services.DataServices.Dal
                     {
 
                         _logger.LogAppWarning("Can not add an author that does not exist in the database");
-                        throw new Exception("Can not add an author that does not exist in the database");
+                        throw new BookUpdateConflictException("Can not add an author that does not exist in the database");
                     }
 
                     // Add the author
