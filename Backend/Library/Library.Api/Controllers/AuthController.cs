@@ -1,4 +1,7 @@
-﻿namespace Library.Api.Controllers
+﻿using Library.Dal.Exceptions;
+using Library.Services.DataServices.Exceptions.User;
+
+namespace Library.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -33,7 +36,26 @@
 
 
 
-            string accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
+            string accessToken;
+            try
+            {
+
+            accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
+            }
+            catch(UserAlreadyExistException ex)
+            {
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "UserConflict"
+                };
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
 
 
@@ -58,11 +80,20 @@
                 throw new customWebExceptions.ValidationException(errors);
 
             }
-            
 
 
 
-            string accessToken = await _userDataService.LoginUserAsync(user, _jwtOptions);
+
+            string accessToken;
+            try
+            {
+
+            accessToken= await _userDataService.LoginUserAsync(user, _jwtOptions);
+            }
+            catch(InvalidUserException ex)
+            {
+                throw new customWebExceptions.UnauthorizedException(ex.Message);
+            }
 
 
 

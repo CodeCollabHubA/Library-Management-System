@@ -3,6 +3,8 @@
 
 
 
+using Library.Dal.Exceptions;
+
 namespace Library.Api.Controllers.Base
 {
     [ApiController]
@@ -147,7 +149,26 @@ namespace Library.Api.Controllers.Base
 
 
             TEntity domainEntity = _mapper.Map<TEntity>(entity);
-            await _mainRepo.UpdateAsync(domainEntity);
+
+            try
+            {
+
+                await _mainRepo.UpdateAsync(domainEntity);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "ConcurrencyError"
+                };
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
 
 
@@ -190,9 +211,19 @@ namespace Library.Api.Controllers.Base
 
 
             TEntity domainEntity = _mapper.Map<TEntity>(entity);
-            await _mainRepo.AddAsync(domainEntity);
+            try
+            {
 
+                await _mainRepo.AddAsync(domainEntity);
+            }
 
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
             return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<TResponseDto>(domainEntity).Id }, _mapper.Map<TResponseDto>(domainEntity));
         }
@@ -247,7 +278,25 @@ namespace Library.Api.Controllers.Base
             }
 
             TEntity domainEntity = _mapper.Map<TEntity>(entity);
-            await _mainRepo.DeleteAsync(domainEntity);
+            try
+            {
+
+                await _mainRepo.DeleteAsync(domainEntity);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "ConcurrencyError"
+                };
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
 
             return Ok();

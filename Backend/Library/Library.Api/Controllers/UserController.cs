@@ -2,6 +2,8 @@
 
 
 using Library.Api.Filters.Action;
+using Library.Dal.Exceptions;
+using Library.Services.DataServices.Exceptions.User;
 
 
 
@@ -54,7 +56,32 @@ namespace Library.Api.Controllers
 
             User domainEntity = _mapper.Map<User>(entity);
 
-            domainEntity = await _userDataService.UpdateAsync(domainEntity);
+            try
+            {
+                domainEntity = await _userDataService.UpdateAsync(domainEntity);
+
+            }
+            catch (UserNotFoundException ex)
+            {
+                throw new customWebExceptions.NotFoundException(ex.Message)
+                {
+                    Code = "UserNotFound"
+                };
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "ConcurrencyError"
+                };
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
 
             return Ok(_mapper.Map<UserResponseDTO>(domainEntity));

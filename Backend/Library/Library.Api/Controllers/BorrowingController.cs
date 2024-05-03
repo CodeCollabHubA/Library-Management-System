@@ -1,6 +1,8 @@
 ﻿
 
+using Library.Dal.Exceptions;
 using Library.Models.DTO.Borrowing;
+using Library.Services.DataServices.Exceptions.Borrowing;
 
 namespace Library.Api.Controllers
 {
@@ -64,7 +66,29 @@ namespace Library.Api.Controllers
 
 
 
-            Borrowing domainEntity = await _borrwingDataService.BorrowBookAsync(entity);
+            Borrowing domainEntity;
+
+            try
+            {
+
+                domainEntity = await _borrwingDataService.BorrowBookAsync(entity);
+            }
+            
+            catch (BorrowingNotAllowedException ex)
+            {
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "BorrowingConflict"
+                };
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
+
 
 
             return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<BorrowingResponseDTO>(domainEntity).Id }, _mapper.Map<BorrowingResponseDTO>(domainEntity));
@@ -116,8 +140,34 @@ namespace Library.Api.Controllers
             }
 
 
-            Borrowing domainEntity = await _borrwingDataService.ReturnBorrowedBookAsync(entity);
-            
+            Borrowing domainEntity;
+            try
+            {
+
+                domainEntity = await _borrwingDataService.ReturnBorrowedBookAsync(entity);
+            }
+           
+            catch (BorrowingNotFoundException ex)
+            {
+                throw new customWebExceptions.NotFoundException(ex.Message)
+                {
+                    Code = "BorrowingNotFound"
+                };
+            }
+            catch (ReturnBorrowingNotAllowedException ex)
+            {
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "ReturnBorrowingConflict"
+                };
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
             return Ok(_mapper.Map<BorrowingResponseDTO>(domainEntity));
         }

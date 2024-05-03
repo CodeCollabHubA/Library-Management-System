@@ -1,6 +1,8 @@
 ﻿
 
 using Library.Api.Filters.Action;
+using Library.Dal.Exceptions;
+using Library.Services.DataServices.Exceptions.Book;
 
 namespace Library.Api.Controllers
 {
@@ -48,7 +50,19 @@ namespace Library.Api.Controllers
 
 
             Book domainEntity = _mapper.Map<Book>(entity);
-            domainEntity = await _bookDataService.AddAsync(domainEntity);
+
+            try
+            {
+
+                domainEntity = await _bookDataService.AddAsync(domainEntity);
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
 
 
@@ -96,9 +110,41 @@ namespace Library.Api.Controllers
                 throw new ArgumentException("Id in route and body do not match", nameof(id));
             }
 
+            Book editedBook;
+            try
+            {
+                editedBook = await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBookDto);
+            }
+            catch (BookNotFoundException ex)
+            {
+                throw new customWebExceptions.NotFoundException(ex.Message)
+                {
+                    Code = "BookNotFound"
+                };
+            }
+            catch (BookUpdateConflictException ex)
+            {
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "BookUpdateConflict"
+                };
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "ConcurrencyError"
+                };
 
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
 
-            Book editedBook = await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBookDto);
 
 
             return Ok(_mapper.Map<BookResponseDTO>(editedBook));
