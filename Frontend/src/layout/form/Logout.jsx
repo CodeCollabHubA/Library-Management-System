@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
-// import { toast } from 'react-toastify';
-
 import { logout } from '../../services/authService';
+import { useMyContext } from '../../context/ContextProvider';
+import { useNavigate } from 'react-router-dom';
+
 
 const Logout = () => {
+    const { setUser } = useMyContext()
+    const navigate= useNavigate()
 
     useEffect(() => {
-        logout()
-        localStorage.clear()
-        window.location = '/'
+        logout(setUser)
+        navigate('/')
 
     }, []);
     return <h1>logout</h1>;
