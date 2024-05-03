@@ -107,7 +107,7 @@ namespace Library.Api.Controllers
             if (id != editedBookDto.Id)
             {
                 _logger.LogAppWarning("Id in route and body do not match");
-                throw new ArgumentException("Id in route and body do not match", nameof(id));
+                throw new customWebExceptions.ConflictException("Id in route and body do not match");
             }
 
             Book editedBook;

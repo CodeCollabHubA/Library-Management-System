@@ -14,9 +14,9 @@
         {
             if (context.ActionArguments.TryGetValue(_parameterName, out var entityObj))
             {
-                if (entityObj is IImageUploadable entity )
+                if (entityObj is IImageUploadable entity)
                 {
-                    if(entity.Image == null)
+                    if (entity.Image == null)
                     {
                         return;
                     }
@@ -39,14 +39,6 @@
                         }
                     }
                 }
-                else
-                {
-                    throw new ArgumentException($"The action parameter {_parameterName} must have an image.");
-                }
-            }
-            else
-            {
-                throw new ArgumentException($"Action parameter '{_parameterName}' not found.");
             }
 
             

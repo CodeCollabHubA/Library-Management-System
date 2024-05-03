@@ -48,7 +48,7 @@ namespace Library.Api.Controllers
             if (id != entity.Id)
             {
                 _logger.LogAppWarning("Id in the route and the entity do not match");
-                throw new ArgumentException
+                throw new customWebExceptions.ConflictException
                     ("Id in the route and the entity do not match");
             }
 
