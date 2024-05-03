@@ -11,7 +11,7 @@
         {
         }
 
-        public NotFoundException(string? message, Exception? innerException) : base(string.IsNullOrWhiteSpace(message)? "The resource you requested does not exist", innerException)
+        public NotFoundException(string? message, Exception? innerException) : base(string.IsNullOrWhiteSpace(message)? "The resource you requested does not exist":message, innerException)
         {
             Type = TypeBase + "resource-not-found";
             Status = 404;
