@@ -1,8 +1,8 @@
 ﻿
 
-
-
 using Library.Api.Filters.Action;
+using Library.Dal.Exceptions;
+using Library.Services.DataServices.Exceptions.Book;
 
 namespace Library.Api.Controllers
 {
@@ -25,31 +25,45 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(201, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
+        [SwaggerResponse(403, "Forbidden access attempted")]
+        [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
         [HttpPost]
         [ValidateImageUpload("entity")]
         public async override Task<ActionResult<BookResponseDTO>> AddOneAsync([FromForm] BookCreateRequestDTO entity)
         {
 
+
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                     x => x.Key,
+                     x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
             }
 
-            Book domainEntity;
+
+            Book domainEntity = _mapper.Map<Book>(entity);
+
             try
             {
-                domainEntity = _mapper.Map<Book>(entity);
+
                 domainEntity = await _bookDataService.AddAsync(domainEntity);
             }
-            catch (Exception ex)
+            catch (UnknownDatabaseException ex)
             {
-                throw new Exception(ex.Message);
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
             }
+
 
 
             return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<BookResponseDTO>(domainEntity).Id }, _mapper.Map<BookResponseDTO>(domainEntity));
@@ -60,65 +74,84 @@ namespace Library.Api.Controllers
         /// <summary>
         /// Updates a single record
         /// </summary>
-        /// <remarks>
-        /// Sample body:
-        /// <pre>
-        /// {
-        ///   "Id": 1,
-        ///   "TimeStamp": "AAAAAAAAB+E="
-        ///   "MakeId": 1,
-        ///   "Color": "Black",
-        ///   "PetName": "Zippy",
-        ///   "MakeColor": "VW (Black)",
-        /// }
-        /// </pre>
-        /// </remarks>
         /// <param name="id">Primary key of the record to update</param>
         /// <param name="entity">Entity to update</param>
-        /// <returns>Single record</returns>
+        /// <returns>Updated record</returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
+        [SwaggerResponse(403, "Forbidden access attempted")]
+        [SwaggerResponse(404, "The requested resource was not found")]
+        [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
         [HttpPut("{id}")]
         public async override Task<ActionResult<BookResponseDTO>> UpdateOneAsync(int id, BookUpdateRequestDTO editedBookDto)
         {
+            if (!ModelState.IsValid)
+            {
+
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
+            }
+
             if (id != editedBookDto.Id)
             {
                 _logger.LogAppWarning("Id in route and body do not match");
                 throw new ArgumentException("Id in route and body do not match", nameof(id));
             }
 
-            if (!ModelState.IsValid)
-            {
-                return ValidationProblem(ModelState);
-            }
-
-
             Book editedBook;
-
-
             try
             {
-
-               editedBook =  await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBookDto);
+                editedBook = await _bookDataService.UpdateBookAndItsPublishersAndAuthorsAsync(editedBookDto);
             }
-
-            catch(Exception ex)
+            catch (BookNotFoundException ex)
             {
-                throw new Exception(ex.Message);
+                throw new customWebExceptions.NotFoundException(ex.Message)
+                {
+                    Code = "BookNotFound"
+                };
             }
+            catch (BookUpdateConflictException ex)
+            {
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "BookUpdateConflict"
+                };
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "ConcurrencyError"
+                };
+
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
+
+
 
             return Ok(_mapper.Map<BookResponseDTO>(editedBook));
         }
 
 
-      
-    
+
+
     }
 }

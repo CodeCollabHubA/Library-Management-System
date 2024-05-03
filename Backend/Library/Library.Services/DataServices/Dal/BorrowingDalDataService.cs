@@ -1,6 +1,7 @@
 ﻿
 
 using Library.Models.DTO.Borrowing;
+using Library.Services.DataServices.Exceptions.Borrowing;
 
 namespace Library.Services.DataServices.Dal
 {
@@ -27,7 +28,7 @@ namespace Library.Services.DataServices.Dal
                 if (book == null || book.NumberOfCopiesExist <= 0)
                 {
                     _logger.LogAppWarning($"Book with id {bookId} is not available for borrowing");
-                    throw new Exception($"Book with id {bookId} is not available for borrowing");
+                    throw new BorrowingNotAllowedException($"Book with id {bookId} is not available for borrowing");
                 }
 
 
@@ -45,13 +46,13 @@ namespace Library.Services.DataServices.Dal
             if (user == null)
             {
                 _logger.LogAppWarning("User does not exist");
-                throw new Exception("User does not exist");
+                throw new BorrowingNotAllowedException($"User with id {borrowingCreateDto.UserId} does not exist");
 
             }
             if (user.Credit < cumulativeCost)
             {
                 _logger.LogAppWarning("User does not have enough credit");
-                throw new Exception("User does not have enough credit");
+                throw new BorrowingNotAllowedException("User does not have enough credit");
             }
 
 
@@ -89,14 +90,14 @@ namespace Library.Services.DataServices.Dal
             if (borrowing == null)
             {
                 _logger.LogAppWarning("Borrowing does not exist");
-                throw new Exception("Borrowing does not exist");
+                throw new BorrowingNotFoundException();
             }
 
             // check if the book is borrowed by this user
             if (borrowing.UserId != borrowingReturnRequestDTO.UserId)
             {
                 _logger.LogAppWarning($"Borrowing with id = {borrowingReturnRequestDTO.BorrwingId} is not associated with user with id {borrowingReturnRequestDTO.UserId}");
-                throw new Exception($"Borrowing with id = {borrowingReturnRequestDTO.BorrwingId} is not associated with user with id {borrowingReturnRequestDTO.UserId}");
+                throw new ReturnBorrowingNotAllowedException($"Borrowing with id = {borrowingReturnRequestDTO.BorrwingId} is not associated with user with id {borrowingReturnRequestDTO.UserId}");
             }
 
             var books = borrowing.Books;
@@ -119,7 +120,7 @@ namespace Library.Services.DataServices.Dal
                     else
                     {
                         _logger.LogAppWarning($"Book with id {book.Id} is already returned");
-                        throw new Exception($"Book with id {book.Id} is already returned");
+                        throw new ReturnBorrowingNotAllowedException($"Book with id {book.Id} is already returned");
                     }
 
                 }

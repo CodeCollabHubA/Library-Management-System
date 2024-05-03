@@ -3,6 +3,7 @@ global using Library.Api.Controllers.Base;
 global using Library.Api.Swagger;
 global using Library.Api.Swagger.Models;
 global using Library.Api.Filters.ExceptionFilters;
+global using customWebExceptions = Library.Api.Exceptions;
 
 
 global using Library.Services.DataServices.Interfaces;

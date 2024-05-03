@@ -1,8 +1,5 @@
-﻿
-
-
-
-using Library.Services.DataServices.Interfaces;
+﻿using Library.Dal.Exceptions;
+using Library.Services.DataServices.Exceptions.User;
 
 namespace Library.Api.Controllers
 {
@@ -29,20 +26,37 @@ namespace Library.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
 
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
             }
+
+
 
             string accessToken;
             try
             {
 
-                accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
+            accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
             }
-            catch (Exception ex)
+            catch(UserAlreadyExistException ex)
             {
-                throw new Exception(ex.Message);
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "UserConflict"
+                };
             }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
+
 
 
             return Ok(accessToken);
@@ -58,20 +72,31 @@ namespace Library.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
+
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
 
             }
-            string accessToken;
 
+
+
+
+            string accessToken;
             try
             {
 
-                accessToken = await _userDataService.LoginUserAsync(user, _jwtOptions);
+            accessToken= await _userDataService.LoginUserAsync(user, _jwtOptions);
             }
-            catch (Exception ex)
+            catch(InvalidUserException ex)
             {
-                throw new Exception(ex.Message);
+                throw new customWebExceptions.UnauthorizedException(ex.Message);
             }
+
+
+
 
             return Ok(accessToken);
         }

@@ -13,9 +13,9 @@ namespace Library.Dal.EFStructures
 
                 return base.SavingChanges(eventData, result);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new DatabaseException("An error occured while interacting with the database.", ex);
+                throw ;
             }
         }
 
@@ -26,9 +26,9 @@ namespace Library.Dal.EFStructures
 
                 return base.SavingChangesAsync(eventData, result, cancellationToken);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new DatabaseException("An error occured while interacting with the database.", ex);
+                throw;
             }
 
 

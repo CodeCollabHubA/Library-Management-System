@@ -1,5 +1,8 @@
 ﻿
+
+using Library.Dal.Exceptions;
 using Library.Models.DTO.Borrowing;
+using Library.Services.DataServices.Exceptions.Borrowing;
 
 namespace Library.Api.Controllers
 {
@@ -23,9 +26,9 @@ namespace Library.Api.Controllers
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public async override Task<ActionResult<BorrowingResponseDTO>> AddOneAsync(BorrowingDTO entity)
-        { 
+        {
             return NoContent();
-        
+
         }
 
 
@@ -38,10 +41,13 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(201, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
+        [SwaggerResponse(403, "Forbidden access attempted")]
+        [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
         [HttpPost("borrow-book")]
         public async Task<ActionResult<BorrowingResponseDTO>> BorrowBookAsync(BorrowingCreateRequestDTO entity)
@@ -51,20 +57,41 @@ namespace Library.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                     x => x.Key,
+                     x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
             }
 
+
+
             Borrowing domainEntity;
+
             try
             {
 
                 domainEntity = await _borrwingDataService.BorrowBookAsync(entity);
             }
-            catch (Exception ex)
+            
+            catch (BorrowingNotAllowedException ex)
             {
-                 throw new Exception(ex.Message);
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "BorrowingConflict"
+                };
             }
-                return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<BorrowingResponseDTO>(domainEntity).Id }, _mapper.Map<BorrowingResponseDTO>(domainEntity));
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
+            }
+
+
+
+            return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<BorrowingResponseDTO>(domainEntity).Id }, _mapper.Map<BorrowingResponseDTO>(domainEntity));
 
 
         }
@@ -76,19 +103,6 @@ namespace Library.Api.Controllers
         /// <summary>
         /// Return a list of borrowed book
         /// </summary>
-        /// <remarks>
-        /// Sample body:
-        /// <pre>
-        /// {
-        ///   "Id": 1,
-        ///   "TimeStamp": "AAAAAAAAB+E="
-        ///   "MakeId": 1,
-        ///   "Color": "Black",
-        ///   "PetName": "Zippy",
-        ///   "MakeColor": "VW (Black)",
-        /// }
-        /// </pre>
-        /// </remarks>
         /// <param name="borrowingId">Primary key of borrowing record</param>
         /// <param name="borrowingReturnRequestDTO">Contain the userId and books ids for the books to return</param>
         /// <returns>Single record</returns>
@@ -96,35 +110,63 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
+        [SwaggerResponse(403, "Forbidden access attempted")]
+        [SwaggerResponse(404, "The requested resource was not found")]
+        [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
         [HttpPut("return-book/{borrowingId}")]
         public async Task<ActionResult<BorrowingResponseDTO>> ReturnBorrowedBookAsync(int borrowingId, BorrowedBookReturnRequestDTO entity)
         {
+            if (!ModelState.IsValid)
+            {
+
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
+            }
+
             if (borrowingId != entity.BorrwingId)
             {
                 _logger.LogAppWarning("Id in route and body do not match");
                 throw new ArgumentException("Id in route and body do not match", nameof(borrowingId));
             }
 
-            if (!ModelState.IsValid)
-            {
-                return ValidationProblem(ModelState);
-            }
-            Borrowing domainEntity;
 
+            Borrowing domainEntity;
             try
             {
 
                 domainEntity = await _borrwingDataService.ReturnBorrowedBookAsync(entity);
             }
-
-            catch (Exception ex)
+           
+            catch (BorrowingNotFoundException ex)
             {
-                throw new Exception(ex.Message);
+                throw new customWebExceptions.NotFoundException(ex.Message)
+                {
+                    Code = "BorrowingNotFound"
+                };
+            }
+            catch (ReturnBorrowingNotAllowedException ex)
+            {
+                throw new customWebExceptions.ConflictException(ex.Message)
+                {
+                    Code = "ReturnBorrowingConflict"
+                };
+            }
+            catch (UnknownDatabaseException ex)
+            {
+                throw new customWebExceptions.WebException(ex.Message)
+                {
+                    Code = "DatabaseError"
+                };
             }
 
             return Ok(_mapper.Map<BorrowingResponseDTO>(domainEntity));

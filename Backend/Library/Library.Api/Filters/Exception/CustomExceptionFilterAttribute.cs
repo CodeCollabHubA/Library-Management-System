@@ -3,7 +3,7 @@ namespace Library.Api.Filters.ExceptionFilters;
 public class CustomExceptionFilter : ExceptionFilterAttribute
 {
     private readonly IWebHostEnvironment _hostEnviroment;
-    
+
 
     public CustomExceptionFilter(IWebHostEnvironment hostEnviroment)
     {
@@ -16,11 +16,51 @@ public class CustomExceptionFilter : ExceptionFilterAttribute
     {
         var problemDetails = new ProblemDetails
         {
+            Type = "https://example.com/problems/internal-server-error",
+            Title = "Internal Server Error",
             Status = 500,
-            Title = "An error occurred",
-            Detail = context.Exception.Message,
-            Instance = context.HttpContext.Request.Path
+            Extensions =
+            {
+                ["error"] = new Dictionary<string, string>
+                {
+                    {"Code", "InternalError" },
+                    {"message" , "An error occurred while processing your request" }
+                }
+            }
         };
+
+
+        IActionResult result = new ObjectResult(problemDetails)
+        {
+            StatusCode = 500
+        };
+
+        if (context.Exception is customWebExceptions.WebException ex)
+        {
+            // Filling the problemDetails object
+            problemDetails.Type = ex.Type;
+            problemDetails.Title = ex.Title;
+            problemDetails.Status = ex.Status;
+
+
+
+            problemDetails.Extensions["error"] = new Dictionary<string, string>
+                {
+                    {"Code", ex.Code },
+                    {"message" , ex.Message }
+                };
+
+            if (ex is customWebExceptions.ValidationException vex)
+            {
+
+                problemDetails.Extensions["errors"] = vex.Errors;
+            }
+
+            result = new ObjectResult(problemDetails)
+            {
+                StatusCode = ex.Status
+            };
+        }
 
 
         var traceId = context.HttpContext.TraceIdentifier;
@@ -29,21 +69,15 @@ public class CustomExceptionFilter : ExceptionFilterAttribute
             problemDetails.Extensions["traceId"] = traceId;
         }
 
-        if (_hostEnviroment.IsDevelopment())
-        {
-            problemDetails.Extensions["stackTrace"] = context.Exception.StackTrace;
 
-        }
 
-        context.Result = new ObjectResult(problemDetails)
-        {
-            StatusCode = problemDetails.Status,
-        };
+        context.Result = result;
+
 
         context.ExceptionHandled = true;
     }
 
-   
+
 
 
 }

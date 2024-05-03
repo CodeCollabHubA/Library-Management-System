@@ -1,6 +1,7 @@
 ﻿
 
 
+using Library.Services.DataServices.Exceptions.User;
 using Library.Services.DataServices.Helpers;
 using Microsoft.AspNetCore.Http;
 
@@ -24,7 +25,7 @@ namespace Library.Services.DataServices.Dal
             if (user == null)
             {
                 _logger.LogAppWarning("Invalid email!");
-                throw new Exception("Invalid email!");
+                throw new InvalidUserException();
             }
 
             // check if the provided password is correct
@@ -33,7 +34,7 @@ namespace Library.Services.DataServices.Dal
             if (!passwordIsValid)
             {
                 _logger.LogAppWarning("Invalid Password");
-                throw new Exception("Invalid Password");
+                throw new InvalidUserException();
             }
 
             // Generate Jwt token 
@@ -55,7 +56,7 @@ namespace Library.Services.DataServices.Dal
             if (!(user == null))
             {
                 _logger.LogAppWarning("User with the same email already exists");
-                throw new Exception("User with the same email already exists");
+                throw new UserAlreadyExistException();
             }
 
 
@@ -102,7 +103,7 @@ namespace Library.Services.DataServices.Dal
             if (user == null)
             {
                 _logger.LogAppWarning($"User with id {entity.Id} doesnot exist");
-                throw new Exception($"User with id {entity.Id} doesnot exist");
+                throw new UserNotFoundException();
             }
 
 
