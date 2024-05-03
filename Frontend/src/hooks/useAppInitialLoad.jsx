@@ -3,7 +3,6 @@ import toast from 'react-hot-toast';
 
 import { useMyContext } from '../context/ContextProvider';
 import apiEndPoints from '../services/apiEndPoints';
-import { getCurrentUser } from '../services/authService';
 import http from '../services/httpService';
 import { statusArray, statusEmoji } from '../utils/constant';
 
@@ -14,8 +13,8 @@ const useAppInitialLoad = () => {
     const {
         state,
         setState,
-        // user,
-        setUser,
+        user,
+        // setUser,
         setBooks,
         setPublishers,
         setAuthors,
@@ -30,8 +29,6 @@ const useAppInitialLoad = () => {
             const { data: authors } = await http.get(authorsApi)
             const { data: users } = await http.get(usersApi)
             const { data: borrowings } = await http.get(borrowingsApi)
-            const dataUser = getCurrentUser()
-            setUser(dataUser)
             setBooks(books)
             setPublishers(publishers)
             setAuthors(authors)
@@ -43,7 +40,7 @@ const useAppInitialLoad = () => {
             console.error(err);
         }
     }
-
+    
     useEffect(() => {
         loadData()
         // eslint-disable-next-line react-hooks/exhaustive-deps

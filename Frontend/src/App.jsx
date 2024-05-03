@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, Outlet, Route, Routes, redirect } from 'react-router-dom'
+import { Outlet, Route, Routes } from 'react-router-dom'
 
 import LandingPage from './pages/LandingPage';
 import Logout from './layout/form/Logout';
@@ -15,13 +15,10 @@ import { useMyContext } from './context/ContextProvider';
 
 
 const App = () => {
-
+  const {user}=useMyContext()
   const [showMenu, setShowMenu] = useState(false)
 
   useAppInitialLoad()
-
-
-  const token = Object.keys(localStorage).includes('token');
 
   const handleClick = () => {
     setShowMenu(!showMenu)
@@ -47,7 +44,7 @@ const App = () => {
         <Route path='/signup' element={<SignupForm />} />
 
         <Route path='/dashboard/*' element={
-          token ?
+          user ?
             <Dashboard />
             :<LoginForm/>
           } />

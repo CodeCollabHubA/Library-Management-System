@@ -21,13 +21,15 @@ import FooterSection from "../layout/shared/FooterSection";
 import useSideBarPosition from "../hooks/useSideBarPosition";
 import ProtectedRoute from "../components/common/protectedRoute";
 import { useState } from "react";
+import { useMyContext } from "../context/ContextProvider";
 
 
 const DashboardContainer = () => {
   const { footerRef, sideBarPosition } = useSideBarPosition()
-
+  const { noBorrow,setNoBorrow}=useMyContext()
   const [open, setOpen] = useState(false)
-  const [noBorrow,setNoBorrow] = useState(null)
+
+
   const handleBorrow = () => {
     setNoBorrow(noBorrow + 1)
     setOpen(!open)
@@ -53,7 +55,7 @@ const DashboardContainer = () => {
                 <Route path='borrowings/*' element={<AdminBorrowing />} />
                 <Route path='publishers/*' element={<AdminPublishers />} />
               </Route>
-              <Route path='booksGallery/*' element={<BookGallery handleBorrow={handleBorrow} handleClose={handleClose} setOpen={setOpen} open={open} noBorrow={noBorrow} />} />
+              <Route path='booksGallery/*' element={<BookGallery handleBorrow={handleBorrow} handleClose={handleClose} setOpen={setOpen} open={open} />} />
               <Route path='profile' element={<Profile />} />
               <Route path='profile/update' element={<ProfileForm />} />
               <Route path='profile/updatePassword' element={<ProfilePasswordForm />} />
