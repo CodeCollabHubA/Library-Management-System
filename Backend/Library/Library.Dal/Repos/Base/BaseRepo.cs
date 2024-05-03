@@ -74,7 +74,7 @@ namespace Library.Dal.Repos.Base
             catch (DbUpdateConcurrencyException ex)
             {
 
-                throw;
+                throw new DbUpdateConcurrencyException("Record has been modified or deleted by another user", ex);
             }
             catch (Exception ex)
             {
