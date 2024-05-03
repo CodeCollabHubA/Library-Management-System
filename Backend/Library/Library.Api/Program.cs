@@ -35,6 +35,9 @@ builder.Services.AddControllers(
 
         // prevent cyclic references
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+
+        // allow trainling comma
+        options.JsonSerializerOptions.AllowTrailingCommas = true;
     })
     .ConfigureApiBehaviorOptions(options =>
     {
