@@ -20,10 +20,10 @@ namespace Library.Models.DTO
         public IEnumerable<PublisherResponseDTO>? Publishers { get; set;}
 
         [Required]
-        public int NumberOfCopiesOwned { get; set; }
+        public int NumberOfTotalCopies { get; set; }
 
         [Required]
-        public int NumberOfCopiesExist { get; set; }
+        public int NumberOfAvailableCopies { get; set; }
 
     }
 }

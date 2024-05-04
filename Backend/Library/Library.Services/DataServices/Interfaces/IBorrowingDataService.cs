@@ -5,8 +5,8 @@ namespace Library.Services.DataServices.Interfaces
 {
     public interface IBorrowingDataService : IBaseDataService<Borrowing>
     {
-        Task<Borrowing> BorrowBookAsync(BorrowingCreateRequestDTO borrowingCreateDto);
-        Task<Borrowing> ReturnBorrowedBookAsync(BorrowedBookReturnRequestDTO borrowingReturnRequestDTO);
+        Task<BorrowBooksResponseDTO> BorrowBooksAsync(BorrowBooksRequestDTO borrowingCreateDto);
+        Task<ReturnBooksResponseDTO> ReturnBooksAsync(ReturnBooksRequestDTO borrowingReturnRequestDTO);
 
     }
 }
