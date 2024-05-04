@@ -1,7 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace Library.Dal.Repos
+﻿namespace Library.Dal.Repos
 {
     public class BorrowingRepo : BaseRepo<Borrowing>, IBorrowingRepo
     {
@@ -19,9 +16,12 @@ namespace Library.Dal.Repos
             var table = base.GetAllIgnoreQueryFilters(filterOn, filterQuery, sortBy, isAscending, pageSize, pageNumber);
 
 
-            table = Table.Where(b => table.Select(x => x.Id).Contains(b.Id))
-                    .Include(b => b.Books)
-                    .Include(b => b.BookBorrowings)
+            // Include book and user
+            Table.Where(b => table.Select(x => x.Id).Contains(b.Id))
+                    .Include(b => b.BookNavigation)
+                     .Include(b => b.BookNavigation.Authors)
+                     .Include(b => b.BookNavigation.Publishers)
+                    .Include(b => b.UserNavigation)
                     .ToList();
 
             return Table;
@@ -29,10 +29,13 @@ namespace Library.Dal.Repos
 
         public override async Task<Borrowing> FindAsync(int id)
         => await Table
-            .Include(b => b.Books)
-            .Include(b => b.BookBorrowings)
+            .Include(b => b.BookNavigation)
+                .ThenInclude(book => book.Authors)
+            .Include(b => b.BookNavigation)
+                .ThenInclude(book => book.Publishers)
+            .Include(b => b.UserNavigation)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-       
+
     }
 }
