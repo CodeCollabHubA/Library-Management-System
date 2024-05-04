@@ -6,11 +6,11 @@ namespace Library.Dal.Initialization
     {
         public static List<Book> Books => new()
         {
-            new() { Id = 1, Title = "The Old Man and the Sea", Description = "A novel by Ernest Hemingway. It tells the story of an aging Cuban fisherman who struggles with a giant marlin far out in the Gulf Stream.",Credit = 50, ImageURL = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", NumberOfCopiesOwned = 25, NumberOfCopiesExist = 24 },
-            new() { Id = 2, Title = "1984", Description = "A dystopian social science fiction novel by George Orwell. It follows the life of Winston Smith, a low-ranking member of the ruling Party in a totalitarian superstate.",Credit = 80, ImageURL = "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg", ImagePath= "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg" , NumberOfCopiesOwned = 18, NumberOfCopiesExist = 17 },
-            new() { Id = 3, Title = "The 7 Habits of Highly Effective People", Description = "A self-help book by Stephen R. Covey. It provides a holistic approach to personal and interpersonal effectiveness.",Credit = 30, ImageURL = "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg" , NumberOfCopiesOwned = 12, NumberOfCopiesExist = 10 },
-            new() { Id = 4, Title = "How to Win Friends & Influence People", Description = "A self-help book by Dale Carnegie. It offers practical advice on how to successfully navigate social and business interactions.",Credit = 20, ImageURL = "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg" , NumberOfCopiesOwned = 20, NumberOfCopiesExist = 20 },
-            new() { Id = 5, Title = "Atomic Habits", Description = "A self-help book by James Clear. It provides practical strategies for building good habits, breaking bad ones, and mastering the tiny behaviors that lead to remarkable results.",Credit = 5, ImageURL = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", NumberOfCopiesOwned = 15, NumberOfCopiesExist = 15 },
+            new() { Id = 1, Title = "The Old Man and the Sea", Description = "A novel by Ernest Hemingway. It tells the story of an aging Cuban fisherman who struggles with a giant marlin far out in the Gulf Stream.",Credit = 50, ImageURL = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", NumberOfTotalCopies = 25, NumberOfAvailableCopies = 24 },
+            new() { Id = 2, Title = "1984", Description = "A dystopian social science fiction novel by George Orwell. It follows the life of Winston Smith, a low-ranking member of the ruling Party in a totalitarian superstate.",Credit = 80, ImageURL = "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg", ImagePath= "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg" , NumberOfTotalCopies = 18, NumberOfAvailableCopies = 17 },
+            new() { Id = 3, Title = "The 7 Habits of Highly Effective People", Description = "A self-help book by Stephen R. Covey. It provides a holistic approach to personal and interpersonal effectiveness.",Credit = 30, ImageURL = "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg" , NumberOfTotalCopies = 12, NumberOfAvailableCopies = 10 },
+            new() { Id = 4, Title = "How to Win Friends & Influence People", Description = "A self-help book by Dale Carnegie. It offers practical advice on how to successfully navigate social and business interactions.",Credit = 20, ImageURL = "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg" , NumberOfTotalCopies = 20, NumberOfAvailableCopies = 20 },
+            new() { Id = 5, Title = "Atomic Habits", Description = "A self-help book by James Clear. It provides practical strategies for building good habits, breaking bad ones, and mastering the tiny behaviors that lead to remarkable results.",Credit = 5, ImageURL = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", NumberOfTotalCopies = 15, NumberOfAvailableCopies = 15 },
         };
 
         public static List<Author> Authors => new()
@@ -59,27 +59,14 @@ namespace Library.Dal.Initialization
         };
         public static List<Borrowing> Borrowings => new()
         {
-            new() { Id = 1, UserId = 3, DateOut = DateTime.Now.AddDays(1)},
-            new() { Id = 2, UserId = 4, DateOut = DateTime.Now.AddDays(3)},
-            new() { Id = 3, UserId = 5, DateOut = DateTime.Now},
-            new() { Id = 4, UserId = 4, DateOut = DateTime.Now.Subtract(TimeSpan.FromDays(30))},
+            new() { Id = 1, UserId = 3,BookId = 1, DateOut = DateTime.Now.AddDays(1), IsReturned=false},
+            new() { Id = 2, UserId = 4,BookId = 2 , DateOut = DateTime.Now.AddDays(3), IsReturned=false},
+            new() { Id = 3, UserId = 4,BookId = 3 , DateOut = DateTime.Now.AddDays(3)},
+            new() { Id = 4, UserId = 5,BookId = 3 , DateOut = DateTime.Now},
+            new() { Id = 5, UserId = 4,BookId = 4 , DateOut = DateTime.Now.Subtract(TimeSpan.FromDays(30)), IsReturned = true},
 
 
         };
-
-        public static List<BookBorrowing> BookBorrowings => new()
-        {
-            new() { Id = 1, BookId = 1, BorrowingId = 1, IsReturned = false},
-            new() { Id = 2, BookId = 2, BorrowingId = 2, IsReturned = false},
-            new() { Id = 3, BookId = 3, BorrowingId = 2,IsReturned = false},
-            new() { Id = 4, BookId = 3, BorrowingId = 3,IsReturned = false},
-            new() { Id = 5, BookId = 4, BorrowingId = 4, IsReturned = true}
-
-
-
-
-        };
-
 
 
     }
