@@ -61,17 +61,16 @@
             <param name="entity">Entity to update</param>
             <returns>Updated record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.BorrowingController.BorrowBookAsync(Library.Models.DTO.BorrowingCreateRequestDTO)">
+        <member name="M:Library.Api.Controllers.BorrowingController.BorrowBookAsync(Library.Models.DTO.BorrowBooksRequestDTO)">
             <summary>
             Borrow book or list of books
             </summary>
             <returns>Added borrowing record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.BorrowingController.ReturnBorrowedBookAsync(System.Int32,Library.Models.DTO.Borrowing.BorrowedBookReturnRequestDTO)">
+        <member name="M:Library.Api.Controllers.BorrowingController.ReturnBorrowedBookAsync(Library.Models.DTO.ReturnBooksRequestDTO)">
             <summary>
             Return a list of borrowed book
             </summary>
-            <param name="borrowingId">Primary key of borrowing record</param>
             <param name="borrowingReturnRequestDTO">Contain the userId and books ids for the books to return</param>
             <returns>Single record</returns>
         </member>

@@ -3,6 +3,7 @@
 using Library.Dal.Exceptions;
 using Library.Models.DTO.Borrowing;
 using Library.Services.DataServices.Exceptions.Borrowing;
+using Library.Services.DataServices.Exceptions.User;
 
 namespace Library.Api.Controllers
 {
@@ -10,9 +11,15 @@ namespace Library.Api.Controllers
     {
         private readonly IBorrowingDataService _borrwingDataService;
 
-        public BorrowingController(IAppLogging<BorrowingController> logger, IBorrowingRepo mainRepo, IBorrowingDataService borrowingDataService, IMapper mapper) : base(logger, mainRepo, mapper)
+        public BorrowingController(
+            IAppLogging<BorrowingController> logger,
+            IBorrowingRepo mainRepo,
+            IBorrowingDataService borrowingDataService,
+            IMapper mapper
+            ) : base(logger, mainRepo, mapper)
         {
             _borrwingDataService = borrowingDataService;
+
         }
 
 
@@ -39,18 +46,20 @@ namespace Library.Api.Controllers
         /// <returns>Added borrowing record</returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status207MultiStatus)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerResponse(201, "The execution was successful")]
+        [SwaggerResponse(201, "The resources has been created successfully")]
+        [SwaggerResponse(207, "Some books has not been borrowed successfully")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
         [HttpPost("borrow-book")]
-        public async Task<ActionResult<BorrowingResponseDTO>> BorrowBookAsync(BorrowingCreateRequestDTO entity)
+        public async Task<ActionResult<BorrowBooksResponseDTO>> BorrowBookAsync(BorrowBooksRequestDTO entity)
 
         {
 
@@ -66,19 +75,18 @@ namespace Library.Api.Controllers
 
 
 
-            Borrowing domainEntity;
-
+            BorrowBooksResponseDTO borrowBooksResponseDto;
             try
             {
 
-                domainEntity = await _borrwingDataService.BorrowBookAsync(entity);
+                borrowBooksResponseDto = await _borrwingDataService.BorrowBooksAsync(entity);
             }
-            
-            catch (BorrowingNotAllowedException ex)
+
+            catch (BorrowingUserNotFoundException ex)
             {
-                throw new customWebExceptions.ConflictException(ex.Message)
+                throw new customWebExceptions.NotFoundException(ex.Message)
                 {
-                    Code = "BorrowingConflict"
+                    Code = "BorrowingUserNotFound"
                 };
             }
             catch (UnknownDatabaseException ex)
@@ -89,9 +97,27 @@ namespace Library.Api.Controllers
                 };
             }
 
+            if (!borrowBooksResponseDto.Errors.Any())
+            {
+                return CreatedAtAction(nameof(GetOneAsync), new { id = borrowBooksResponseDto.Success[0].Id }, borrowBooksResponseDto);
+            }
+            if (!borrowBooksResponseDto.Success.Any())
+            {
+                return BadRequest(borrowBooksResponseDto);
+            }
 
 
-            return CreatedAtAction(nameof(GetOneAsync), new { id = _mapper.Map<BorrowingResponseDTO>(domainEntity).Id }, _mapper.Map<BorrowingResponseDTO>(domainEntity));
+            // Else
+            // Add location header with the url of the first newly created resource
+            HttpContext.Response.Headers.Add("Location", $"{Request.Scheme}://{Request.Host}/{nameof(GetOneAsync)}/{borrowBooksResponseDto.Success[0].Id}");
+            var response = new ObjectResult(borrowBooksResponseDto)
+            {
+                StatusCode = 207
+            };
+
+            return response;
+
+
 
 
         }
@@ -103,25 +129,26 @@ namespace Library.Api.Controllers
         /// <summary>
         /// Return a list of borrowed book
         /// </summary>
-        /// <param name="borrowingId">Primary key of borrowing record</param>
         /// <param name="borrowingReturnRequestDTO">Contain the userId and books ids for the books to return</param>
         /// <returns>Single record</returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status207MultiStatus)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(207, "Some books has not been returned successfully")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(404, "The requested resource was not found")]
         [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
-        [HttpPut("return-book/{borrowingId}")]
-        public async Task<ActionResult<BorrowingResponseDTO>> ReturnBorrowedBookAsync(int borrowingId, BorrowedBookReturnRequestDTO entity)
+        [HttpPut("return-book")]
+        public async Task<ActionResult<ReturnBooksResponseDTO>> ReturnBorrowedBookAsync(ReturnBooksRequestDTO entity)
         {
             if (!ModelState.IsValid)
             {
@@ -133,32 +160,19 @@ namespace Library.Api.Controllers
                 throw new customWebExceptions.ValidationException(errors);
             }
 
-            if (borrowingId != entity.BorrwingId)
-            {
-                _logger.LogAppWarning("Id in route and body do not match");
-                throw new customWebExceptions.ConflictException("Id in route and body do not match");
-            }
 
-
-            Borrowing domainEntity;
+            ReturnBooksResponseDTO returnBooksResponseDTO;
             try
             {
 
-                domainEntity = await _borrwingDataService.ReturnBorrowedBookAsync(entity);
+                returnBooksResponseDTO = await _borrwingDataService.ReturnBooksAsync(entity);
             }
-           
-            catch (BorrowingNotFoundException ex)
+
+            catch (BorrowingUserNotFoundException ex)
             {
                 throw new customWebExceptions.NotFoundException(ex.Message)
                 {
-                    Code = "BorrowingNotFound"
-                };
-            }
-            catch (ReturnBorrowingNotAllowedException ex)
-            {
-                throw new customWebExceptions.ConflictException(ex.Message)
-                {
-                    Code = "ReturnBorrowingConflict"
+                    Code = "BorrowingUserNotFound"
                 };
             }
             catch (UnknownDatabaseException ex)
@@ -169,7 +183,23 @@ namespace Library.Api.Controllers
                 };
             }
 
-            return Ok(_mapper.Map<BorrowingResponseDTO>(domainEntity));
+            if (!returnBooksResponseDTO.Errors.Any())
+            {
+                return Ok(returnBooksResponseDTO);
+            }
+            if (!returnBooksResponseDTO.Success.Any())
+            {
+                return BadRequest(returnBooksResponseDTO);
+            }
+
+
+            // Else
+            var response = new ObjectResult(returnBooksResponseDTO)
+            {
+                StatusCode = 207
+            };
+
+            return response;
         }
 
     }
