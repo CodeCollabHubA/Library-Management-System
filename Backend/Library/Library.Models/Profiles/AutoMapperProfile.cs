@@ -17,8 +17,7 @@ namespace Library.Models.Profiles
             CreateMap<Publisher, PublisherResponseDTO>()
                 .ReverseMap();
 
-            CreateMap<BookBorrowing, BookBorrowingResponseDTO>()
-                .ReverseMap();
+            
             CreateMap<Borrowing, BorrowingResponseDTO>()
                 .ReverseMap();
 
@@ -31,7 +30,7 @@ namespace Library.Models.Profiles
             CreateMap<Book, BookCreateRequestDTO>().ReverseMap();
             CreateMap<Author, AuthorCreateRequestDTO>().ReverseMap();
             CreateMap<Publisher, PublisherCreateRequestDTO>().ReverseMap();
-            CreateMap<Borrowing, BorrowingCreateRequestDTO>().ReverseMap();
+            CreateMap<Borrowing, BorrowBooksRequestDTO>().ReverseMap();
 
 
             // UpdateRequestDTOs
@@ -55,8 +54,8 @@ namespace Library.Models.Profiles
                 .IgnoreAllMembers()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.NumberOfCopiesExist, opt => opt.MapFrom(src => src.NumberOfCopiesExist))
-                .ForMember(dest => dest.NumberOfCopiesOwned, opt => opt.MapFrom(src => src.NumberOfCopiesOwned))
+                .ForMember(dest => dest.NumberOfAvailableCopies, opt => opt.MapFrom(src => src.NumberOfAvailableCopies))
+                .ForMember(dest => dest.NumberOfTotalCopies, opt => opt.MapFrom(src => src.NumberOfTotalCopies))
                 .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.TimeStamp));
                 
           
