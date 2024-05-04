@@ -1,10 +1,11 @@
 import { Navigate, Outlet, Route } from "react-router-dom";
+import { useMyContext } from "../../context/ContextProvider";
 
 const ProtectedRoute = () => {
-    const token=localStorage.getItem('token')
-    const role = localStorage.getItem('role');
-    if (token) {
-        return (role === 'Admin' ? <Outlet /> : <Navigate to='/notFound' />);
+    const { user } = useMyContext()
+    
+    if (user) {
+        return (user?.role === 'Admin' ? <Outlet /> : <Navigate to='/notFound' />);
     } else {
         return <Navigate to='/login' />
     }
