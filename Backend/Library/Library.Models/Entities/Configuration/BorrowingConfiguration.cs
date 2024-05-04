@@ -5,7 +5,11 @@ namespace Library.Models.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<Borrowing> builder)
         {
-            builder.Property(l => l.DateOut).HasDefaultValue(DateTime.Now);
+            // Set the default of the DateOut to be the current date
+            builder.Property(l => l.DateOut).HasDefaultValueSql("GetDate()");
+
+            // Set the default of the DueDate to be 15 days after the DateOut
+            builder.Property(l => l.DueDate).HasDefaultValueSql("DateAdd(day, 15, GetDate())");
         }
     }
 }

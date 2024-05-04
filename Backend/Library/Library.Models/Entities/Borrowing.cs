@@ -7,7 +7,7 @@ namespace Library.Models.Entities
     {
 
 
-
+        // One to Many with User
         public int? UserId { get; set; }
 
 
@@ -16,12 +16,12 @@ namespace Library.Models.Entities
 
 
 
-        // Many books can be involved in a single loan
-        [InverseProperty(nameof(Book.Borrowings))]
-        public ICollection<Book> Books { get; set; } = new List<Book>();
+        // One to Many with Book
+        public int? BookId { get; set; }
 
-        [InverseProperty(nameof(BookBorrowing.BorrowingNavigation))]
-        public ICollection<BookBorrowing> BookBorrowings { get; set; }
+
+        [ForeignKey(nameof(BookId))]
+        public Book BookNavigation { get; set; }
 
 
 
@@ -33,10 +33,9 @@ namespace Library.Models.Entities
 
 
         // Book should be returned by DueDate
-        [NotMapped]
-        public DateTime DueDate => DateOut.AddDays(14);
+        public DateTime DueDate { get; set; }
 
-
+        public bool IsReturned { get; set; }
 
 
     }

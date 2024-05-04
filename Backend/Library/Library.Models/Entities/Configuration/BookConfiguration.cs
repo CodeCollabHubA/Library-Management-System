@@ -23,7 +23,7 @@ namespace Library.Models.Entities.Configuration
                    .WithMany(b => b.BookAuthors)
                    .HasForeignKey(nameof(BookAuthor.BookId))
                    .OnDelete(DeleteBehavior.Cascade),
-               
+
                j =>
                {
                    j.HasKey(ba => new { ba.BookId, ba.AuthorId });
@@ -53,32 +53,6 @@ namespace Library.Models.Entities.Configuration
                {
                    j.HasKey(ba => new { ba.BookId, ba.PublisherId });
                });
-
-
-
-
-            // Many-to-Many relationship between Books and Borrowings
-            // using the BookBorrowing entity
-            builder
-            .HasMany(b => b.Borrowings)
-            .WithMany(a => a.Books)
-            .UsingEntity<BookBorrowing>(
-                l => l
-                   .HasOne(ba => ba.BorrowingNavigation)
-                   .WithMany(a => a.BookBorrowings)
-                   .HasForeignKey(nameof(BookBorrowing.BorrowingId))
-                   .OnDelete(DeleteBehavior.Cascade),
-               r => r
-                   .HasOne(ba => ba.BookNavigation)
-                   .WithMany(b => b.BookBorrowings)
-                   .HasForeignKey(nameof(BookBorrowing.BookId))
-                   .OnDelete(DeleteBehavior.Cascade),
-
-               j =>
-               {
-                   j.HasKey(ba => new { ba.BookId, ba.BorrowingId });
-               });
-
 
 
 
