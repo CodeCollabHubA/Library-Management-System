@@ -19,10 +19,10 @@ namespace Library.Models.DTO
 
 
         [Required]
-        public int NumberOfCopiesOwned { get; set; }
+        public int NumberOfTotalCopies { get; set; }
 
         [Required]
-        public int NumberOfCopiesExist { get; set; }
+        public int NumberOfAvailableCopies { get; set; }
 
     }
 }

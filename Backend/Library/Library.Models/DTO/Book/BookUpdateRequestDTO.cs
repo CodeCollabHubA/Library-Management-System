@@ -18,9 +18,9 @@ namespace Library.Models.DTO
 
         public List<int>? PublishersIds { get; set; }
 
-        public int NumberOfCopiesOwned { get; set; }
+        public int NumberOfTotalCopies { get; set; }
 
-        public int NumberOfCopiesExist { get; set; }
+        public int NumberOfAvailableCopies { get; set; }
     }
 }
 
