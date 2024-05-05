@@ -16,7 +16,7 @@ namespace Library.Models.Entities
 
         public string? Address { get; set; }
 
-        public int Credit { get; set; }
+        public int? Credit { get; set; }
 
         public string? ImageURL { get; set; }
         public string? ImagePath { get; set; }
@@ -29,9 +29,9 @@ namespace Library.Models.Entities
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+
         [Phone]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
 
         [Required]
