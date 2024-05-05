@@ -15,7 +15,7 @@ namespace Library.Services.DataServices.Dal
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<string> LoginUserAsync(LoginUserRequestDTO userDTO, JwtOptions jwtOptions)
+        public async Task<AuthResponseDTO> LoginUserAsync(LoginUserRequestDTO userDTO, JwtOptions jwtOptions)
         {
 
             // check if a user with this email exists
@@ -39,14 +39,22 @@ namespace Library.Services.DataServices.Dal
 
             // Generate Jwt token 
             string accessToken = JwtHelpers.GenerateJwtToken(user, jwtOptions);
+            AuthResponseDTO authResponse = new AuthResponseDTO
+            {
+                AccessToken = accessToken,
+                UserId = user.Id,
+                UserName = user.Name,
+                UserRole = user.UserRole,
+                ImageUrl = user.ImageURL,
+            };
 
-            return accessToken;
+            return authResponse;
 
 
 
         }
 
-        public async Task<string> RegisterUserAsync(RegisterUserRequestDTO userDTO, JwtOptions jwtOptions)
+        public async Task<AuthResponseDTO> RegisterUserAsync(RegisterUserRequestDTO userDTO, JwtOptions jwtOptions)
         {
 
 
@@ -90,7 +98,16 @@ namespace Library.Services.DataServices.Dal
             // Generate Jwt token
             string accessToken = JwtHelpers.GenerateJwtToken(user, jwtOptions);
 
-            return accessToken;
+            AuthResponseDTO authResponse = new AuthResponseDTO
+            {
+                AccessToken = accessToken,
+                UserId = user.Id,
+                UserName = user.Name,
+                UserRole = user.UserRole,
+                ImageUrl = user.ImageURL,
+            };
+
+            return authResponse;
 
 
         }
