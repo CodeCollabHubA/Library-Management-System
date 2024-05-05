@@ -10,7 +10,7 @@ namespace Library.Models.DTO
 
         public string? Address { get; set; }
 
-        public int Credit { get; set; }
+        public int? Credit { get; set; }
 
         public IFormFile? Image { get; set; }
 
@@ -20,7 +20,7 @@ namespace Library.Models.DTO
         public string Email { get; set; }
 
         [Phone]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
 
         [Column("Role")]
