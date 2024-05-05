@@ -82,8 +82,6 @@ namespace Library.Services.DataServices.Dal
             {
                 Name = userDTO.Name,
                 Email = userDTO.Email,
-                Address = userDTO.Address,
-                Phone = userDTO.Phone,
                 PasswordHash = JwtHelpers.HashPassword(userDTO.Password),
                 UserRole = Role.User,
                 ImagePath = localImagePath,
