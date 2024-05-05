@@ -11,7 +11,7 @@ namespace Library.Models.DTO
 
         public string? Address { get; set; }
 
-        public int Credit { get; set; }
+        public int? Credit { get; set; }
 
 
 
@@ -19,7 +19,7 @@ namespace Library.Models.DTO
 
         public string Email { get; set; }
 
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         public Role UserRole { get; set; }
     }
