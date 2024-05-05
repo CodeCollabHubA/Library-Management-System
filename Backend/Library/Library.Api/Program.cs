@@ -100,6 +100,8 @@ builder.Services.AddAuthentication()
             ValidateAudience = true,
             ValidAudience = jwtOptions.Audience,
 
+            ValidateLifetime = true,
+
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SignKey)),
 
