@@ -13,10 +13,12 @@ namespace Library.Models.Profiles
             // ResponseDTOs
             CreateMap<Book, BookResponseDTO>()
                 .ReverseMap();
-            CreateMap<Author, AuthorResponseDTO>().ReverseMap();
-            CreateMap<Publisher, PublisherResponseDTO>()
+
+            CreateMap<Author, AuthorResponseDTO>()
                 .ReverseMap();
 
+            CreateMap<Publisher, PublisherResponseDTO>()
+                .ReverseMap();
             
             CreateMap<Borrowing, BorrowingResponseDTO>()
                 .ReverseMap();
@@ -24,20 +26,21 @@ namespace Library.Models.Profiles
             CreateMap<User, UserResponseDTO>()
                 .ReverseMap();
 
+            CreateMap<User, MinimalUserResponseDTO>()
+               .ReverseMap();
+            
 
 
             // CreateRequestDTOs
             CreateMap<Book, BookCreateRequestDTO>().ReverseMap();
             CreateMap<Author, AuthorCreateRequestDTO>().ReverseMap();
             CreateMap<Publisher, PublisherCreateRequestDTO>().ReverseMap();
-            CreateMap<Borrowing, BorrowBooksRequestDTO>().ReverseMap();
 
 
             // UpdateRequestDTOs
             CreateMap<BookUpdateRequestDTO, Book>();
             CreateMap<AuthorUpdateRequestDTO, Author>();
             CreateMap<PublisherUpdateRequestDTO, Publisher>();
-            CreateMap<BorrowingUpdateRequestDTO, Borrowing>();
             CreateMap<UserUpdateRequestDTO, User>().ReverseMap();
 
 
