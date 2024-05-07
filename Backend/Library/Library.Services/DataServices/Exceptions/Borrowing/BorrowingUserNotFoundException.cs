@@ -12,7 +12,7 @@ namespace Library.Services.DataServices.Exceptions.Borrowing
         {
         }
 
-        public BorrowingUserNotFoundException(string? message, Exception? innerException) : base(string.IsNullOrWhiteSpace(message) ? "Returning this book is not possible" : message, innerException)
+        public BorrowingUserNotFoundException(string? message, Exception? innerException) : base(string.IsNullOrWhiteSpace(message) ? "This user is not found!" : message, innerException)
         {
 
         }

@@ -23,7 +23,8 @@ namespace Library.Services.DataServices.Helpers
 
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new(ClaimTypes.NameIdentifier, user.Name),
+                    new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new(ClaimTypes.Name, user.Name),
                     new(ClaimTypes.Email, user.Email),
                     new(ClaimTypes.Role, user.UserRole.ToString()),
                 }),
