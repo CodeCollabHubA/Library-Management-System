@@ -61,18 +61,28 @@
             <param name="entity">Entity to update</param>
             <returns>Updated record</returns>
         </member>
-        <member name="M:Library.Api.Controllers.BorrowingController.BorrowBookAsync(Library.Models.DTO.BorrowBooksRequestDTO)">
+        <member name="M:Library.Api.Controllers.BorrowingController.InitiateBorrowingAsync(Library.Models.DTO.PendingBorrowingRequestDTO)">
             <summary>
             Borrow book or list of books
             </summary>
-            <returns>Added borrowing record</returns>
+            <returns>
+            Either:
+            1. 201 with the successfully created pending borrowing records
+            2. 400 with the errors for the unsuccessful requests
+            3. 207 with the some successfully created pending borrowing records and some errors for the unsuccessful requests
+            </returns>
         </member>
-        <member name="M:Library.Api.Controllers.BorrowingController.ReturnBorrowedBookAsync(Library.Models.DTO.ReturnBooksRequestDTO)">
+        <member name="M:Library.Api.Controllers.BorrowingController.ActOnBorrowingStatusAsync(Library.Models.DTO.BorrowingStatusUpdateRequestDTO)">
             <summary>
-            Return a list of borrowed book
+            Handle one or more borrowings by performing actions like Approve, Reject, Cancel, Confirm, or Return.
             </summary>
-            <param name="borrowingReturnRequestDTO">Contain the userId and books ids for the books to return</param>
-            <returns>Single record</returns>
+            <param name="borrowingStatusUpdateRequest">Contain the action to perform and the borrowing ids for the borrowings to update perform an actions on them</param>
+            <returns>
+            Either:
+            1. A 200 OK response with the updated borrowing records
+            2. A 400 Bad Request response with the errors
+            3. A 207 Multi-Status response with the updated borrowing records and some errors for the reason for the unsuccessful actions
+            </returns>
         </member>
     </members>
 </doc>

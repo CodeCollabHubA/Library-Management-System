@@ -1,9 +1,8 @@
 ﻿
 
 using Library.Dal.Exceptions;
-using Library.Models.DTO.Borrowing;
 using Library.Services.DataServices.Exceptions.Borrowing;
-using Library.Services.DataServices.Exceptions.User;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Library.Api.Controllers
 {
@@ -41,9 +40,14 @@ namespace Library.Api.Controllers
 
 
         /// <summary>
-        /// Borrow book or list of books
+        /// Initiate a borrowing request for one or more books
         /// </summary>
-        /// <returns>Added borrowing record</returns>
+        /// <returns>
+        /// Either:
+        /// 1. 201 with the successfully created pending borrowing records
+        /// 2. 400 with the errors for the unsuccessful requests
+        /// 3. 207 with the some successfully created pending borrowing records and some errors for the unsuccessful requests
+        /// </returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status207MultiStatus)]
@@ -52,17 +56,16 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(201, "The resources has been created successfully")]
-        [SwaggerResponse(207, "Some books has not been borrowed successfully")]
+        [SwaggerResponse(207, "Some books has not been requested successfully")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
-        [HttpPost("borrow-book")]
-        public async Task<ActionResult<BorrowBooksResponseDTO>> BorrowBookAsync(BorrowBooksRequestDTO entity)
-
+        [HttpPost("initiate")]
+        [Authorize]
+        public async Task<ActionResult<PendingBorrowingResponseDTO>> InitiateBorrowingAsync(PendingBorrowingRequestDTO userBorrowingRequest)
         {
-
 
             if (!ModelState.IsValid)
             {
@@ -74,12 +77,12 @@ namespace Library.Api.Controllers
             }
 
 
-
-            BorrowBooksResponseDTO borrowBooksResponseDto;
+            // Try borrowing the books
+            PendingBorrowingResponseDTO borrowBooksResponseDto;
             try
             {
 
-                borrowBooksResponseDto = await _borrwingDataService.BorrowBooksAsync(entity);
+                borrowBooksResponseDto = await _borrwingDataService.CreatePendingBorrowingAsync(userBorrowingRequest);
             }
 
             catch (BorrowingUserNotFoundException ex)
@@ -97,10 +100,12 @@ namespace Library.Api.Controllers
                 };
             }
 
+            // If all books has been borrowed return 201 Created
             if (!borrowBooksResponseDto.Errors.Any())
             {
                 return CreatedAtAction(nameof(GetOneAsync), new { id = borrowBooksResponseDto.Success[0].Id }, borrowBooksResponseDto);
             }
+            // If no book has been borrowed return 400 Bad Request
             if (!borrowBooksResponseDto.Success.Any())
             {
                 return BadRequest(borrowBooksResponseDto);
@@ -108,7 +113,8 @@ namespace Library.Api.Controllers
 
 
             // Else
-            // Add location header with the url of the first newly created resource
+            // Create 207 Multi-Status response
+            // and add location header with the url of the first newly created resource
             HttpContext.Response.Headers.Add("Location", $"{Request.Scheme}://{Request.Host}/{nameof(GetOneAsync)}/{borrowBooksResponseDto.Success[0].Id}");
             var response = new ObjectResult(borrowBooksResponseDto)
             {
@@ -127,10 +133,15 @@ namespace Library.Api.Controllers
 
 
         /// <summary>
-        /// Return a list of borrowed book
+        /// Handle one or more borrowings by performing actions like Approve, Reject, Cancel, Confirm, or Return.
         /// </summary>
-        /// <param name="borrowingReturnRequestDTO">Contain the userId and books ids for the books to return</param>
-        /// <returns>Single record</returns>
+        /// <param name="borrowingStatusUpdateRequest">Contain the action to perform and the borrowing ids for the borrowings to update perform an actions on them</param>
+        /// <returns>
+        /// Either:
+        /// 1. A 200 OK response with the updated borrowing records
+        /// 2. A 400 Bad Request response with the errors
+        /// 3. A 207 Multi-Status response with the updated borrowing records and some errors for the reason for the unsuccessful actions
+        /// </returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status207MultiStatus)]
@@ -140,15 +151,16 @@ namespace Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerResponse(200, "The execution was successful")]
-        [SwaggerResponse(207, "Some books has not been returned successfully")]
+        [SwaggerResponse(207, "Some borrowings has not been updated successfully")]
         [SwaggerResponse(400, "The request was invalid")]
         [SwaggerResponse(401, "Unauthorized access attempted")]
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(404, "The requested resource was not found")]
         [SwaggerResponse(500, "An internal server error has occurred")]
         //[ApiVersion("0.1-Beta")]
-        [HttpPut("return-book")]
-        public async Task<ActionResult<ReturnBooksResponseDTO>> ReturnBorrowedBookAsync(ReturnBooksRequestDTO entity)
+        [Authorize]
+        [HttpPut("act-on-borrowing-status")]
+        public async Task<ActionResult<BorrowingStatusUpdateResponseDTO>> ActOnBorrowingStatusAsync(BorrowingStatusUpdateRequestDTO borrowingStatusUpdateRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -159,13 +171,13 @@ namespace Library.Api.Controllers
 
                 throw new customWebExceptions.ValidationException(errors);
             }
-
-
-            ReturnBooksResponseDTO returnBooksResponseDTO;
+            
+            // Try updating the status of the borrowings
+            BorrowingStatusUpdateResponseDTO borrowingStatusUpdateResponse;
             try
             {
 
-                returnBooksResponseDTO = await _borrwingDataService.ReturnBooksAsync(entity);
+                borrowingStatusUpdateResponse = await _borrwingDataService.UpdateBorrowingStatusAsync(borrowingStatusUpdateRequest);
             }
 
             catch (BorrowingUserNotFoundException ex)
@@ -173,6 +185,13 @@ namespace Library.Api.Controllers
                 throw new customWebExceptions.NotFoundException(ex.Message)
                 {
                     Code = "BorrowingUserNotFound"
+                };
+            }
+            catch (BorrowingActionForbiddenException ex)
+            {
+                throw new customWebExceptions.ForbiddenException(ex.Message)
+                {
+                    Code = "BorrowingActionForbidden"
                 };
             }
             catch (UnknownDatabaseException ex)
@@ -183,18 +202,20 @@ namespace Library.Api.Controllers
                 };
             }
 
-            if (!returnBooksResponseDTO.Errors.Any())
+            // If all actions has been performed successfully, return 200 OK
+            if (!borrowingStatusUpdateResponse.Errors.Any())
             {
-                return Ok(returnBooksResponseDTO);
+                return Ok(borrowingStatusUpdateResponse);
             }
-            if (!returnBooksResponseDTO.Success.Any())
+            // If all actions has not been performed successfully, return 400 Bad Request
+            if (!borrowingStatusUpdateResponse.Success.Any())
             {
-                return BadRequest(returnBooksResponseDTO);
+                return BadRequest(borrowingStatusUpdateResponse);
             }
-
 
             // Else
-            var response = new ObjectResult(returnBooksResponseDTO)
+            // Create 207 Multi-Status response
+            var response = new ObjectResult(borrowingStatusUpdateResponse)
             {
                 StatusCode = 207
             };
