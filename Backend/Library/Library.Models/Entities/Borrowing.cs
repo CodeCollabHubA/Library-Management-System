@@ -35,8 +35,36 @@ namespace Library.Models.Entities
         // Book should be returned by DueDate
         public DateTime DueDate { get; set; }
 
-        public bool IsReturned { get; set; }
+        public BorrowingStatus Status { get; set; }
+
+        // Approved by
+        public int? ApprovedById { get; set; }
+
+        [ForeignKey(nameof(ApprovedById))]
+        public User ApprovedByNavigation { get; set; }
+
+        // Returned by
+        public int? ReturnedById { get; set; }
+
+        [ForeignKey(nameof(ReturnedById))]
+        public User ReturnedByNavigation { get; set; }
+
+        // Rejected by
+        public int? RejectedById { get; set; }
+
+        [ForeignKey(nameof(RejectedById))]
+        public User RejectedByNavigation { get; set; }
 
 
+    }
+
+    public enum BorrowingStatus
+    {
+        Pending,
+        Cancelled,
+        Approved,
+        Rejected,
+        Borrowed,
+        Returned
     }
 }
