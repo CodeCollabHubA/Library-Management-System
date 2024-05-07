@@ -22,6 +22,9 @@
                      .Include(b => b.BookNavigation.Authors)
                      .Include(b => b.BookNavigation.Publishers)
                     .Include(b => b.UserNavigation)
+                    .Include(b => b.ApprovedByNavigation)
+                    .Include(b => b.RejectedByNavigation)
+                    .Include(b => b.ReturnedByNavigation)
                     .ToList();
 
             return Table;
@@ -34,6 +37,9 @@
             .Include(b => b.BookNavigation)
                 .ThenInclude(book => book.Publishers)
             .Include(b => b.UserNavigation)
+            .Include(b => b.ApprovedByNavigation)
+            .Include(b => b.RejectedByNavigation)
+            .Include(b => b.ReturnedByNavigation)
             .FirstOrDefaultAsync(x => x.Id == id);
 
 

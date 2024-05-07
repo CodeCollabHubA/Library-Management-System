@@ -4,6 +4,7 @@ using Library.Dal.EFStructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Dal.EFStructures.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240507041611_ChangeIsReturnedToStatusInBorrowingTable")]
+    partial class ChangeIsReturnedToStatusInBorrowingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,9 +152,6 @@ namespace Library.Dal.EFStructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ApprovedById")
-                        .HasColumnType("int");
-
                     b.Property<int?>("BookId")
                         .IsRequired()
                         .HasColumnType("int");
@@ -165,12 +165,6 @@ namespace Library.Dal.EFStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("DateAdd(day, 15, GetDate())");
-
-                    b.Property<int?>("RejectedById")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReturnedById")
-                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -189,13 +183,7 @@ namespace Library.Dal.EFStructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApprovedById");
-
                     b.HasIndex("BookId");
-
-                    b.HasIndex("RejectedById");
-
-                    b.HasIndex("ReturnedById");
 
                     b.HasIndex("UserId");
 
@@ -398,23 +386,11 @@ namespace Library.Dal.EFStructures.Migrations
 
             modelBuilder.Entity("Library.Models.Entities.Borrowing", b =>
                 {
-                    b.HasOne("Library.Models.Entities.User", "ApprovedByNavigation")
-                        .WithMany()
-                        .HasForeignKey("ApprovedById");
-
                     b.HasOne("Library.Models.Entities.Book", "BookNavigation")
                         .WithMany("Borrowings")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Library.Models.Entities.User", "RejectedByNavigation")
-                        .WithMany()
-                        .HasForeignKey("RejectedById");
-
-                    b.HasOne("Library.Models.Entities.User", "ReturnedByNavigation")
-                        .WithMany()
-                        .HasForeignKey("ReturnedById");
 
                     b.HasOne("Library.Models.Entities.User", "UserNavigation")
                         .WithMany("Borrowings")
@@ -422,13 +398,7 @@ namespace Library.Dal.EFStructures.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApprovedByNavigation");
-
                     b.Navigation("BookNavigation");
-
-                    b.Navigation("RejectedByNavigation");
-
-                    b.Navigation("ReturnedByNavigation");
 
                     b.Navigation("UserNavigation");
                 });

@@ -59,11 +59,11 @@ namespace Library.Dal.Initialization
         };
         public static List<Borrowing> Borrowings => new()
         {
-            new() { Id = 1, UserId = 3,BookId = 1, DateOut = DateTime.Now.AddDays(1), IsReturned=false},
-            new() { Id = 2, UserId = 4,BookId = 2 , DateOut = DateTime.Now.AddDays(3), IsReturned=false},
-            new() { Id = 3, UserId = 4,BookId = 3 , DateOut = DateTime.Now.AddDays(3)},
-            new() { Id = 4, UserId = 5,BookId = 3 , DateOut = DateTime.Now},
-            new() { Id = 5, UserId = 4,BookId = 4 , DateOut = DateTime.Now.Subtract(TimeSpan.FromDays(30)), IsReturned = true},
+            new() { Id = 1, UserId = 3,BookId = 1, DateOut = DateTime.Now.AddDays(1), Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 2, UserId = 4,BookId = 2 , DateOut = DateTime.Now.AddDays(3), Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 3, UserId = 4,BookId = 3 , DateOut = DateTime.Now.AddDays(3), Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 4, UserId = 5,BookId = 3 , DateOut = DateTime.Now, Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 5, UserId = 4,BookId = 4 , DateOut = DateTime.Now.Subtract(TimeSpan.FromDays(30)), Status=BorrowingStatus.Returned, ApprovedById = 1, RejectedById = 1},
 
 
         };
