@@ -45,6 +45,9 @@ namespace Library.Models.Entities
         [JsonIgnore]
         public string PasswordHash { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
+
     }
 
     public enum Role

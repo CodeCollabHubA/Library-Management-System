@@ -55,6 +55,7 @@ namespace Library.Models.Entities
         [ForeignKey(nameof(RejectedById))]
         public User RejectedByNavigation { get; set; }
 
+        public DateTime CreatedAt { get; set; }
 
     }
 
