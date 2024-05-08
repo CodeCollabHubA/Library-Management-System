@@ -63,7 +63,7 @@
         </member>
         <member name="M:Library.Api.Controllers.BorrowingController.InitiateBorrowingAsync(Library.Models.DTO.PendingBorrowingRequestDTO)">
             <summary>
-            Borrow book or list of books
+            Initiate a borrowing request for one or more books
             </summary>
             <returns>
             Either:

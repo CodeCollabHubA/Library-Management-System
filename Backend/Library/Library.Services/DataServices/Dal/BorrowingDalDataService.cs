@@ -275,7 +275,7 @@ namespace Library.Services.DataServices.Dal
         private static bool HandleReject(BorrowingStatusUpdateResponseDTO borrowingRequestResponseDTO, User userFromToken, int borrowingId, Borrowing borrowing, bool shouldContinue)
         {
             // Proceed only if the borrowing is pending or approved
-            if (borrowing.Status != BorrowingStatus.Pending || borrowing.Status != BorrowingStatus.Approved)
+            if (!(borrowing.Status == BorrowingStatus.Pending || borrowing.Status == BorrowingStatus.Approved))
             {
                 borrowingRequestResponseDTO.Errors.Add(new()
                 {
