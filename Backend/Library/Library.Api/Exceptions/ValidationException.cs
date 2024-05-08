@@ -3,7 +3,7 @@
 
     public class ValidationException : WebException
     {
-        public IDictionary<string, string[]> Errors { get; } = new Dictionary<string, string[]>();
+        public IDictionary<string, string[]> Errors { get; }
 
         public ValidationException() : this(string.Empty)
         { }
@@ -18,7 +18,7 @@
 
         public ValidationException(string? message, Exception? innerException, IDictionary<string, string[]>? errors) : base(string.IsNullOrWhiteSpace(message) ? "Your inputs are not valid, please check and try again" : message, innerException)
         {
-            Errors = errors ?? new Dictionary<string, string[]>();
+            Errors = errors!;
             Type = TypeBase + "bad-request";
             Status = 400;
             Title = "Bad Request";
