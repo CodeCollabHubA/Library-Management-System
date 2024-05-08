@@ -17,5 +17,8 @@ namespace Library.Models.DTO
         public string? Phone { get; set; }
 
         public Role UserRole { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
     }
 }

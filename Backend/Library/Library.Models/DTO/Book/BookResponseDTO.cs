@@ -25,6 +25,9 @@ namespace Library.Models.DTO
         [Required]
         public int NumberOfAvailableCopies { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
+
     }
 }
 
