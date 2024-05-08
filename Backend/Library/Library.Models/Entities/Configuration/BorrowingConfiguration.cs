@@ -5,6 +5,9 @@ namespace Library.Models.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<Borrowing> builder)
         {
+            // Default for createdAt
+            builder.Property(b => b.CreatedAt).HasDefaultValueSql("GetDate()");
+
             // Set the default of the DateOut to be the current date
             builder.Property(l => l.DateOut).HasDefaultValueSql("GetDate()");
 

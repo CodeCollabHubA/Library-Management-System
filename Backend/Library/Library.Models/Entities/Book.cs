@@ -49,5 +49,7 @@ namespace Library.Models.Entities
 
         [InverseProperty(nameof(BookPublisher.BookNavigation))]
         public ICollection<BookPublisher> BookPublishers { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

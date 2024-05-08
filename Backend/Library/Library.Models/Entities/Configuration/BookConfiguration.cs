@@ -7,6 +7,9 @@ namespace Library.Models.Entities.Configuration
         public void Configure(EntityTypeBuilder<Book> builder)
         {
 
+            // Default for createdAt
+            builder.Property(b => b.CreatedAt).HasDefaultValueSql("GetDate()");
+
             // Many-to-Many relationship between Books and Authors
             // using the BookAuthor entity
             builder

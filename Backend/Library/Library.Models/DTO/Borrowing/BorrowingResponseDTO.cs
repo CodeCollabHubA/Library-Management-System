@@ -11,6 +11,8 @@ namespace Library.Models.DTO
 
         public DateTime DueDate { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
         public BookResponseDTO BookNavigation { get; set; }
 
 
