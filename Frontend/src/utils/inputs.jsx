@@ -4,12 +4,48 @@ import * as yup from 'yup';
 // ******************
 // resource names
 // ******************
-
 export const userResource = "user"
 export const publisherResource = "publisher"
 export const bookResource = "book"
 export const authorResource = "author"
 export const borrowingResource = "borrowing"
+
+
+// ******************
+// login form
+// ******************
+
+export const loginInputs = [
+    { label: 'Email', name: 'email', id: 'email', type: 'email' },
+    { label: 'Password', name: 'password', id: 'password', type: 'password' },
+]
+
+export const loginSchema = yup.object({
+    email: yup.string().email('Please enter a valid email address').required('must enter an email address'),
+    password: yup.string().required('must enter a passward'),
+}).required();
+
+
+// ******************
+// signup form
+// ******************
+
+export const signupInputs = [
+    { type: "text", label: "Name", name: "name" },
+    { type: "email", label: "Email", name: "email" },
+    { type: "password", label: "Password", name: "password" },
+    { type: "password", label: "Confirm Password", name: "confirm_password" },
+    { type: "text", label: "Address", name: "address" },
+    { type: "number", label: "phone", name: "phone" },
+]
+export const signupSchema = yup.object({
+    name: yup.string().required('must enter a first name'),
+    email: yup.string().email('Please enter a valid email address').required('must enter an email address'),
+    password: yup.string().min(8).required('must enter a passward'),
+    confirm_password: yup.string().label('confirm password').required().oneOf([yup.ref('password'), null], 'Passwords must match'),
+    address: yup.string().required('must enter an address'),
+    phone: yup.number()
+}).required();
 
 
 
@@ -38,15 +74,24 @@ export const profileInputs = [
     { name: 'email', label: 'email', type: 'email' },
     { name: 'address', label: 'address', type: 'text' },
     { name: 'phone', label: 'phone', type: 'text' },
-    { name: "bio", label: "bio", type: "textarea" }
+    { name: 'credit', label: 'credit', type: 'number' },
+]
+
+const profileSelectOtions = [
+    { label: "User", value: "User" },
+    { label: "Admin", value: "Admin" }
+]
+
+export const profileSelectInputs = [
+    { name: "userRole", label: "userRole", type: "select", options: profileSelectOtions, isMulti: false },
 ]
 
 export const profileSchema = yup.object({
     name: yup.string().required(),
     address: yup.string().required(),
     email: yup.string().email().required(),
-    phone: yup.string().required(),
-    bio: yup.string(),
+    phone: yup.string(),
+    credit: yup.number().required(),
 }).required();
 
 
@@ -81,12 +126,11 @@ export const publisherSchema = yup.object({
 
 export const bookHeader = [
     { name: "title" },
-    { name: "description" },
     { name: "authors" },
     { name: "publishers" },
     { name: "credit" },
-    { name: "numberOfCopiesOwned" },
-    { name: "numberOfCopiesExist" }
+    { name: "Total Copies" },
+    { name: "Available Copies" }
 ]
 
 export const bookInputs = ({ authorOptions, publisherOptions }) => [
@@ -95,8 +139,8 @@ export const bookInputs = ({ authorOptions, publisherOptions }) => [
     { name: "authors", label: "authors", type: "select", options: authorOptions, isMulti: true },
     { name: "publishers", label: "publishers", type: "select", options: publisherOptions, isMulti: true },
     { name: "credit", label: "credit", type: "number" },
-    { name: "numberOfCopiesOwned", label: "numberOfCopiesOwned", type: "number" },
-    { name: "numberOfCopiesExist", label: "numberOfCopiesExist", type: "number" }
+    { name: "numberOfTotalCopies", label: "numberOfTotalCopies", type: "number" },
+    { name: "numberOfAvailableCopies", label: "numberOfAvailableCopies", type: "number" }
 ]
 
 export const bookSchema = yup.object({
@@ -118,14 +162,15 @@ export const bookSchema = yup.object({
 
 export const borrowingHeader = [
     { name: "user" },
-    { name: "book" },
-    { name: "isReturned" },
-    { name: "credit" },
+    { name: "status" },
+    { name: "book title" },
+    { name: "book credit" },
     { name: "dueDate" },
     { name: "dateOut" },
+    { name: "createdAt" },
 ]
 
-export const borrowingInputs = ({ usersOptions, bookOptions }) => [
+export const borrowingSelectInputs = ({ usersOptions, bookOptions }) => [
     { name: "userId", label: "user", type: "select", options: usersOptions, isMulti: false },
     { name: "bookIds", label: "books", type: "select", options: bookOptions, isMulti: true },
 ]

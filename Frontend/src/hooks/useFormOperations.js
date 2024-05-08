@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMyContext } from "../context/ContextProvider";
 import { useLocation } from "react-router-dom";
-import { createUpdateApi } from "../services/createUpdateApi";
+import { createUpdateApi } from "../services/createUpdateDeleteApi";
 
 const useFormOperations = ({ schema }) => {
 
     const [file, setFile] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const [defaultValues, setDefaultValues] = useState({});
 
     const location = useLocation();
@@ -23,10 +24,15 @@ const useFormOperations = ({ schema }) => {
         }
     }, [data])
 
+    // const onSubmit = async (data, resource, operation, method,) => {
     const onSubmit = async (data) => {
-        const form = { ...defaultValues, ...data, ...(file ? { imageURL: file } : {}) }
+        setIsLoading(true)
+        let form = { ...data, ...(file ? { imageURL: file } : {}) }
+        if (method === "put") {
+            form = { ...defaultValues, ...form }
+        }
         const res = await createUpdateApi({ myContext, setDefaultValues, form, id: form.id, resource, operation, method, setState: myContext.setState })
-        console.log("submited!!");
+        setIsLoading(false)
         console.log(res);
     };
     return {
@@ -34,7 +40,7 @@ const useFormOperations = ({ schema }) => {
         file, setFile,
         operation, resource,
         defaultValues, setDefaultValues,
-        register, handleSubmit, errors,
+        register, handleSubmit, errors, isLoading,
         location, onSubmit,
     }
 }

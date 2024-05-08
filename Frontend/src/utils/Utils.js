@@ -27,3 +27,12 @@ export const formatValue = (value) => Intl.NumberFormat('en-US', {
   maximumSignificantDigits: 3,
   notation: 'compact',
 }).format(value);
+
+export const dateFormater = (dateString) => {
+  if (!dateString) return null
+  if (typeof dateString !== "string") return "not string date"
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const [year, month, day] = dateString.split('-');
+  const formattedMonth = months[parseInt(month, 10) - 1];
+  return `${formattedMonth} ${parseInt(day, 10)}`;
+}

@@ -1,38 +1,33 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import toast from "react-hot-toast";
+
 import auth from '../../services/authService'
 import Input from "../../components/formFields/_input"
 import Button from "../../components/common/buttons/_button";
 import { useMyContext } from "../../context/ContextProvider";
-
+import { loginInputs as inputs, loginSchema as schema } from "../../utils/inputs"
 
 import './loginPage.scss'
-import { useEffect } from "react";
-
 
 const LoginForm = () => {
+
     const { setUser } = useMyContext()
+    const location = useLocation();
+
     const navigate = useNavigate()
-    const inputs = [
-        { label: 'Email', name: 'email', id: 'email', type: 'email' },
-        { label: 'Password', name: 'password', id: 'password', type: 'password' },
-    ]
-    
-    const schema = yup.object({
-        email: yup.string().email('Please enter a valid email address').required('must enter an email address'),
-        password: yup.string().required('must enter a passward'),
-    }).required();
 
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
 
     const onSubmit = async ({ email, password }) => {
-        await auth.login(email, password,setUser);
-            toast.success('enterd')
-            setTimeout(() => navigate('/dashboard') , 2000);
+        await auth.login(email, password, setUser);
+        toast.success('enterd')
+        if (location.pathname === "/login") {
+            setTimeout(() => navigate('/dashboard'), 2000);
+        }
     };
 
     return (

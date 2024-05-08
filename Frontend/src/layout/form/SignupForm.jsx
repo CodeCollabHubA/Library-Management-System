@@ -8,31 +8,25 @@ import auth from '../../services/authService'
 import Button from "../../components/common/buttons/_button";
 import Input from "../../components/formFields/_input"
 import './loginPage.scss'
+import { useMyContext } from "../../context/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
-const inputs = [
-    { type: "text", label: "Name", name: "name" },
-    { type: "email", label: "Email", name: "email" },
-    { type: "password", label: "Password", name: "password" },
-    { type: "password", label: "Confirm Password", name: "confirm_password" },
-    { type: "text", label: "Address", name: "address" },
-]
-const schema = yup.object({
-    name: yup.string().required('must enter a first name'),
-    email: yup.string().email('Please enter a valid email address').required('must enter an email address'),
-    password: yup.string().min(8).required('must enter a passward'),
-    confirm_password: yup.string().label('confirm password').required().oneOf([yup.ref('password'), null], 'Passwords must match'),
-    address: yup.string().required('must enter an address'),
-}).required();
+import { signupInputs as inputs, signupSchema as schema } from "../../utils/inputs"
+
+
 
 const SignupForm = () => {
+
+    const { setUser } = useMyContext()
+    const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) })
 
 
     const onSubmit = async (data) => {
-        await auth.signUp(data);
+        await auth.signUp(data, setUser);
         toast.success('enterd')
-            setTimeout(() => { window.location = '/dashboard' }, 2000);
+        setTimeout(() => { navigate('/dashboard') }, 2000);
     }
 
     return (
