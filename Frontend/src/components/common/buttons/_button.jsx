@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Button = ({ type, to, className, children, ...props }) => {
+const Button = ({ type, to, className, disabled, children, ...props }) => {
     const style = {
         basic: "w-fit flex capitalize items-center justify-center px-3 py-2 text-sm font-medium text-center text-white rounded-md border-2 border-transparent outline-none transition-all duration-300",
 
@@ -12,15 +12,15 @@ const Button = ({ type, to, className, children, ...props }) => {
     }
     // if button type unknown not one of the above
     const buttonType = style[type] ? style[type] : style.default
-    let stylee = `${style.basic} ${buttonType} ${className}`
+    let stylee = `${style.basic} ${buttonType} ${className} ${disabled ? "bg-gray-600 hover:bg-gray-600 hover:border-gray-600 hover:text-white" : ""}`
 
     if (type === "icon") stylee = `${style.icon} ${className}`
 
     return (
         to ?
-            <Link className={stylee} to={`${to}`} type={type} {...props}>{children}</Link>
+            <Link className={stylee} to={`${to}`} type={type} disabled={disabled}  {...props}>{children}</Link>
             :
-            <button className={stylee} title="button" type={type}  {...props}>{children}</button>
+            <button className={stylee} title="button" type={type} disabled={disabled} {...props}>{children}</button>
     );
 }
 
