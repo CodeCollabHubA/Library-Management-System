@@ -4,7 +4,7 @@ import BookItem from "../layout/books/BookItem";
 import EmptyTable from "../layout/table/common/EmptyTable";
 
 
-const BookGallery = ({handleBorrow,handleClose,setOpen,open}) => {
+const BookGallery = ({ handleBorrow, handleClose, setOpen, open }) => {
 
     const { books = [] } = useMyContext()
 
@@ -35,7 +35,7 @@ const BookGallery = ({handleBorrow,handleClose,setOpen,open}) => {
                         />
                     )
                     :
-                    <EmptyTable length={6} />
+                    <EmptyTable span={6} />
                 }
             </div>
         </div>

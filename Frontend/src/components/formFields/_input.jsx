@@ -41,7 +41,7 @@ export const Select = ({ className, name, options, onChange, label, defaultValue
                 onChange={onChange}
                 isMulti={isMulti}
                 isSearchable={true}
-                defaultValue={defaultValue ? Array.from(defaultValue, ((value, index) => ({ label: name, value, value }))) : defaultValue}
+                defaultValue={defaultValue ? Array.from(defaultValue, ((value, index) => ({ label: name, value }))) : defaultValue}
                 placeholder="Search or select..."
                 {...rest}
             />

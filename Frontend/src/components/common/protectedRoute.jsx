@@ -3,14 +3,14 @@ import { useMyContext } from "../../context/ContextProvider";
 
 const ProtectedRoute = () => {
     const { user } = useMyContext()
-    
+
     if (user) {
-        return (user?.role === 'Admin' ? <Outlet /> : <Navigate to='/notFound' />);
+        return (user?.userRole === 'Admin' ? <Outlet /> : <Navigate to='/notFound' />);
     } else {
         return <Navigate to='/login' />
     }
 
-    
+
 }
- 
+
 export default ProtectedRoute;

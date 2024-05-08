@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./table.scss"
+import Pagination from "./Pagination";
 
 const Table = ({ children, resource, header }) => {
 
@@ -26,7 +27,10 @@ const Table = ({ children, resource, header }) => {
                             <th colSpan={2} className="text-center">actions</th>
                         </tr>
                     </thead>
-                    {children}
+                    <tbody>
+                        {children}
+                        <Pagination resource={resource} span={header?.length + 1} />
+                    </tbody>
                 </table >
             </div >
         </>

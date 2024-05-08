@@ -11,10 +11,14 @@ export async function createUpdateApi({ myContext, setDefaultValues, id, form, r
         if (method === "put" && !id) return console.log("id not found")
         if (!method) return console.log("unknown method")
 
-        let url = apiEndPoints[`${resourceWithS}Api`]
-        if (resource === "borrowing" && method === "post") url = url + "/borrow-book"
+        let url = apiEndPoints[`${resource}Api`]
+        if (resource === "borrowing") {
+            if (method === "post") url = apiEndPoints.borrowingApiPost
+            if (method === "put") url = apiEndPoints.borrowingApiPut
+        }
         url = id ? `${url}/${id}` : url;
 
+        let data
         if (form.imageURL) {
             data = await http[method](url, {
                 data: form,
@@ -26,8 +30,8 @@ export async function createUpdateApi({ myContext, setDefaultValues, id, form, r
         if (method === "put") {
             myContext[resourceSetState](myContext[resourceWithS]
                 .map(item =>
-                    item.id === data.id ?
-                        data
+                    item.id === data.data.id ?
+                        data.data
                         :
                         item
                 ))
@@ -36,7 +40,7 @@ export async function createUpdateApi({ myContext, setDefaultValues, id, form, r
             myContext[resourceSetState](oldData => [...oldData, data.data])
 
         }
-        setDefaultValues(data)
+        setDefaultValues(data.data)
         setState({ status: "success", message: `${resource} ${operation}d successfully` })
 
         return data
@@ -54,7 +58,7 @@ export async function deleteApi({ myContext, form, resource, setState }) {
     try {
         if (!form.id) return console.log("id not found")
 
-        let url = `${apiEndPoints[`${resourceWithS}Api`]}/${form.id}`;
+        let url = `${apiEndPoints[`${resource}Api`]}/${form.id}`;
 
         const data = await http.delete(url, {
             data: { id: form.id, timeStamp: form.timeStamp },

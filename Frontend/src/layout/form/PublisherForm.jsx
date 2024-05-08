@@ -10,7 +10,7 @@ import { publisherInputs as inputs, publisherSchema as schema } from "../../util
 const PublisherForm = () => {
     const {
         defaultValues,
-        register, handleSubmit, errors,
+        register, handleSubmit, errors, isLoading,
         onSubmit,
         operation, resource
     } = useFormOperations({ schema })
@@ -27,7 +27,7 @@ const PublisherForm = () => {
                     ))}
                 </div>
                 <div className="w-full flex justify-between">
-                    <Button type="submit" >{operation === "create" ? "add" : "save"}</Button>
+                    <Button type="submit" disabled={isLoading} >{operation === "create" ? "add" : "save"}</Button>
                 </div>
             </form>
         </div>

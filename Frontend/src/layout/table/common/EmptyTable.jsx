@@ -1,9 +1,9 @@
 import React from 'react';
 
-const EmptyTable = ({ length }) => {
+const EmptyTable = ({ span }) => {
     return (
         <tr className='w-full'>
-            <td className="w-full px-6 py-4 text-center">no data</td>
+            <td colSpan={span} className="w-full px-6 py-4 text-center">no data</td>
         </tr>
     );
 }
