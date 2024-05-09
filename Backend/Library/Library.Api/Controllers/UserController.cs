@@ -4,6 +4,7 @@
 using Library.Api.Filters.Action;
 using Library.Dal.Exceptions;
 using Library.Services.DataServices.Exceptions.User;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -27,24 +28,19 @@ namespace Library.Api.Controllers
         }
 
 
-
-
-
         [ValidateImageUpload("entity")]
+        [Authorize]
         public async override Task<ActionResult<UserResponseDTO>> UpdateOneAsync(int id, [FromForm] UserUpdateRequestDTO entity)
         {
 
             if (!ModelState.IsValid)
             {
-
                 Dictionary<string, string[]> errors = ModelState.ToDictionary(
                     x => x.Key,
                     x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
 
                 throw new customWebExceptions.ValidationException(errors);
             }
-
-
             if (id != entity.Id)
             {
                 _logger.LogAppWarning("Id in the route and the entity do not match");
@@ -52,14 +48,17 @@ namespace Library.Api.Controllers
                     ("Id in the route and the entity do not match");
             }
 
-
-
             User domainEntity = _mapper.Map<User>(entity);
-
             try
             {
                 domainEntity = await _userDataService.UpdateAsync(domainEntity);
-
+            }
+            catch(UserForbidenExcepiton ex)
+            {
+                throw new customWebExceptions.ForbiddenException(ex.Message)
+                {
+                    Code = "UserUpdateForbidden"
+                };
             }
             catch (UserNotFoundException ex)
             {
@@ -82,7 +81,6 @@ namespace Library.Api.Controllers
                     Code = "DatabaseError"
                 };
             }
-
 
             return Ok(_mapper.Map<UserResponseDTO>(domainEntity));
         }
