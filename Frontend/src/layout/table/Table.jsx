@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import "./table.scss"
 import Pagination from "./Pagination";
+// import SearchAndFilter from "../../components/common/_searchAndFilter";
+import SearchFilter from "./common/SearchFilter";
+
 
 const Table = ({ children, resource, header }) => {
-
 
 
     return (
@@ -16,6 +18,9 @@ const Table = ({ children, resource, header }) => {
                 }
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
+
+                <SearchFilter header={header} resource={resource} />
+
                 <table className="capitalize w-full text-sm text-left rtl:text-right text-gray-500 ">
                     <thead className="text-xs text-gray-700 bg-gray-50 ">
                         <tr>

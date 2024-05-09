@@ -7,8 +7,8 @@ const User = ({ body, handleDelete }) => {
         body.map(item => (
             <tr key={item?.id}>
                 <td>{item.name}</td>
-                <td>{item.address}</td>
                 <td>{item.email}</td>
+                <td>{item.address}</td>
                 <td>{item.phone}</td>
                 <td>{item.credit}</td>
                 <td>{item.userRole}</td>
