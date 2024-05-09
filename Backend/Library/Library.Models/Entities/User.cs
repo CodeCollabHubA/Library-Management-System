@@ -13,6 +13,7 @@ namespace Library.Models.Entities
         [Required]
         public string Name { get; set; }
 
+        public string? Bio { get; set; }
 
         public string? Address { get; set; }
 
