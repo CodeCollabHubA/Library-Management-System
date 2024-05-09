@@ -4,6 +4,7 @@
 using Library.Services.DataServices.Exceptions.User;
 using Library.Services.DataServices.Helpers;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Library.Services.DataServices.Dal
 {
@@ -113,13 +114,34 @@ namespace Library.Services.DataServices.Dal
         public override async Task<User> UpdateAsync(User entity, bool persist = true)
         {
 
-            // check if user with this id exist
-            User user = await _mainRepo.FindAsNoTrackingAsync(entity.Id);
-            if (user == null)
+            // Get the user id and check his role from the token
+            ClaimsIdentity identity = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
+            int userId = int.Parse(identity.FindFirst(ClaimTypes.NameIdentifier).Value);
+            User authUser = await _mainRepo.FindAsNoTrackingAsync(userId);
+            Role? userRole = authUser.UserRole;
+
+
+            // Get the user in the body 
+            User userToEdit = await _mainRepo.FindAsNoTrackingAsync(entity.Id);
+            if (userToEdit == null)
             {
                 _logger.LogAppWarning($"User with id {entity.Id} doesnot exist");
                 throw new UserNotFoundException();
             }
+
+            // Only conintue if the authenticated user is an admin or he is the same user in the request body
+            if (!(userRole == Role.Admin || userId == entity.Id))
+            {
+                throw new UserForbidenExcepiton("Only an admin or the user himself this info, you are not authorized to do so");
+            }
+
+            // Only continue if the user isn't trying to change his role to admin or change his credit
+            if (userRole != Role.Admin && (entity.Credit != null || entity.UserRole != userToEdit.UserRole))
+            {
+                throw new UserForbidenExcepiton("Only the admin can update the credit or the role");
+            }
+
+
 
 
             // Set image paths for a fallback image
@@ -145,17 +167,25 @@ namespace Library.Services.DataServices.Dal
 
                 imageUrl = imageUrl.Replace(imageName, newImageName);
 
+                // Map the image
+                userToEdit.ImagePath = localImagePath;
+                userToEdit.ImageURL = imageUrl;
+
             }
 
-            entity.ImagePath = localImagePath;
-            entity.ImageURL = imageUrl;
+            // Map dto to the user
+            userToEdit.TimeStamp = entity.TimeStamp;
+            userToEdit.Name = entity.Name;
+            userToEdit.Address = entity.Address != null ? entity.Address : userToEdit.Address;
+            userToEdit.Email = entity.Email;
+            userToEdit.Phone = entity.Phone != null ? entity.Phone : userToEdit.Phone;
 
+            // Admin only fields
+            userToEdit.UserRole = userRole == Role.Admin ? entity.UserRole : userToEdit.UserRole;
+            userToEdit.Credit = (userRole == Role.Admin && entity.Credit != null) ? entity.Credit : userToEdit.Credit;
 
-
-            entity.PasswordHash = user.PasswordHash;
-
-            await _mainRepo.UpdateAsync(entity, persist);
-            return entity;
+            await _mainRepo.UpdateAsync(userToEdit);
+            return userToEdit;
         }
 
 
