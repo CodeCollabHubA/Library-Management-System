@@ -26,7 +26,7 @@ const useAppInitialLoad = () => {
             const { data: books } = await http.get(bookApi)
             setBooks(books)
 
-            if (user.userRole === "Admin") {
+            if (user?.userRole === "Admin") {
                 const { data: publishers } = await http.get(publisherApi)
                 setPublishers(publishers)
                 const { data: authors } = await http.get(authorApi)

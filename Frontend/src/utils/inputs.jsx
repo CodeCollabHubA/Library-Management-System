@@ -58,8 +58,8 @@ export const userHeader = [
     { name: 'email' },
     { name: 'address' },
     { name: 'phone' },
-    { name: 'credit' },
-    { name: 'role' },
+    { name: 'credit', type: "number" },
+    { name: 'userRole' },
 ]
 
 
@@ -128,9 +128,9 @@ export const bookHeader = [
     { name: "title" },
     { name: "authors" },
     { name: "publishers" },
-    { name: "credit" },
-    { name: "Total Copies" },
-    { name: "Available Copies" }
+    { name: "credit", type: "number" },
+    { name: "numberOfTotalCopies", label: "numberOfTotalCopies", type: "number" },
+    { name: "numberOfAvailableCopies", label: "numberOfAvailableCopies", type: "number" }
 ]
 
 export const bookInputs = ({ authorOptions, publisherOptions }) => [
@@ -165,9 +165,9 @@ export const borrowingHeader = [
     { name: "status" },
     { name: "book title" },
     { name: "book credit" },
-    { name: "dueDate" },
-    { name: "dateOut" },
-    { name: "createdAt" },
+    { name: "dueDate", type: "date" },
+    { name: "dateOut", type: "date" },
+    { name: "createdAt", type: "date" },
 ]
 
 export const borrowingSelectInputs = ({ usersOptions, bookOptions }) => [
