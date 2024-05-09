@@ -10,7 +10,7 @@ import { authorInputs as inputs, authorSchema as schema } from "../../utils/inpu
 const AuthorForm = () => {
     const {
         defaultValues,
-        register, handleSubmit, errors,
+        register, handleSubmit, errors, isLoading,
         onSubmit,
         operation, resource
     } = useFormOperations({ schema })
@@ -28,7 +28,7 @@ const AuthorForm = () => {
                     ))}
                 </div>
                 <div className="w-full flex justify-between">
-                    <Button type="submit" >{operation === "create" ? "add" : "save"}</Button>
+                    <Button type="submit" disabled={isLoading} >{operation === "create" ? "add" : "save"}</Button>
                 </div>
             </form>
         </div>

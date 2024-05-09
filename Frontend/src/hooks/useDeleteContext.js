@@ -1,5 +1,5 @@
 import { useMyContext } from "../context/ContextProvider"
-import { deleteApi } from "../services/createUpdateApi"
+import { deleteApi } from "../services/createUpdateDeleteApi"
 
 const useDeleteContext = (resource) => {
 

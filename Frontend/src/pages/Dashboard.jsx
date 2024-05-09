@@ -11,6 +11,7 @@ import AdminUsers from "./AdminUsers";
 import AdminAuthors from "./AdminAuthors";
 import AdminPublishers from "./AdminPublishers";
 
+import BorrowingForm from "../layout/form/BorrowingForm";
 import ProfilePasswordForm from "../layout/form/ProfilePasswordForm";
 import ProfileForm from "../layout/form/ProfileForm";
 import Navbar from "../layout/shared/Navbar";
@@ -20,13 +21,14 @@ import NotFound from "../layout/shared/NotFound";
 import FooterSection from "../layout/shared/FooterSection";
 import useSideBarPosition from "../hooks/useSideBarPosition";
 import ProtectedRoute from "../components/common/protectedRoute";
+
 import { useState } from "react";
 import { useMyContext } from "../context/ContextProvider";
 
 
 const DashboardContainer = () => {
   const { footerRef, sideBarPosition } = useSideBarPosition()
-  const { noBorrow,setNoBorrow}=useMyContext()
+  const { noBorrow, setNoBorrow } = useMyContext()
   const [open, setOpen] = useState(false)
 
 
@@ -35,7 +37,7 @@ const DashboardContainer = () => {
     setOpen(!open)
   }
   const handleClose = () => {
-      setOpen(!open)
+    setOpen(!open)
   }
 
   return (
@@ -55,6 +57,7 @@ const DashboardContainer = () => {
                 <Route path='borrowings/*' element={<AdminBorrowing />} />
                 <Route path='publishers/*' element={<AdminPublishers />} />
               </Route>
+              <Route path='borrowing' element={<BorrowingForm />} />
               <Route path='booksGallery/*' element={<BookGallery handleBorrow={handleBorrow} handleClose={handleClose} setOpen={setOpen} open={open} />} />
               <Route path='profile' element={<Profile />} />
               <Route path='profile/update' element={<ProfileForm />} />

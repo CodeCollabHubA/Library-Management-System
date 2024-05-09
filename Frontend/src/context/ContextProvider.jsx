@@ -7,12 +7,12 @@ const Context = createContext()
 const ContextProvider = ({ children }) => {
     const [state, setState] = useState(initialStatusMessage)
     const [books, setBooks] = useState()
-    const [user, setUser] = useState(()=>localStorage.getItem('user'))
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")))
     const [publishers, setPublishers] = useState()
     const [authors, setAuthors] = useState()
     const [users, setUsers] = useState()
     const [borrowings, setBorrowings] = useState()
-    const [noBorrow,setNoBorrow] = useState(null)
+    const [noBorrow, setNoBorrow] = useState(null)
 
 
 
@@ -24,7 +24,7 @@ const ContextProvider = ({ children }) => {
         authors, setAuthors,
         users, setUsers,
         borrowings, setBorrowings,
-        noBorrow,setNoBorrow,
+        noBorrow, setNoBorrow,
     }
 
     return (

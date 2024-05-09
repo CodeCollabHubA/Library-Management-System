@@ -3,25 +3,25 @@ import { apiUrl } from './apiEndPoints'
 import http from './httpService';
 import { setUser } from "@sentry/react";
 
-const tokenKey = 'token'
+const userLocalStorage = 'user'
 const LogApiEndpoint = apiUrl + '/Auth/Login';
 const RegApiEndpoint = apiUrl + '/Auth/Register';
 
 export async function signUp(data) {
-    const { data: jwt } = await http.post(RegApiEndpoint, data);
-    localStorage.setItem(tokenKey,jwt)
+    console.log(data);
+    const { data: user } = await http.post(RegApiEndpoint, data);
+    console.log(data); setUser(user)
+    localStorage.setItem(userLocalStorage, JSON.stringify(user));
 }
 
-export async function login(email, password,setUser) {
-    const { data: jwt } = await http.post(LogApiEndpoint, { email, password });
-    localStorage.setItem(tokenKey, jwt);
-    const user = { ...jwtDecode(jwt), token: jwt }
+export async function login(email, password, setUser) {
+    const { data: user } = await http.post(LogApiEndpoint, { email, password });
     setUser(user)
-    // user&&localStorage.setItem('role',user.role)
+    localStorage.setItem(userLocalStorage, JSON.stringify(user));
 }
 
 export function logout(setUser) {
-    localStorage.removeItem(tokenKey)
+    localStorage.removeItem(userLocalStorage)
     setUser(null)
 }
 

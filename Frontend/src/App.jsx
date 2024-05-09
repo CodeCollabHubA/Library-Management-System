@@ -15,7 +15,8 @@ import { useMyContext } from './context/ContextProvider';
 
 
 const App = () => {
-  const {user}=useMyContext()
+
+  const { user } = useMyContext()
   const [showMenu, setShowMenu] = useState(false)
 
   useAppInitialLoad()
@@ -46,8 +47,9 @@ const App = () => {
         <Route path='/dashboard/*' element={
           user ?
             <Dashboard />
-            :<LoginForm/>
-          } />
+            :
+            <LoginForm />
+        } />
       </Routes>
     </>
   );
