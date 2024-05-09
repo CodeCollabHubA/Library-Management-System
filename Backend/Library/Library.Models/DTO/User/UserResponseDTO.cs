@@ -6,6 +6,8 @@ namespace Library.Models.DTO
     {
         public string Name { get; set; }
 
+        public string? Bio { get; set; }
+
         public string? ImageURL { get; set; }
 
         public string? Address { get; set; }
