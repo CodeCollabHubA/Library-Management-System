@@ -54,6 +54,10 @@ namespace Library.Dal.Repos.Base
                     // Apply the predicate to filter the query
                     table = table.Where(predicate);
                 }
+                else
+                {
+                    throw new ArgumentException("Invalid filterOn property name");
+                }
             }
 
 
