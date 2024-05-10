@@ -71,6 +71,13 @@ namespace Library.Api.Controllers.Base
                     Code = "BadFilterFormat"
                 };
             }
+            catch (ArgumentException ex)
+            {
+                throw new customWebExceptions.ValidationException(ex.Message)
+                {
+                    Code = "BadFilterArgument"
+                };
+            }
 
 
             if (entities == null)
