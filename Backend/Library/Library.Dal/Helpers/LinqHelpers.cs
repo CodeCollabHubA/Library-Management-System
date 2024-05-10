@@ -1,6 +1,4 @@
-﻿
-
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Library.Dal.Helpers
 {
@@ -9,29 +7,47 @@ namespace Library.Dal.Helpers
         public static Expression<Func<T, bool>> BuildWherePredicate<T>(PropertyInfo propertyInfo, string filterQuery)
         {
 
-            var parameter = Expression.Parameter(typeof(T), "x");
 
-            var property = Expression.Property(parameter, propertyInfo);
-
-
+            // For string properties, parse the filterQuery and use String.Contains 
             if (propertyInfo.PropertyType == typeof(string))
             {
-                return BuildWherePredicateWithContains<T>(filterQuery, parameter, property);
+                return BuildWherePredicateForStringProperty<T>(propertyInfo, filterQuery);
             }
             // For date time properties, parse the filterQuery and use DateTime.CompareTo
             else if (propertyInfo.PropertyType == typeof(DateTime))
             {
-                return BuildWherePredicateWithCompareTo<T>(filterQuery, parameter, property);
+                return BuildWherePredicateForDateTimeProperty<T>(propertyInfo, filterQuery);
             }
-            // For non-string, non-date properties, use the EqualityComparer.Default.Equals method
+            // For int properties, user 
+            else if (propertyInfo.PropertyType == typeof(int))
+            {
+                return BuildWherePredicateForIntProperty<T>(propertyInfo, filterQuery);
+            }
+            // For bool properties
+            else if (propertyInfo.PropertyType == typeof(bool))
+            {
+                return BuildWherePredicateForBoolProperty<T>(propertyInfo, filterQuery);
+            }
             else
             {
-                return BuildWherePredicateWithEquals<T>(propertyInfo, filterQuery, parameter, property);
+                throw new FormatException("Filtering on this property is not supported");
             }
 
         }
 
-        private static Expression<Func<T, bool>> BuildWherePredicateWithCompareTo<T>(string filterQuery, ParameterExpression parameter, MemberExpression property)
+        private static Expression<Func<T, bool>> BuildWherePredicateForBoolProperty<T>(PropertyInfo propertyInfo, string filterQuery)
+        {
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = Expression.Property(parameter, propertyInfo);
+            var boolConstant = Expression.Constant(bool.Parse(filterQuery));
+
+            var binaryExpression = Expression.Equal(property, boolConstant);
+
+            return Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+
+        }
+
+        private static Expression<Func<T, bool>> BuildWherePredicateForDateTimeProperty<T>(PropertyInfo propertyInfo, string filterQuery)
         {
             // Parse the filterQuery as follow:
             // 1. If it is a single DateTime:
@@ -41,14 +57,39 @@ namespace Library.Dal.Helpers
             //    d. Preceded with ">=" then return entities with dates greater than or equal to it
             //    e. Preceded with "<=" then return entities with dates less than or equal to it
             // 2. If it is two date separated by a "~" then return entities with dates between them
-            Expression<Func<T, bool>> lambda = Expression.Lambda<Func<T, bool>>(Expression.Constant(true), parameter);
-            // Check if the string follow the expected format
-            if (singleDateOperators.Contains(filterQuery[0].ToString()) || filterQuery.Contains("~"))
-            {
-                var compareToMethod = typeof(DateTime).GetMethod("CompareTo", new[] { typeof(DateTime) });
 
-                lambda = BuildWherePredicateForSingleDate(filterQuery, parameter, property, lambda, compareToMethod);
-                lambda = BuildWherePredicateForRangeOfDates(filterQuery, parameter, property, lambda, compareToMethod);
+
+            var compareToMethod = typeof(DateTime).GetMethod("CompareTo", new[] { typeof(DateTime) });
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = Expression.Property(parameter, propertyInfo);
+
+            Expression<Func<T, bool>> lambda = Expression.Lambda<Func<T, bool>>(Expression.Constant(true), parameter);
+            // Check if the string follows the expected format
+            if (singleOperandOperators.Contains(filterQuery[0].ToString()) || filterQuery.Contains("~"))
+            {
+                // Check if the string contains a single date and the a correct operator
+                if (singleOperandOperators.Contains(filterQuery[0].ToString()))
+                {
+                    // Get the symbol from the string
+                    var symbol = filterQuery[0].ToString();
+                    // Get the date from the string
+                    var dateString = filterQuery.Substring(1);
+
+                    DateTime date = DateTime.Parse(dateString);
+
+                    lambda = BuildWherePredicateForSingleDate(parameter, property, compareToMethod, lambda, symbol, date);
+                }
+
+                // Check if the string contains two dates
+                if (filterQuery.Contains("~"))
+                {
+                    var dates = filterQuery.Split("~");
+
+                    var date1 = DateTime.Parse(dates[0]);
+                    var date2 = DateTime.Parse(dates[1]);
+
+                    lambda = BuildWherePredicateForRangeOfDates(parameter, property, compareToMethod, lambda, date1, date2);
+                }
             }
             else
             {
@@ -64,90 +105,179 @@ namespace Library.Dal.Helpers
             return lambda;
         }
 
-        private static Expression<Func<T, bool>> BuildWherePredicateForRangeOfDates<T>(string filterQuery, ParameterExpression parameter, MemberExpression property, Expression<Func<T, bool>> lambda, MethodInfo? compareToMethod)
+        private static Expression<Func<T, bool>> BuildWherePredicateForRangeOfDates<T>(ParameterExpression parameter, MemberExpression property, MethodInfo compareToMethod, Expression<Func<T, bool>> lambda, DateTime date1, DateTime date2)
         {
-            // Check if the string contains two dates
-            if (filterQuery.Contains("~"))
-            {
-                var dates = filterQuery.Split("~");
-                var date1 = DateTime.Parse(dates[0]);
-                var date2 = DateTime.Parse(dates[1]);
+            // Construct expressions for DateTime.CompareTo(date1) >= 0 and DateTime.CompareTo(date2) <= 0
+            var compareToExpression1 = Expression.Call(property, compareToMethod, Expression.Constant(date1));
+            var compareToExpression2 = Expression.Call(property, compareToMethod, Expression.Constant(date2));
 
-                // Construct expressions for DateTime.CompareTo(date1) >= 0 and DateTime.CompareTo(date2) <= 0
-                var compareToExpression1 = Expression.Call(property, compareToMethod, Expression.Constant(date1));
-                var compareToExpression2 = Expression.Call(property, compareToMethod, Expression.Constant(date2));
+            var greaterThanOrEqualExpression = Expression.GreaterThanOrEqual(compareToExpression1, Expression.Constant(0));
+            var lessThanOrEqualExpression = Expression.LessThanOrEqual(compareToExpression2, Expression.Constant(0));
 
-                var greaterThanOrEqualExpression = Expression.GreaterThanOrEqual(compareToExpression1, Expression.Constant(0));
-                var lessThanOrEqualExpression = Expression.LessThanOrEqual(compareToExpression2, Expression.Constant(0));
-
-                // Combine expressions using AndAlso (&&) operator
-                var binaryExpression = Expression.AndAlso(greaterThanOrEqualExpression, lessThanOrEqualExpression);
+            // Combine expressions using AndAlso (&&) operator
+            var binaryExpression = Expression.AndAlso(greaterThanOrEqualExpression, lessThanOrEqualExpression);
 
 
-                lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
-            }
+            lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+
 
             return lambda;
         }
 
-        private static Expression<Func<T, bool>> BuildWherePredicateForSingleDate<T>(string filterQuery, ParameterExpression parameter, MemberExpression property, Expression<Func<T, bool>> lambda, MethodInfo? compareToMethod)
+        private static Expression<Func<T, bool>> BuildWherePredicateForSingleDate<T>(ParameterExpression parameter, MemberExpression property, MethodInfo compareToMethod, Expression<Func<T, bool>> lambda, string symbol, DateTime date)
         {
-            // Check if the string contains a single date
-            if (singleDateOperators.Contains(filterQuery[0].ToString()))
+
+            ConstantExpression constant = Expression.Constant(date);
+            MethodCallExpression compareToExpression = Expression.Call(property, compareToMethod, constant);
+            BinaryExpression binaryExpression;
+
+            switch (symbol)
             {
-                // Get the symbol from the string
-                var symbol = filterQuery[0].ToString();
+                case "=":
+                    binaryExpression = Expression.Equal(compareToExpression, Expression.Constant(0));
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case ">":
+                    binaryExpression = Expression.GreaterThan(compareToExpression, Expression.Constant(0));
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case "<":
+                    binaryExpression = Expression.LessThan(compareToExpression, Expression.Constant(0));
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case ">=":
+                    binaryExpression = Expression.GreaterThanOrEqual(compareToExpression, Expression.Constant(0));
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case "<=":
+                    binaryExpression = Expression.LessThanOrEqual(compareToExpression, Expression.Constant(0));
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                default:
+                    break;
+            }
 
-                // Get the date from the string
-                var dateString = filterQuery.Substring(1);
 
-                ConstantExpression constant = Expression.Constant(DateTime.Parse(dateString));
-                MethodCallExpression compareToExpression = Expression.Call(property, compareToMethod, constant);
-                BinaryExpression binaryExpression;
+            return lambda;
+        }
 
-                switch (symbol)
+        private static HashSet<string> singleOperandOperators = new HashSet<string> { ">", "<", "=", ">=", "<=" };
+        private static Expression<Func<T, bool>> BuildWherePredicateForIntProperty<T>(PropertyInfo propertyInfo, string filterQuery)
+        {
+
+            // Parse the filterQuery as follow:
+            // If it is a single int:
+            //    a. Preceded with ">" then return entities with ints greater than it
+            //    b. Preceded with "<" then return entities with ints lees than it
+            //    c. Preceded with "=" then return entities with ints equal to it
+            //    d. Preceded with ">=" then return entities with ints greater than or equal to it
+            //    e. Preceded with "<=" then return entities with ints less than or equal to it
+            // 2. If it is two ints separated by a "~" then return entities with ints between them
+
+
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = Expression.Property(parameter, propertyInfo);
+
+            Expression<Func<T, bool>> lambda = Expression.Lambda<Func<T, bool>>(Expression.Constant(true), parameter);
+
+            // Check if the string follows the expected format
+            if (singleOperandOperators.Contains(filterQuery[0].ToString()) || filterQuery.Contains("~"))
+            {
+                // Check if the string contains a single int and the a correct operator
+                if (singleOperandOperators.Contains(filterQuery[0].ToString()))
                 {
-                    case "=":
-                        binaryExpression = Expression.Equal(compareToExpression, Expression.Constant(0));
-                        lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
-                        break;
-                    case ">":
-                        binaryExpression = Expression.GreaterThan(compareToExpression, Expression.Constant(0));
-                        lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
-                        break;
-                    case "<":
-                        binaryExpression = Expression.LessThan(compareToExpression, Expression.Constant(0));
-                        lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
-                        break;
-                    case ">=":
-                        binaryExpression = Expression.GreaterThanOrEqual(compareToExpression, Expression.Constant(0));
-                        lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
-                        break;
-                    case "<=":
-                        binaryExpression = Expression.LessThanOrEqual(compareToExpression, Expression.Constant(0));
-                        lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
-                        break;
-                    default:
-                        break;
+                    // Get the symbol from the string
+                    var symbol = filterQuery[0].ToString();
+                    // Get the int from the string
+                    var intString = filterQuery.Substring(1);
+
+                    var int1 = int.Parse(intString);
+
+                    lambda = BuildWherePredicateForSingleInt(parameter, property, lambda, symbol, int1);
+                }
+
+                // Check if the string contains two ints
+                if (filterQuery.Contains("~"))
+                {
+                    var ints = filterQuery.Split("~");
+
+                    var int1 = int.Parse(ints[0]);
+                    var int2 = int.Parse(ints[1]);
+
+                    lambda = BuildWherePredicateForRangeOfInts(parameter, property, lambda, int1, int2);
                 }
             }
+            else
+            {
+                throw new FormatException("Please make sure to use the correct format for date. Please follow the following instructions for guidance: \n " +
+                    "If you want to fetch records with:\n" +
+                    "1. exact date, use the following format: =2022-01-01\n" +
+                    "2. date greater than or equal to, use the following format: >=2022-01-01\n" +
+                    "3. date less than or equal to, use the following format: <=2022-01-01\n" +
+                    "4. date greater than, use the following format: >2022-01-01\n" +
+                    "5. date less than, use the following format: <2022-01-01\n" +
+                    "6. dates between two dates, use the following format: 2022-01-01~2022-01-02\n");
+            }
+            return lambda;
+        }
+
+        private static Expression<Func<T, bool>> BuildWherePredicateForRangeOfInts<T>(ParameterExpression parameter, MemberExpression property, Expression<Func<T, bool>> lambda, int int1, int int2)
+        {
+            var intConstant1 = Expression.Constant(int1);
+            var intConstant2 = Expression.Constant(int2);
+
+            var greaterThanOrEqualExpression = Expression.GreaterThanOrEqual(property, intConstant1);
+            var lessThanOrEqualExpression = Expression.LessThanOrEqual(property, intConstant2);
+
+            // Combine expressions using AndAlso (&&) operator
+            var binaryExpression = Expression.AndAlso(greaterThanOrEqualExpression, lessThanOrEqualExpression);
+
+            lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
 
             return lambda;
         }
 
-        private static HashSet<string> singleDateOperators = new HashSet<string> { ">", "<", "=", ">=", "<=" };
-        private static Expression<Func<T, bool>> BuildWherePredicateWithEquals<T>(PropertyInfo propertyInfo, string filterQuery, ParameterExpression parameter, MemberExpression property)
+        private static Expression<Func<T, bool>> BuildWherePredicateForSingleInt<T>(ParameterExpression parameter, MemberExpression property, Expression<Func<T, bool>> lambda, string symbol, int int1)
         {
-            var constant = Expression.Constant(Convert.ChangeType(filterQuery, propertyInfo.PropertyType));
+            ConstantExpression constant = Expression.Constant(int1);
+            BinaryExpression binaryExpression;
 
-            var binaryExpression = Expression.Equal(property, constant);
+            switch (symbol)
+            {
+                case "=":
+                    binaryExpression = Expression.Equal(property, constant);
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case ">":
+                    binaryExpression = Expression.GreaterThan(property, constant);
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case "<":
+                    binaryExpression = Expression.LessThan(property, constant);
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case ">=":
+                    binaryExpression = Expression.GreaterThanOrEqual(property, constant);
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                case "<=":
+                    binaryExpression = Expression.LessThanOrEqual(property, constant);
+                    lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
+                    break;
+                default:
+                    break;
+            }
 
-            var lambda = Expression.Lambda<Func<T, bool>>(binaryExpression, parameter);
             return lambda;
         }
 
-        private static Expression<Func<T, bool>> BuildWherePredicateWithContains<T>(string filterQuery, ParameterExpression parameter, MemberExpression property)
+        private static Expression<Func<T, bool>> BuildWherePredicateForStringProperty<T>(PropertyInfo propertyInfo, string filterQuery)
         {
+
+            var compareToMethod = typeof(DateTime).GetMethod("CompareTo", new[] { typeof(DateTime) });
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = Expression.Property(parameter, propertyInfo);
+
             // Use String.Contains method for string comparison
             var toLowerMethod = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
             var toLowerExpression = Expression.Call(property, toLowerMethod);
