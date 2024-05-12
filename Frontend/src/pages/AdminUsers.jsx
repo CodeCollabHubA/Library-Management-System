@@ -23,7 +23,6 @@ const Users = () => {
                 </Table>
             } />
             <Route path='update/:id' element={<ProfileForm />} />
-            {/* <Route path='create' element={<ProfileForm />} /> */}
             <Route path=':id' element={<Profile />} />
             <Route path='*' element={<NotFound />} />
         </Routes>

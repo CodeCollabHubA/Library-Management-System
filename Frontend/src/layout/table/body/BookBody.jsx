@@ -3,6 +3,7 @@ import EmptyTable from "../common/EmptyTable";
 
 const Book = ({ body, handleDelete }) => {
 
+
     return (
         <>
             {
@@ -20,7 +21,7 @@ const Book = ({ body, handleDelete }) => {
                         </tr>
                     ))
                     :
-                    <EmptyTable length={6} />
+                    <EmptyTable length={7} />
             }
         </>
     )

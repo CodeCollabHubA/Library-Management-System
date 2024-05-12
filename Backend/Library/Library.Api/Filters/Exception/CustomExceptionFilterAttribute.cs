@@ -50,7 +50,7 @@ public class CustomExceptionFilter : ExceptionFilterAttribute
                     {"message" , ex.Message }
                 };
 
-            if (ex is customWebExceptions.ValidationException vex)
+            if (ex is customWebExceptions.ValidationException vex && vex.Errors != null)
             {
 
                 problemDetails.Extensions["errors"] = vex.Errors;

@@ -6,7 +6,7 @@ import Button from "../../components/common/buttons/_button";
 import BackButton from "../../components/common/buttons/_backButton";
 import useFormOperations from '../../hooks/useFormOperations';
 
-import { borrowingInputs as inputs, borrowingSchema as schema } from "../../utils/inputs"
+import { borrowingSelectInputs as inputs, borrowingSchema as schema } from "../../utils/inputs"
 import { useMyContext } from "../../context/ContextProvider";
 
 
@@ -18,8 +18,15 @@ const BookForm = () => {
         operation, resource
     } = useFormOperations({ schema })
 
-    const { users = [], books = [] } = useMyContext()
-    const usersOptions = users.map(item => ({ label: item.name, value: item.id }))
+    const { users = [], books = [], user } = useMyContext()
+    let usersOptions
+    if (user.userRole === "User") {
+        usersOptions = [{ label: user.userName, value: user.userId }]
+    }
+    else {
+        usersOptions = users.map(item => ({ label: item.name, value: item.id }))
+    }
+
     const bookOptions = books.map(item => ({ label: item.title, value: item.id }))
 
     const [userId, setUserId] = useState([]);
@@ -35,9 +42,17 @@ const BookForm = () => {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault();
-        onSubmit({ ...defaultValues, userId, bookIds })
+        if (user.userRole === "User") {
+            let resource = "borrowing"
+            let operation = "create"
+            let method = "post"
+            onSubmit({ ...defaultValues, userId, bookIds }, resource, operation, method)
+        } else {
+            onSubmit({ ...defaultValues, userId, bookIds })
+        }
+
     }
 
 
@@ -47,7 +62,7 @@ const BookForm = () => {
                 <h1 className="text-3xl font-semibold">{operation === "create" ? "add" : operation} {resource}</h1>
                 <BackButton>back</BackButton>
             </div>
-            <form className="w-full flex flex-col gap-10" onSubmit={handleSubmit}>
+            <form className="w-full flex flex-col gap-10" onSubmit={handleFormSubmit}>
                 <div className="w-full flex flex-col gap-5">
                     {inputs({ usersOptions, bookOptions }).map(item =>
                         <Select

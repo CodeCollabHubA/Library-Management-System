@@ -25,7 +25,6 @@ namespace Library.Dal.Initialization
                 ProcessInsert(context, context.Borrowings, SampleData.Borrowings);
                 ProcessInsert(context, context.BookAuthors, SampleData.BookAuthors);
                 ProcessInsert(context, context.BookPublishers, SampleData.BookPublishers);
-                ProcessInsert(context, context.BookBorrowings, SampleData.BookBorrowings);
 
             }
             catch(Exception ex) {

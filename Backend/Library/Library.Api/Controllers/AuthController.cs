@@ -21,7 +21,7 @@ namespace Library.Api.Controllers
         // POST: /api/Auth/Register
         [HttpPost]
         [Route("Register")]
-        public async Task<ActionResult<string>> Register([FromBody] RegisterUserRequestDTO registerRequestDto)
+        public async Task<ActionResult<AuthResponseDTO>> Register([FromBody] RegisterUserRequestDTO registerRequestDto)
         {
 
             if (!ModelState.IsValid)
@@ -36,13 +36,13 @@ namespace Library.Api.Controllers
 
 
 
-            string accessToken;
+            AuthResponseDTO authResponse;
             try
             {
 
-            accessToken = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
+                authResponse = await _userDataService.RegisterUserAsync(registerRequestDto, _jwtOptions);
             }
-            catch(UserAlreadyExistException ex)
+            catch (UserAlreadyExistException ex)
             {
                 throw new customWebExceptions.ConflictException(ex.Message)
                 {
@@ -59,14 +59,14 @@ namespace Library.Api.Controllers
 
 
 
-            return Ok(accessToken);
+            return Ok(authResponse);
         }
 
 
         // POST: /api/Auth/Login
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult<string>> Login([FromBody] LoginUserRequestDTO user)
+        public async Task<ActionResult<AuthResponseDTO>> Login([FromBody] LoginUserRequestDTO user)
         {
 
 
@@ -84,13 +84,13 @@ namespace Library.Api.Controllers
 
 
 
-            string accessToken;
+            AuthResponseDTO authResponse;
             try
             {
 
-            accessToken= await _userDataService.LoginUserAsync(user, _jwtOptions);
+                authResponse = await _userDataService.LoginUserAsync(user, _jwtOptions);
             }
-            catch(InvalidUserException ex)
+            catch (InvalidUserException ex)
             {
                 throw new customWebExceptions.UnauthorizedException(ex.Message);
             }
@@ -98,7 +98,7 @@ namespace Library.Api.Controllers
 
 
 
-            return Ok(accessToken);
+            return Ok(authResponse);
         }
     }
 }

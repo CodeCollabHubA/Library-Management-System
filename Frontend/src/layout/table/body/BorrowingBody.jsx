@@ -1,7 +1,9 @@
+import { dateFormater } from "../../../utils/Utils";
 import ActionButtons from "../common/ActionButtons";
 import EmptyTable from "../common/EmptyTable";
 
 const Borrowing = ({ body, handleDelete }) => {
+
 
 
     return (
@@ -22,7 +24,7 @@ const Borrowing = ({ body, handleDelete }) => {
                         ))
 
                     :
-                    <EmptyTable length={6} />
+                    <EmptyTable length={7} />
             }
         </>
     )

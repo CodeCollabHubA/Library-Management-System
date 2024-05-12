@@ -6,11 +6,11 @@ namespace Library.Dal.Initialization
     {
         public static List<Book> Books => new()
         {
-            new() { Id = 1, Title = "The Old Man and the Sea", Description = "A novel by Ernest Hemingway. It tells the story of an aging Cuban fisherman who struggles with a giant marlin far out in the Gulf Stream.",Credit = 50, ImageURL = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", NumberOfCopiesOwned = 25, NumberOfCopiesExist = 24 },
-            new() { Id = 2, Title = "1984", Description = "A dystopian social science fiction novel by George Orwell. It follows the life of Winston Smith, a low-ranking member of the ruling Party in a totalitarian superstate.",Credit = 80, ImageURL = "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg", ImagePath= "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg" , NumberOfCopiesOwned = 18, NumberOfCopiesExist = 17 },
-            new() { Id = 3, Title = "The 7 Habits of Highly Effective People", Description = "A self-help book by Stephen R. Covey. It provides a holistic approach to personal and interpersonal effectiveness.",Credit = 30, ImageURL = "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg" , NumberOfCopiesOwned = 12, NumberOfCopiesExist = 10 },
-            new() { Id = 4, Title = "How to Win Friends & Influence People", Description = "A self-help book by Dale Carnegie. It offers practical advice on how to successfully navigate social and business interactions.",Credit = 20, ImageURL = "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg" , NumberOfCopiesOwned = 20, NumberOfCopiesExist = 20 },
-            new() { Id = 5, Title = "Atomic Habits", Description = "A self-help book by James Clear. It provides practical strategies for building good habits, breaking bad ones, and mastering the tiny behaviors that lead to remarkable results.",Credit = 5, ImageURL = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", NumberOfCopiesOwned = 15, NumberOfCopiesExist = 15 },
+            new() { Id = 1, Title = "The Old Man and the Sea", Description = "A novel by Ernest Hemingway. It tells the story of an aging Cuban fisherman who struggles with a giant marlin far out in the Gulf Stream.",Credit = 50, ImageURL = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/71RXc0OoEwL._AC_UF894,1000_QL80_.jpg", NumberOfTotalCopies = 25, NumberOfAvailableCopies = 24, CreatedAt = new DateTime(2024, 1, 1) },
+            new() { Id = 2, Title = "1984", Description = "A dystopian social science fiction novel by George Orwell. It follows the life of Winston Smith, a low-ranking member of the ruling Party in a totalitarian superstate.",Credit = 80, ImageURL = "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg", ImagePath= "https://book-website.com/wp-content/uploads/2023/10/nineteen-eighty-four-1984-george.jpg" , NumberOfTotalCopies = 18, NumberOfAvailableCopies = 17, CreatedAt = new DateTime(2024,2,1) },
+            new() { Id = 3, Title = "The 7 Habits of Highly Effective People", Description = "A self-help book by Stephen R. Covey. It provides a holistic approach to personal and interpersonal effectiveness.",Credit = 30, ImageURL = "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71y1NKGcGKL._AC_UF894,1000_QL80_DpWeblab_.jpg" , NumberOfTotalCopies = 12, NumberOfAvailableCopies = 10, CreatedAt = new DateTime(2024, 3, 1) },
+            new() { Id = 4, Title = "How to Win Friends & Influence People", Description = "A self-help book by Dale Carnegie. It offers practical advice on how to successfully navigate social and business interactions.",Credit = 20, ImageURL = "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg", ImagePath= "https://m.media-amazon.com/images/I/71vK0WVQ4rL._AC_UF894,1000_QL80_.jpg" , NumberOfTotalCopies = 20, NumberOfAvailableCopies = 20, CreatedAt = new DateTime(2024, 4, 1) },
+            new() { Id = 5, Title = "Atomic Habits", Description = "A self-help book by James Clear. It provides practical strategies for building good habits, breaking bad ones, and mastering the tiny behaviors that lead to remarkable results.",Credit = 5, ImageURL = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", ImagePath = "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg", NumberOfTotalCopies = 15, NumberOfAvailableCopies = 15, CreatedAt = new DateTime(2024, 8, 1) },
         };
 
         public static List<Author> Authors => new()
@@ -51,35 +51,22 @@ namespace Library.Dal.Initialization
 
         public static List<User> Users => new()
          {
-            new() { Id = 1, Name = "Ahmed Yassin",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 1000, Address = "Sharja, Majaz 3", Email = "ahmed@example.com", Phone = "123-456-7890", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
-            new() { Id = 2, Name = "Mohammed Ismaiel",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 100, Address = "Sharja, Nahda", Email = "moahmed@example.com", Phone = "456-789-1234", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
-            new() { Id = 3, Name = "Ali Hassan",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 50, Address = "789 Oak St", Email = "ali@example.com", Phone = "789-123-4567", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
+            new() { Id = 1, Name = "Ahmed Yassin",Bio ="Co-Founder | Software Engineer | .NET Backend Developer ",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 1000000000, Address = "Sharja, UAE", Email = "ahmedyassin@backend.dev", Phone = "+971567680570", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
+            new() { Id = 2, Name = "Mohammed Ismaiel",Bio ="Co-Founder | Software Engineer | React Frontend Developer ",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 100, Address = "Dubai, UAE", Email = "moahmed@frontend.dev", Phone = "456-789-1234", UserRole = Role.Admin, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
+            new() { Id = 3, Name = "Musab Obada",Bio ="Co-Founder | Software Engineer | React Frontend Developer ",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 50, Address = "Cairo, Egypt", Email = "mudab@frontend.dev", Phone = "789-123-4567", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
             new() { Id = 4, Name = "Osman Elamin",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 30, Email = "osman@example.com", Phone = "987-654-3210", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" },
             new() { Id = 5, Name = "khojalei abbas",ImageURL = "https://cdn-icons-png.flaticon.com/512/149/149071.png", ImagePath= "https://cdn-icons-png.flaticon.com/512/149/149071.png",Credit = 10, Email = "khojalei@example.com", Phone = "321-654-9870", UserRole = Role.User, PasswordHash = "$2b$10$d2KSh3GsKUXDvcjQ0aVdu.D45ZXtR84SQ4bq7h6vX/UTnVfke769C" }
         };
         public static List<Borrowing> Borrowings => new()
         {
-            new() { Id = 1, UserId = 3, DateOut = DateTime.Now.AddDays(1)},
-            new() { Id = 2, UserId = 4, DateOut = DateTime.Now.AddDays(3)},
-            new() { Id = 3, UserId = 5, DateOut = DateTime.Now},
-            new() { Id = 4, UserId = 4, DateOut = DateTime.Now.Subtract(TimeSpan.FromDays(30))},
+            new() { Id = 1, UserId = 3,BookId = 1, DateOut = DateTime.Now.AddDays(1), Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 2, UserId = 4,BookId = 2 , DateOut = DateTime.Now.AddDays(3), Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 3, UserId = 4,BookId = 3 , DateOut = DateTime.Now.AddDays(3), Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 4, UserId = 5,BookId = 3 , DateOut = DateTime.Now, Status=BorrowingStatus.Borrowed, ApprovedById = 1},
+            new() { Id = 5, UserId = 4,BookId = 4 , DateOut = DateTime.Now.Subtract(TimeSpan.FromDays(30)), Status=BorrowingStatus.Returned, ApprovedById = 1, RejectedById = 1},
 
 
         };
-
-        public static List<BookBorrowing> BookBorrowings => new()
-        {
-            new() { Id = 1, BookId = 1, BorrowingId = 1, IsReturned = false},
-            new() { Id = 2, BookId = 2, BorrowingId = 2, IsReturned = false},
-            new() { Id = 3, BookId = 3, BorrowingId = 2,IsReturned = false},
-            new() { Id = 4, BookId = 3, BorrowingId = 3,IsReturned = false},
-            new() { Id = 5, BookId = 4, BorrowingId = 4, IsReturned = true}
-
-
-
-
-        };
-
 
 
     }

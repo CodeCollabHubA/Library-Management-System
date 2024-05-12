@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight,faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import "./table.scss"
+import Pagination from "./Pagination";
+// import SearchAndFilter from "../../components/common/_searchAndFilter";
+import SearchFilter from "./common/SearchFilter";
+
 
 const Table = ({ children, resource, header,footer, tbodyStyle }) => {
-
-
 
     return (
         <>
@@ -32,6 +34,7 @@ const Table = ({ children, resource, header,footer, tbodyStyle }) => {
                             <td className="px-6 py-3 w-10">actions</td>
                         </tr>
                     </thead>
+
                     <tbody className="w-full bg-white" >
                         {children ? children :
                             <td colSpan={4} className="bg-white text-center">
@@ -57,6 +60,7 @@ const Table = ({ children, resource, header,footer, tbodyStyle }) => {
                     </tfoot>
                 : null
                 }
+
                 </table >
             </div >
         </>

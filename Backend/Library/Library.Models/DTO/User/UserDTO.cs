@@ -12,7 +12,7 @@ namespace Library.Models.DTO
 
         public string? Address { get; set; }
 
-        public int Credit { get; set; }
+        public int? Credit { get; set; }
 
 
 
@@ -20,9 +20,8 @@ namespace Library.Models.DTO
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
         [Phone]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
 
         [Required]

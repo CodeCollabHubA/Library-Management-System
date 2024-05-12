@@ -49,7 +49,7 @@ namespace Library.Dal.Repos.Base
                 if (propertyInfo != null)
                 {
                     // Construct the predicate dynamically
-                    var predicate = LinqHelpers.BuildWherePredicateWithContains<T>(propertyInfo, filterQuery);
+                    var predicate = LinqHelpers.BuildWherePredicate<T>(propertyInfo, filterQuery);
 
                     // Apply the predicate to filter the query
                     table = table.Where(predicate);
@@ -65,9 +65,9 @@ namespace Library.Dal.Repos.Base
                 if (propertyInfo != null)
                 {
 
-                    var predicate = LinqHelpers.BuildOrderByPredicate<T>(propertyInfo);
+                    var function = LinqHelpers.BuildOrderByFunction<T>(propertyInfo);
 
-                    table = isAscending ? table.OrderBy(predicate) : table.OrderByDescending(predicate);
+                    table = isAscending ? table.OrderBy(function) : table.OrderByDescending(function);
                 }
 
 

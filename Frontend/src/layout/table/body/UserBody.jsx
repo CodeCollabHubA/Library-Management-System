@@ -3,6 +3,7 @@ import EmptyTable from "../common/EmptyTable";
 
 const User = ({ body, handleDelete }) => {
 
+
     return (
         <>
             {
@@ -19,12 +20,13 @@ const User = ({ body, handleDelete }) => {
                         </tr>
                     ))
                     :
-                    <EmptyTable length={6} />
+                    <EmptyTable length={7} />
 
 
             }
         </>
     );
+
 
 }
 

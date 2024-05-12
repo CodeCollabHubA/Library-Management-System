@@ -13,10 +13,11 @@ namespace Library.Models.Entities
         [Required]
         public string Name { get; set; }
 
+        public string? Bio { get; set; }
 
         public string? Address { get; set; }
 
-        public int Credit { get; set; }
+        public int? Credit { get; set; }
 
         public string? ImageURL { get; set; }
         public string? ImagePath { get; set; }
@@ -29,9 +30,9 @@ namespace Library.Models.Entities
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+
         [Phone]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
 
         [Required]
@@ -44,6 +45,9 @@ namespace Library.Models.Entities
 
         [JsonIgnore]
         public string PasswordHash { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
 
     }
 

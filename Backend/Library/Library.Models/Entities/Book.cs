@@ -22,21 +22,15 @@ namespace Library.Models.Entities
 
 
         [Required]
-        public int NumberOfCopiesOwned { get; set; }
+        public int NumberOfTotalCopies { get; set; }
 
         [Required]
-        public int NumberOfCopiesExist { get; set; }
+        public int NumberOfAvailableCopies { get; set; }
 
 
-
-        // Borrowings where a copy of the book involved
-        // Many-To-Many with the Borrowing entity
-        [InverseProperty(nameof(Borrowing.Books))]
-        public ICollection<Borrowing> Borrowings { get; set; } = new List<Borrowing>();
-
-        // join table
-        [InverseProperty(nameof(BookBorrowing.BookNavigation))]
-        public ICollection<BookBorrowing> BookBorrowings { get; set; }
+        // One to Many with the Borrowing
+        [InverseProperty(nameof(Borrowing.BookNavigation))]
+        public virtual ICollection<Borrowing> Borrowings { get; set; } = new List<Borrowing>();
 
 
 
@@ -55,5 +49,7 @@ namespace Library.Models.Entities
 
         [InverseProperty(nameof(BookPublisher.BookNavigation))]
         public ICollection<BookPublisher> BookPublishers { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -3,6 +3,7 @@ import EmptyTable from "../common/EmptyTable";
 
 const Author = ({ body, handleDelete }) => {
 
+
     return (
         <>
             {

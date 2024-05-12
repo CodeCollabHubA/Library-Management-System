@@ -2,11 +2,13 @@ export const apiUrl = "http://localhost:5053/api"
 
 const apiEndPoints = {
   apiUrl,
-  booksApi: `${apiUrl}/Book`,
-  publishersApi: `${apiUrl}/Publisher`,
-  authorsApi: `${apiUrl}/Author`,
-  usersApi: `${apiUrl}/User`,
-  borrowingsApi: `${apiUrl}/Borrowing`,
+  bookApi: `${apiUrl}/Book`,
+  publisherApi: `${apiUrl}/Publisher`,
+  authorApi: `${apiUrl}/Author`,
+  userApi: `${apiUrl}/User`,
+  borrowingApi: `${apiUrl}/Borrowing`,
+  borrowingApiPost: `${apiUrl}/Borrowing/initiate`,
+  borrowingApiPut: `${apiUrl}/Borrowing/act-on-borrowing-status`,
 }
 
 export default apiEndPoints

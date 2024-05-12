@@ -19,7 +19,6 @@ namespace Library.Dal.EFStructures
         public DbSet<BookAuthor> BookAuthors { get; set; }
         
         public DbSet<Borrowing> Borrowings { get; set; }
-        public DbSet<BookBorrowing> BookBorrowings { get; set; }
 
         public DbSet<User> Users { get; set; }
         public DbSet<SeriLogEntry> SeriLogEntries { get; set; }

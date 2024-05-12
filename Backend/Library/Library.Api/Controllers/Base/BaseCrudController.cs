@@ -55,16 +55,29 @@ namespace Library.Api.Controllers.Base
             [FromQuery] int pageSize = 10, [FromQuery] int pageNumber = 1 // Pagination
             )
         {
+            IEnumerable<TEntity> entities;
+            try
+            {
+                entities = _mainRepo.GetAllIgnoreQueryFilters(
+                    filterOn, filterQuery,
+                    sortBy, isAscending ?? true,
+                    pageSize, pageNumber
+                    );
+            }
+            catch (FormatException ex)
+            {
+                throw new customWebExceptions.ValidationException(ex.Message)
+                {
+                    Code = "BadFilterFormat"
+                };
+            }
 
-            var entities = _mainRepo.GetAllIgnoreQueryFilters(
-                filterOn, filterQuery,
-                sortBy, isAscending ?? true,
-                pageSize, pageNumber
-                );
+
             if (entities == null)
             {
                 throw new customWebExceptions.NotFoundException("The requested resource was not found");
             }
+
 
             var entityResponseDto = _mapper.Map<IEnumerable<TResponseDto>>(entities);
             return Ok(entityResponseDto);

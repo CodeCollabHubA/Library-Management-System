@@ -3,6 +3,7 @@ import EmptyTable from "../common/EmptyTable";
 
 const Publisher = ({ body, handleDelete }) => {
 
+
     return (
         <>
             {
@@ -16,7 +17,7 @@ const Publisher = ({ body, handleDelete }) => {
                         </tr>
                     ))
                     :
-                    <EmptyTable length={3} />
+                    <EmptyTable length={4} />
 
 
             }

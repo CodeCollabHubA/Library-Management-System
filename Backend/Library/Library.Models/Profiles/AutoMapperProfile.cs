@@ -13,32 +13,34 @@ namespace Library.Models.Profiles
             // ResponseDTOs
             CreateMap<Book, BookResponseDTO>()
                 .ReverseMap();
-            CreateMap<Author, AuthorResponseDTO>().ReverseMap();
-            CreateMap<Publisher, PublisherResponseDTO>()
+
+            CreateMap<Author, AuthorResponseDTO>()
                 .ReverseMap();
 
-            CreateMap<BookBorrowing, BookBorrowingResponseDTO>()
+            CreateMap<Publisher, PublisherResponseDTO>()
                 .ReverseMap();
+            
             CreateMap<Borrowing, BorrowingResponseDTO>()
                 .ReverseMap();
 
             CreateMap<User, UserResponseDTO>()
                 .ReverseMap();
 
+            CreateMap<User, MinimalUserResponseDTO>()
+               .ReverseMap();
+            
 
 
             // CreateRequestDTOs
             CreateMap<Book, BookCreateRequestDTO>().ReverseMap();
             CreateMap<Author, AuthorCreateRequestDTO>().ReverseMap();
             CreateMap<Publisher, PublisherCreateRequestDTO>().ReverseMap();
-            CreateMap<Borrowing, BorrowingCreateRequestDTO>().ReverseMap();
 
 
             // UpdateRequestDTOs
             CreateMap<BookUpdateRequestDTO, Book>();
             CreateMap<AuthorUpdateRequestDTO, Author>();
             CreateMap<PublisherUpdateRequestDTO, Publisher>();
-            CreateMap<BorrowingUpdateRequestDTO, Borrowing>();
             CreateMap<UserUpdateRequestDTO, User>().ReverseMap();
 
 
@@ -55,8 +57,8 @@ namespace Library.Models.Profiles
                 .IgnoreAllMembers()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.NumberOfCopiesExist, opt => opt.MapFrom(src => src.NumberOfCopiesExist))
-                .ForMember(dest => dest.NumberOfCopiesOwned, opt => opt.MapFrom(src => src.NumberOfCopiesOwned))
+                .ForMember(dest => dest.NumberOfAvailableCopies, opt => opt.MapFrom(src => src.NumberOfAvailableCopies))
+                .ForMember(dest => dest.NumberOfTotalCopies, opt => opt.MapFrom(src => src.NumberOfTotalCopies))
                 .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.TimeStamp));
                 
           

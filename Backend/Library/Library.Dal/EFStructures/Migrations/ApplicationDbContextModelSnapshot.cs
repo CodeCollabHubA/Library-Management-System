@@ -54,6 +54,11 @@ namespace Library.Dal.EFStructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GetDate()");
+
                     b.Property<int>("Credit")
                         .HasColumnType("int");
 
@@ -66,10 +71,10 @@ namespace Library.Dal.EFStructures.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfCopiesExist")
+                    b.Property<int>("NumberOfAvailableCopies")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfCopiesOwned")
+                    b.Property<int>("NumberOfTotalCopies")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("TimeStamp")
@@ -114,36 +119,6 @@ namespace Library.Dal.EFStructures.Migrations
                     b.ToTable("BookAuthors", "libr");
                 });
 
-            modelBuilder.Entity("Library.Models.Entities.BookBorrowing", b =>
-                {
-                    b.Property<int?>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BorrowingId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("bit");
-
-                    b.Property<byte[]>("TimeStamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("BookId", "BorrowingId");
-
-                    b.HasIndex("BorrowingId");
-
-                    b.ToTable("BookBorrowings", "libr");
-                });
-
             modelBuilder.Entity("Library.Models.Entities.BookPublisher", b =>
                 {
                     b.Property<int?>("BookId")
@@ -179,10 +154,38 @@ namespace Library.Dal.EFStructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ApprovedById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BookId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GetDate()");
+
                     b.Property<DateTime>("DateOut")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 28, 14, 15, 23, 634, DateTimeKind.Local).AddTicks(2162));
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<DateTime>("DueDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("DateAdd(day, 15, GetDate())");
+
+                    b.Property<int?>("RejectedById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReturnedById")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<byte[]>("TimeStamp")
                         .IsConcurrencyToken()
@@ -195,6 +198,14 @@ namespace Library.Dal.EFStructures.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApprovedById");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("RejectedById");
+
+                    b.HasIndex("ReturnedById");
 
                     b.HasIndex("UserId");
 
@@ -315,7 +326,15 @@ namespace Library.Dal.EFStructures.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Credit")
+                    b.Property<string>("Bio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<int?>("Credit")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -337,7 +356,6 @@ namespace Library.Dal.EFStructures.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("TimeStamp")
@@ -377,25 +395,6 @@ namespace Library.Dal.EFStructures.Migrations
                     b.Navigation("BookNavigation");
                 });
 
-            modelBuilder.Entity("Library.Models.Entities.BookBorrowing", b =>
-                {
-                    b.HasOne("Library.Models.Entities.Book", "BookNavigation")
-                        .WithMany("BookBorrowings")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Models.Entities.Borrowing", "BorrowingNavigation")
-                        .WithMany("BookBorrowings")
-                        .HasForeignKey("BorrowingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BookNavigation");
-
-                    b.Navigation("BorrowingNavigation");
-                });
-
             modelBuilder.Entity("Library.Models.Entities.BookPublisher", b =>
                 {
                     b.HasOne("Library.Models.Entities.Book", "BookNavigation")
@@ -417,11 +416,37 @@ namespace Library.Dal.EFStructures.Migrations
 
             modelBuilder.Entity("Library.Models.Entities.Borrowing", b =>
                 {
+                    b.HasOne("Library.Models.Entities.User", "ApprovedByNavigation")
+                        .WithMany()
+                        .HasForeignKey("ApprovedById");
+
+                    b.HasOne("Library.Models.Entities.Book", "BookNavigation")
+                        .WithMany("Borrowings")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Library.Models.Entities.User", "RejectedByNavigation")
+                        .WithMany()
+                        .HasForeignKey("RejectedById");
+
+                    b.HasOne("Library.Models.Entities.User", "ReturnedByNavigation")
+                        .WithMany()
+                        .HasForeignKey("ReturnedById");
+
                     b.HasOne("Library.Models.Entities.User", "UserNavigation")
                         .WithMany("Borrowings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApprovedByNavigation");
+
+                    b.Navigation("BookNavigation");
+
+                    b.Navigation("RejectedByNavigation");
+
+                    b.Navigation("ReturnedByNavigation");
 
                     b.Navigation("UserNavigation");
                 });
@@ -435,14 +460,9 @@ namespace Library.Dal.EFStructures.Migrations
                 {
                     b.Navigation("BookAuthors");
 
-                    b.Navigation("BookBorrowings");
-
                     b.Navigation("BookPublishers");
-                });
 
-            modelBuilder.Entity("Library.Models.Entities.Borrowing", b =>
-                {
-                    b.Navigation("BookBorrowings");
+                    b.Navigation("Borrowings");
                 });
 
             modelBuilder.Entity("Library.Models.Entities.Publisher", b =>

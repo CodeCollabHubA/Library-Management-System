@@ -17,6 +17,9 @@ global using Library.Dal.Repos;
 global using Library.Dal.Repos.interfaces;
 global using Library.Dal.Repos.Base;
 
+global using AutoMapper;
+
+
 global using Serilog;
 global using Serilog.Context;
 global using Serilog.Core.Enrichers;
