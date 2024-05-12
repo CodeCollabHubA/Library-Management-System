@@ -4,7 +4,7 @@ import EmptyTable from "../common/EmptyTable";
 const Author = ({ body, handleDelete }) => {
 
     return (
-        <tbody>
+        <>
             {
                 body?.length > 0 ?
                     body.map(item => (
@@ -17,7 +17,7 @@ const Author = ({ body, handleDelete }) => {
                     <EmptyTable length={1} />
 
             }
-        </tbody>)
+        </>)
 
 }
 

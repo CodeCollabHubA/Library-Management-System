@@ -4,7 +4,7 @@ import EmptyTable from "../common/EmptyTable";
 const Book = ({ body, handleDelete }) => {
 
     return (
-        <tbody>
+        <>
             {
                 body?.length > 0 ?
                     body.map(item => (
@@ -22,7 +22,7 @@ const Book = ({ body, handleDelete }) => {
                     :
                     <EmptyTable length={6} />
             }
-        </tbody>
+        </>
     )
 
 }

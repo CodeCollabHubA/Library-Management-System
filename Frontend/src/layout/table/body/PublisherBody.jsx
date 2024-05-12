@@ -4,7 +4,7 @@ import EmptyTable from "../common/EmptyTable";
 const Publisher = ({ body, handleDelete }) => {
 
     return (
-        <tbody>
+        <>
             {
                 body?.length > 0 ?
                     body.map(item => (
@@ -20,7 +20,8 @@ const Publisher = ({ body, handleDelete }) => {
 
 
             }
-        </tbody>)
+        </>
+    )
 
 }
 

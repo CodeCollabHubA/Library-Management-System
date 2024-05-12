@@ -4,7 +4,7 @@ import EmptyTable from "../common/EmptyTable";
 const User = ({ body, handleDelete }) => {
 
     return (
-        <tbody>
+        <>
             {
                 body?.length > 0 ?
                     body.map(item => (
@@ -23,7 +23,8 @@ const User = ({ body, handleDelete }) => {
 
 
             }
-        </tbody>)
+        </>
+    );
 
 }
 

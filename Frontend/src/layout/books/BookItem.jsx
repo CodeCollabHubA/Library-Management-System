@@ -4,6 +4,7 @@ import { faClipboardCheck, faDragon, faEye } from '@fortawesome/free-solid-svg-i
 
 import Button from '../../components/common/buttons/_button';
 import Modal from '../../components/common/pupUpModal';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -12,15 +13,33 @@ import Modal from '../../components/common/pupUpModal';
 
 const BookItem = ({handleBorrow,open,setOpen,handleClose, id, imageURL, title, description, authors, publishers, credit, numberOfCopiesOwned, numberOfCopiesExist }) => {
     
+    const navigate = useNavigate()
+    const dataToSend = 'Specific data to be sent';
+    const handleGo = (id) => {
+        navigate(`../books/${id}`, {
+            state:
+            {
+                data: {
+                    imageURL,
+                    authors,
+                    publishers,
+                    title,
+                    id,
+                    // numberOfCopiesOwned,
+                    // numberOfCopiesExist,
+                    credit
+                }
+            }
+        });
+    }
     
-
     return (
         <div className="card shadow-md" >
             <div className='overflow-hidden group aspect-[3/5] relative'>
                 < img className='w-full h-full object-cover' src={`${imageURL}`} alt="1" />
                 <div className='buttons w-[80%] left-[10%] transition-opacity duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 flex absolute bottom-3  justify-between'>
                     <Button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="primary" onClick={()=>setOpen(true)} className="hover:border-transparent">borrow</Button>
-                    <Button type="primary" to={`../books/${id}`} className="hover:border-transparent"><FontAwesomeIcon icon={faEye} /></Button>
+                    <Button type="primary" onClick={()=>handleGo(id)}  className="hover:border-transparent"><FontAwesomeIcon icon={faEye} /></Button>
                 </div>
             </div >
             <Modal open={open} onClose={handleClose} onClick={() => setOpen(false)}>

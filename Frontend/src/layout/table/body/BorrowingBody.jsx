@@ -5,7 +5,7 @@ const Borrowing = ({ body, handleDelete }) => {
 
 
     return (
-        <tbody>
+        <>
             {
                 body?.length > 0 ?
                     body.map((item, i) =>
@@ -24,7 +24,7 @@ const Borrowing = ({ body, handleDelete }) => {
                     :
                     <EmptyTable length={6} />
             }
-        </tbody>
+        </>
     )
 
 }
