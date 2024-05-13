@@ -3,6 +3,7 @@
 using Library.Dal.Exceptions;
 using Library.Services.DataServices.Exceptions.Borrowing;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Library.Api.Controllers
 {
@@ -21,6 +22,67 @@ namespace Library.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Gets all records
+        /// </summary>
+        /// <returns>All records</returns>
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(401, "Unauthorized access attempted")]
+        [SwaggerResponse(403, "Forbidden access attempted")]
+        [SwaggerResponse(404, "The requested resource was not found")]
+        [SwaggerResponse(500, "An internal server error has occurred")]
+        //[ApiVersion("0.1-Beta")]
+        [HttpGet]
+        [Authorize]
+        public override async Task<ActionResult<IEnumerable<BorrowingResponseDTO>>> GetAll(
+            [FromQuery] string? filterOn, [FromQuery] string? filterQuery, // Filtering
+            [FromQuery] string? sortBy, [FromQuery] bool? isAscending,    // Sorting
+            [FromQuery] int pageSize = 10, [FromQuery] int pageNumber = 1 // Pagination
+            )
+        {
+            
+
+            IEnumerable<Borrowing> entities;
+            try
+            {
+                entities = await _borrwingDataService.GetAllAsync(
+                    filterOn, filterQuery,
+                    sortBy, isAscending ?? true,
+                    pageSize, pageNumber
+                    );
+            }
+            catch (FormatException ex)
+            {
+                throw new customWebExceptions.ValidationException(ex.Message)
+                {
+                    Code = "BadFilterQueryFormat"
+                };
+            }
+            catch (ArgumentException ex)
+            {
+                throw new customWebExceptions.ValidationException(ex.Message)
+                {
+                    Code = "BadFilterOnArgument"
+                };
+            }
+
+
+            if (entities == null)
+            {
+                throw new customWebExceptions.NotFoundException("The requested resource was not found");
+            }
+
+
+            var entityResponseDto = _mapper.Map<IEnumerable<BorrowingResponseDTO>>(entities);
+            return Ok(entityResponseDto);
+        }
 
 
         // Unused endpoints

@@ -49,7 +49,7 @@ namespace Library.Api.Controllers.Base
         //[ApiVersion("0.1-Beta")]
         [HttpGet]
         //[Authorize (Roles = "Admin")]
-        public virtual ActionResult<IEnumerable<TResponseDto>> GetAll(
+        public async virtual Task<ActionResult<IEnumerable<TResponseDto>>> GetAll(
             [FromQuery] string? filterOn, [FromQuery] string? filterQuery, // Filtering
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,    // Sorting
             [FromQuery] int pageSize = 10, [FromQuery] int pageNumber = 1 // Pagination

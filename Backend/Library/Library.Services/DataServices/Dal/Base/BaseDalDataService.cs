@@ -16,8 +16,13 @@ namespace Library.Services.DataServices.Dal.Base
         }
 
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-            => _mainRepo.GetAllIgnoreQueryFilters();
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
+            string? filterOn, string? filterQuery,
+            string? sortBy, bool isAscending,
+            int pageSize, int pageNumber)
+            => _mainRepo.GetAllIgnoreQueryFilters(filterOn, filterQuery,
+                    sortBy, isAscending,
+                    pageSize, pageNumber);
 
         public virtual async Task<TEntity> FindAsync(int id) => await _mainRepo.FindAsync(id);
 
