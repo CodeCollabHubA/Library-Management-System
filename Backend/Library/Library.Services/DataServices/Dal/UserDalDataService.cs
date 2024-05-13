@@ -189,6 +189,21 @@ namespace Library.Services.DataServices.Dal
             return userToEdit;
         }
 
-
+        public async Task<AuthResponseDTO> UpdatePasswordAsync(UpdatePasswordRequestDTO userDTO, JwtOptions jwtOptions)
+        {
+            // Get the user id and check his role from the token
+            ClaimsIdentity identity = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
+            int userId = int.Parse(identity.FindFirst(ClaimTypes.NameIdentifier).Value);
+            User authUser = await _mainRepo.FindAsync(userId);
+            // Check if the provided password is correct
+            bool passwordIsValid = JwtHelpers.VerifyPasswordHash(userDTO.OldPassword, authUser.PasswordHash);
+            if (!passwordIsValid)
+            {
+                throw new InvalidUserException("Invalid Password");
+            }
+            authUser.PasswordHash = JwtHelpers.HashPassword(userDTO.NewPassword);
+            await _mainRepo.SaveChangesAsync();
+            return await LoginUserAsync(new LoginUserRequestDTO { Email = authUser.Email, Password = userDTO.NewPassword }, jwtOptions);
+        }
     }
 }
