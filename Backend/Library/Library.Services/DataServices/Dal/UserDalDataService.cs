@@ -113,13 +113,11 @@ namespace Library.Services.DataServices.Dal
 
         public override async Task<User> UpdateAsync(User entity, bool persist = true)
         {
-
             // Get the user id and check his role from the token
             ClaimsIdentity identity = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
             int userId = int.Parse(identity.FindFirst(ClaimTypes.NameIdentifier).Value);
             User authUser = await _mainRepo.FindAsNoTrackingAsync(userId);
             Role? userRole = authUser.UserRole;
-
 
             // Get the user in the body 
             User userToEdit = await _mainRepo.FindAsNoTrackingAsync(entity.Id);
@@ -128,46 +126,34 @@ namespace Library.Services.DataServices.Dal
                 _logger.LogAppWarning($"User with id {entity.Id} doesnot exist");
                 throw new UserNotFoundException();
             }
-
             // Only conintue if the authenticated user is an admin or he is the same user in the request body
             if (!(userRole == Role.Admin || userId == entity.Id))
             {
                 throw new UserForbidenExcepiton("Only an admin or the user himself this info, you are not authorized to do so");
             }
-
             // Only continue if the user isn't trying to change his role to admin or change his credit
             if (userRole != Role.Admin && (entity.Credit != null || entity.UserRole != userToEdit.UserRole))
             {
                 throw new UserForbidenExcepiton("Only the admin can update the credit or the role");
             }
 
-
-
-
-            // Set image paths for a fallback image
-            string imageName = "User.png";
-            var localImagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles",
-                    "Images", "Users",
-                    $"{imageName}");
-
-            var imageUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}/StaticFiles/Images/Users/{imageName}";
-
-            // If image exist, register it for user
+            // If image exist, upload it to the StaticFiles Folder and update the user with the new image
             if (entity.Image != null)
             {
-                var newImageName = Path.GetFileName(entity.Image.FileName);
-
-
-                localImagePath = localImagePath.Replace(imageName, newImageName);
+                var imageName = Path.GetFileName(entity.Image.FileName);
+                // Image path in the StaticFiles Folder
+                var localImagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles",
+                "Images", "Users",
+                $"{imageName}");
+                // Image URI
+                var imageUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}/StaticFiles/Images/Users/{imageName}";
 
                 // Upload the image to the local StaticFiles Folder
                 using var stream = new FileStream(localImagePath, FileMode.Create);
-
+                // Write the image to the stream
                 await entity.Image.CopyToAsync(stream);
 
-                imageUrl = imageUrl.Replace(imageName, newImageName);
-
-                // Map the image
+                // Map the image to the user
                 userToEdit.ImagePath = localImagePath;
                 userToEdit.ImageURL = imageUrl;
 
