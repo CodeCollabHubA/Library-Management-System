@@ -5,7 +5,8 @@ import BorrowStatusButton from "./BorrowStatusButton";
 
 const Borrowing = ({ body, handleDelete }) => {
 
-    return body?.length > 0 ?
+    return body?.length > 0 
+      ?
         body.map((item) =>
             <tr key={item.id} >
                 <td>{item.userNavigation?.name}</td>
@@ -16,9 +17,9 @@ const Borrowing = ({ body, handleDelete }) => {
                 <td>{dateFormater(item.dateOut)}</td>
                 <td>{dateFormater(item.createdAt)}</td>
                 <ActionButtons handleDelete={handleDelete} item={item} />
-            </tr>)
-        :
-        <EmptyTable span={7} />
+            </tr>
+          )
+    : <EmptyTable length={7} />
 }
 
 export default Borrowing;

@@ -25,7 +25,24 @@ namespace Library.Services.DataServices.Dal
             _httpContextAccessor = httpContextAccessor;
         }
 
-
+        public override async Task<IEnumerable<Borrowing>> GetAllAsync(
+           string? filterOn, string? filterQuery,
+           string? sortBy, bool isAscending,
+           int pageSize, int pageNumber)
+        {
+            
+            var borrowings = _mainRepo.GetAllIgnoreQueryFilters(filterOn, filterQuery,
+                   sortBy, isAscending,
+                   pageSize, pageNumber);
+            // Get the user from the access token
+            User user = await GetUserFromTokenAsync();
+            // If user is not admin, return only the user's borrowings
+            if(user.UserRole != Role.Admin)
+            {
+                borrowings = borrowings.Where(b => b.UserId == user.Id);
+            }
+            return borrowings.ToList();
+        }
         public async Task<PendingBorrowingResponseDTO> CreatePendingBorrowingAsync(PendingBorrowingRequestDTO userBorrowingRequest)
         {
             // Instantiate the response DTO
@@ -283,8 +300,8 @@ namespace Library.Services.DataServices.Dal
                     Message = $"Borrowing with id {borrowingId} is not pending nor approved "
                 });
                 shouldContinue = false;
-            } 
-           
+            }
+
             if (shouldContinue)
             {
                 RejectBorrowing(borrowingRequestResponseDTO, userFromToken, borrowingId, borrowing);

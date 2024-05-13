@@ -27,7 +27,7 @@
                     .Include(b => b.ReturnedByNavigation)
                     .ToList();
 
-            return Table;
+            return table;
         }
 
         public override async Task<Borrowing> FindAsync(int id)
