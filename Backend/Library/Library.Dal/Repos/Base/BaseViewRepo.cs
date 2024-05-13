@@ -1,7 +1,4 @@
-﻿
-
-
-
+﻿using System.Linq.Dynamic.Core;
 
 namespace Library.Dal.Repos.Base
 {
@@ -44,6 +41,7 @@ namespace Library.Dal.Repos.Base
             // Filtering
             if (!String.IsNullOrWhiteSpace(filterOn) && !String.IsNullOrWhiteSpace(filterQuery))
             {
+
                 // Get the PropertyInfo object for the property to filter on using reflection
                 var propertyInfo = typeof(T).GetProperty(filterOn, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 if (propertyInfo != null)
@@ -54,9 +52,21 @@ namespace Library.Dal.Repos.Base
                     // Apply the predicate to filter the query
                     table = table.Where(predicate);
                 }
+
+                // Else check if the filter on follow the <string.strning> pattern
+                else if (filterOn.Contains("."))
+                {
+                    // This time, build the predicate dynamically using System.Linq.Dynamic.Core Package
+                    string constructedLambdaString = LinqHelpers.BuildWherePredicateForNestedProperty<T>(filterOn, filterQuery);
+
+                    // Apply the predicate to filter the query
+                    table = table.Where($"{constructedLambdaString}");
+
+                }
                 else
                 {
-                    throw new ArgumentException("Invalid filterOn property name");
+
+                    throw new ArgumentException("Invalid filterOn property");
                 }
             }
 
@@ -64,7 +74,7 @@ namespace Library.Dal.Repos.Base
             // Sorting
             if (!String.IsNullOrWhiteSpace(sortBy))
             {
-                var propertyInfo = typeof(T).GetProperty(sortBy, BindingFlags.IgnoreCase | BindingFlags.Public |BindingFlags.Instance);
+                var propertyInfo = typeof(T).GetProperty(sortBy, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
                 if (propertyInfo != null)
                 {
@@ -84,6 +94,8 @@ namespace Library.Dal.Repos.Base
 
             return table.ToList();
         }
+
+       
 
         protected virtual void Dispose(bool disposing)
         {
