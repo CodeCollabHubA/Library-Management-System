@@ -1,34 +1,34 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight,faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import "./table.scss"
 import Pagination from "./Pagination";
 // import SearchAndFilter from "../../components/common/_searchAndFilter";
 import SearchFilter from "./common/SearchFilter";
 
 
-const Table = ({ children, resource, header,footer, tbodyStyle }) => {
+const Table = ({ children, resource, header, footer, tbodyStyle }) => {
 
     return (
         <>
-            {
-                resource ?
-                    <div className="flex justify-between">
-                        <h1 className="text-5xl font-semibold">{resource} list</h1>
-                        {
-                            resource !== "user" &&
-                            <Link to="create" className="w-44 flex justify-center items-center bg-blue-700 text-white rounded-md">Add {resource}</Link>
-                        }
-                    </div>
-                    : null
+            {resource ?
+                <div className="flex justify-between">
+                    <h1 className="text-5xl font-semibold">{resource} list</h1>
+                    {
+                        resource !== "user" &&
+                        <Link to="create" className="w-44 flex justify-center items-center bg-blue-700 text-white rounded-md">Add {resource}</Link>
+                    }
+                </div>
+                : null
             }
+            <SearchFilter header={header} resource={resource} />
             <div className=" relative overflow-x-auto ">
                 <table className="capitalize w-full text-sm text-gray-500 ">
                     <thead className=" text-gray-700 bg-gray-50 ">
                         <tr className="">
                             {header.map((item, i) =>
                                 <td key={i} scope="col" className={`${item?.style} px-6 py-3`}>
-                                    {item?.name}
+                                    {item?.label}
                                 </td>
                             )}
                             <td className="px-6 py-3 w-10">actions</td>
@@ -39,28 +39,27 @@ const Table = ({ children, resource, header,footer, tbodyStyle }) => {
                         {children ? children :
                             <td colSpan={4} className="bg-white text-center">
                                 no request msg
-                        </td>
+                            </td>
                         }
                     </tbody>
-                {footer ?
-                    <tfoot className="text-gray-700 bg-gray-50">
-                        <tr>
-                            {footer.map((item ,i) =>
-                                <td key={i} colSpan={4} className=" px-6 py-3">
-                                    <div className="flex justify-between">
-                                        <span>{item.span}</span>
-                                        <span>
+                    {footer ?
+                        <tfoot className="text-gray-700 bg-gray-50">
+                            <tr>
+                                {footer.map((item, i) =>
+                                    <td key={i} colSpan={4} className=" px-6 py-3">
+                                        <div className="flex justify-between">
+                                            <span>{item.span}</span>
+                                            <span>
+                                            </span>
                                             <FontAwesomeIcon style={{ marginInline: '.5rem' }} icon={faArrowLeft} />
                                             <FontAwesomeIcon style={{ marginInline: '.5rem' }} icon={faArrowRight} />
-                                        </span>
-                                    </div>
-                                </td>
-                            )}
-                        </tr>
-                    </tfoot>
-                : null
-                }
-
+                                        </div>
+                                    </td>
+                                )}
+                            </tr>
+                        </tfoot>
+                        : null
+                    }
                 </table >
             </div >
         </>

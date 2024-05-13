@@ -13,14 +13,16 @@ const ActionButton = ({ handleDelete, item }) => {
     }
 
     return (
-        <div className="flex justify-between">
-            <Button onClick={() => handleDelete(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
-                <FontAwesomeIcon icon={faTrash} />
-            </Button>
-            <Button onClick={() => handleUpdate(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
-                <FontAwesomeIcon icon={faPencil} />
-            </Button>
-        </div>
+        <td>
+            <div className="flex justify-between">
+                <Button onClick={() => handleDelete(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
+                    <FontAwesomeIcon icon={faTrash} />
+                </Button>
+                <Button onClick={() => handleUpdate(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
+                    <FontAwesomeIcon icon={faPencil} />
+                </Button>
+            </div>
+        </td>
     );
 }
 export default ActionButton
