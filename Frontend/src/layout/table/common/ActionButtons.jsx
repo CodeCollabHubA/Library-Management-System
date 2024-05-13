@@ -13,16 +13,14 @@ const ActionButton = ({ handleDelete, item }) => {
     }
 
     return (
-        <td className=" flex px-6 py-4 text-center">
-            <div className="flex justify-center gap-5 w-full">
-                <Button onClick={() => handleDelete(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
-                    <FontAwesomeIcon icon={faTrash} />
-                </Button>
-                <Button onClick={() => handleUpdate(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
-                    <FontAwesomeIcon icon={faPencil} />
-                </Button>
-            </div>
-        </td>
+        <div className="flex justify-between">
+            <Button onClick={() => handleDelete(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
+                <FontAwesomeIcon icon={faTrash} />
+            </Button>
+            <Button onClick={() => handleUpdate(item)} type="icon" className="text-center font-medium text-blue-600 hover:underline">
+                <FontAwesomeIcon icon={faPencil} />
+            </Button>
+        </div>
     );
 }
 export default ActionButton
