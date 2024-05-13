@@ -170,8 +170,7 @@ export const borrowingHeader = [
     { name: "createdAt", type: "date" },
 ]
 
-export const borrowingSelectInputs = ({ usersOptions, bookOptions }) => [
-    { name: "userId", label: "user", type: "select", options: usersOptions, isMulti: false },
+export const borrowingSelectInputs = ({ bookOptions }) => [
     { name: "bookIds", label: "books", type: "select", options: bookOptions, isMulti: true },
 ]
 

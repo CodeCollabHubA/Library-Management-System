@@ -11,7 +11,6 @@ import AdminUsers from "./AdminUsers";
 import AdminAuthors from "./AdminAuthors";
 import AdminPublishers from "./AdminPublishers";
 
-import BorrowingForm from "../layout/form/BorrowingForm";
 import ProfilePasswordForm from "../layout/form/ProfilePasswordForm";
 import ProfileForm from "../layout/form/ProfileForm";
 import Navbar from "../layout/shared/Navbar";
@@ -49,15 +48,14 @@ const DashboardContainer = () => {
           <Routes>
             <Route index element={<Statistics />} />
             <Route path="/" element={<MarginWrapper />}>
-              <Route element={<ProtectedRoute />}>
-                <Route path='inbox/*' element={<AdminInbox />} />
-                <Route path='books/*' element={<AdminBooks />} />
-                <Route path='users/*' element={<AdminUsers />} />
-                <Route path='authors/*' element={<AdminAuthors />} />
-                <Route path='borrowings/*' element={<AdminBorrowing />} />
-                <Route path='publishers/*' element={<AdminPublishers />} />
-              </Route>
-              <Route path='borrowing' element={<BorrowingForm />} />
+              {/* <Route element={<ProtectedRoute />}> */}
+              <Route path='inbox/*' element={<AdminInbox />} />
+              <Route path='books/*' element={<AdminBooks />} />
+              <Route path='users/*' element={<AdminUsers />} />
+              <Route path='authors/*' element={<AdminAuthors />} />
+              <Route path='borrowings/*' element={<AdminBorrowing />} />
+              <Route path='publishers/*' element={<AdminPublishers />} />
+              {/* </Route> */}
               <Route path='booksGallery/*' element={<BookGallery handleBorrow={handleBorrow} handleClose={handleClose} setOpen={setOpen} open={open} />} />
               <Route path='profile' element={<Profile />} />
               <Route path='profile/update' element={<ProfileForm />} />

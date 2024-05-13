@@ -1,17 +1,19 @@
 import { createContext, useContext, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { initialStatusMessage } from '../utils/constant';
+
+import { initialStatusMessage, userLocalStorage } from '../utils/constant';
 
 const Context = createContext()
 
 const ContextProvider = ({ children }) => {
     const [state, setState] = useState(initialStatusMessage)
-    const [books, setBooks] = useState()
-    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")))
-    const [publishers, setPublishers] = useState()
-    const [authors, setAuthors] = useState()
-    const [users, setUsers] = useState()
-    const [borrowings, setBorrowings] = useState()
+    const [books, setBooks] = useState([])
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem(userLocalStorage)))
+    const [publishers, setPublishers] = useState([])
+    const [authors, setAuthors] = useState([])
+    const [users, setUsers] = useState({})
+    const [borrowings, setBorrowings] = useState([])
+    const [borrowingsActions, setBorrowingsActions] = useState([])
     const [noBorrow, setNoBorrow] = useState(null)
 
 
@@ -24,6 +26,7 @@ const ContextProvider = ({ children }) => {
         authors, setAuthors,
         users, setUsers,
         borrowings, setBorrowings,
+        borrowingsActions, setBorrowingsActions,
         noBorrow, setNoBorrow,
     }
 

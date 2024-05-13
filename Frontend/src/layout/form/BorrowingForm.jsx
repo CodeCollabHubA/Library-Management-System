@@ -14,45 +14,23 @@ import { useMyContext } from "../../context/ContextProvider";
 const BookForm = () => {
     const {
         defaultValues,
-        onSubmit,
+        onSubmit, handleSubmit,
         operation, resource
     } = useFormOperations({ schema })
 
-    const { users = [], books = [], user } = useMyContext()
-    let usersOptions
-    if (user.userRole === "User") {
-        usersOptions = [{ label: user.userName, value: user.userId }]
-    }
-    else {
-        usersOptions = users.map(item => ({ label: item.name, value: item.id }))
-    }
+    const [bookIds, setBookIds] = useState([]);
+    const { books = [], user } = useMyContext()
 
     const bookOptions = books.map(item => ({ label: item.title, value: item.id }))
 
-    const [userId, setUserId] = useState([]);
-    const [bookIds, setBookIds] = useState([]);
 
-    const selectHandleChange = {
-        userId: (selected) => {
-            setUserId(selected.value)
-        },
-
-        bookIds: (selected) => {
-            setBookIds(selected.map(item => item.value))
-        }
+    const selectHandleChange = (selected) => {
+        setBookIds(selected.map(item => item.value))
     }
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        if (user.userRole === "User") {
-            let resource = "borrowing"
-            let operation = "create"
-            let method = "post"
-            onSubmit({ ...defaultValues, userId, bookIds }, resource, operation, method)
-        } else {
-            onSubmit({ ...defaultValues, userId, bookIds })
-        }
-
+        onSubmit({ bookIds })
     }
 
 
@@ -64,12 +42,12 @@ const BookForm = () => {
             </div>
             <form className="w-full flex flex-col gap-10" onSubmit={handleFormSubmit}>
                 <div className="w-full flex flex-col gap-5">
-                    {inputs({ usersOptions, bookOptions }).map(item =>
+                    {inputs({ bookOptions }).map(item =>
                         <Select
                             key={item.name}
                             label={item.label}
                             options={item.options}
-                            onChange={selectHandleChange[item.name]}
+                            onChange={selectHandleChange}
                             isMulti={item.isMulti}
                             isSearchable={true}
                             defaultValue={defaultValues[item.name]}
