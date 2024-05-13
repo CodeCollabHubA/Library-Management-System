@@ -30,7 +30,7 @@ namespace Library.Dal.Helpers
             }
             else
             {
-                throw new FormatException("Filtering on this property is not supported");
+                throw new ArgumentException("Filtering on this property is not supported");
             }
 
         }
@@ -70,10 +70,17 @@ namespace Library.Dal.Helpers
                 // Check if the string contains a single date and the a correct operator
                 if (singleOperandOperators.Contains(filterQuery[0].ToString()))
                 {
+                    string symbol = "";
                     // Get the symbol from the string
-                    var symbol = filterQuery[0].ToString();
+                    foreach (string op in singleOperandOperators)
+                    {
+                        if (filterQuery.Contains(op))
+                        {
+                            symbol = op;
+                        }
+                    }
                     // Get the date from the string
-                    var dateString = filterQuery.Substring(1);
+                    var dateString = filterQuery.Substring(symbol.Length);
 
                     DateTime date = DateTime.Parse(dateString);
 
@@ -186,10 +193,18 @@ namespace Library.Dal.Helpers
                 // Check if the string contains a single int and the a correct operator
                 if (singleOperandOperators.Contains(filterQuery[0].ToString()))
                 {
+                    string symbol = "";
                     // Get the symbol from the string
-                    var symbol = filterQuery[0].ToString();
+                    foreach (string op in singleOperandOperators)
+                    {
+                        if (filterQuery.Contains(op))
+                        {
+                            symbol = op;
+                        }
+                    }
+
                     // Get the int from the string
-                    var intString = filterQuery.Substring(1);
+                    var intString = filterQuery.Substring(symbol.Length);
 
                     var int1 = int.Parse(intString);
 
@@ -365,7 +380,7 @@ namespace Library.Dal.Helpers
                 // Check if the string contains two ints
                 else if (filterQuery.Contains("~") && int.TryParse(filterQuery.Split("~")[0], out int queryInt1) && int.TryParse(filterQuery.Split("~")[1], out int queryInt2))
                 {
-                    
+
                     if (isCollection)
                     {
                         // x.SomeCollection.Any(y => y.Id >= 2 AndAlso y.Id <= 5)
@@ -383,12 +398,12 @@ namespace Library.Dal.Helpers
                 {
                     throw new FormatException("Please make sure to use the correct format for date. Please follow the following instructions for guidance: \n " +
                          "If you want to fetch records with:\n" +
-                         "1. exact date, use the following format: =100\n" +
-                         "2. date greater than or equal to, use the following format: >=100\n" +
-                         "3. date less than or equal to, use the following format: <=100\n" +
-                         "4. date greater than, use the following format: >100\n" +
-                         "5. date less than, use the following format: <100\n" +
-                         "6. dates between two dates, use the following format: 100~200\n");
+                         "1. exact number, use the following format: =100\n" +
+                         "2. numbers greater than or equal to, use the following format: >=100\n" +
+                         "3. numbers less than or equal to, use the following format: <=100\n" +
+                         "4. numbers greater than, use the following format: >100\n" +
+                         "5. numbers less than, use the following format: <100\n" +
+                         "6. numbers between two numbers, use the following format: 100~200\n");
                 }
 
             }
