@@ -211,12 +211,12 @@ namespace Library.Dal.Helpers
             {
                 throw new FormatException("Please make sure to use the correct format for date. Please follow the following instructions for guidance: \n " +
                     "If you want to fetch records with:\n" +
-                    "1. exact date, use the following format: =2022-01-01\n" +
-                    "2. date greater than or equal to, use the following format: >=2022-01-01\n" +
-                    "3. date less than or equal to, use the following format: <=2022-01-01\n" +
-                    "4. date greater than, use the following format: >2022-01-01\n" +
-                    "5. date less than, use the following format: <2022-01-01\n" +
-                    "6. dates between two dates, use the following format: 2022-01-01~2022-01-02\n");
+                    "1. exact number, use the following format: =100\n" +
+                    "2. numbers greater than or equal to, use the following format: >=100\n" +
+                    "3. numbers less than or equal to, use the following format: <=100\n" +
+                    "4. numbers greater than, use the following format: >100\n" +
+                    "5. numbers less than, use the following format: <100\n" +
+                    "6. numbers between two dates, use the following format: 100~200\n");
             }
             return lambda;
         }
@@ -274,7 +274,6 @@ namespace Library.Dal.Helpers
         private static Expression<Func<T, bool>> BuildWherePredicateForStringProperty<T>(PropertyInfo propertyInfo, string filterQuery)
         {
 
-            var compareToMethod = typeof(DateTime).GetMethod("CompareTo", new[] { typeof(DateTime) });
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = Expression.Property(parameter, propertyInfo);
 
@@ -286,8 +285,121 @@ namespace Library.Dal.Helpers
             var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
             var methodCall = Expression.Call(toLowerExpression, containsMethod, constant);
 
+            var testCombile = Expression.Lambda<Func<T, bool>>(methodCall, parameter).Compile();
             return Expression.Lambda<Func<T, bool>>(methodCall, parameter);
         }
+
+        public static string BuildWherePredicateForNestedProperty<T>(string filterOn, string filterQuery)
+        {
+            // Get the first and second parts of the property name
+            string[] segments = filterOn.Split('.');
+            if (!(segments.Length == 2))
+            {
+                throw new ArgumentException("Invalid filterOn property");
+            }
+            string constructedLambdaString = "x => true";
+            // Construct the types of the from the segments
+            // Get the type of the first segment (the nested property type)
+            Type nestedPropertyType = typeof(T).GetProperty(segments[0], BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).PropertyType;
+            bool isCollection = nestedPropertyType.IsGenericType && nestedPropertyType.GetGenericTypeDefinition() == typeof(ICollection<>);
+            if (isCollection)
+            {
+                nestedPropertyType = nestedPropertyType.GetGenericArguments()[0];
+                // For nested properties that are collections, use the Any method
+                constructedLambdaString = $"{segments[0]}.Any({segments[1]})";
+            }
+            else
+            {
+                // For non-collection properties, use the property name
+                constructedLambdaString = $"{segments[0]}.{segments[1]}";
+            }
+            // Try getting the type of deeply nested property
+            PropertyInfo deeplyNestedPropertyInfo = nestedPropertyType.GetProperty(segments[1], BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            Type deeplyNestedPropertyType = deeplyNestedPropertyInfo.PropertyType;
+            if (deeplyNestedPropertyType == null)
+            {
+                throw new ArgumentException("Invalid filterOn property");
+            }
+            else if (deeplyNestedPropertyType == typeof(string))
+            {
+                constructedLambdaString = constructedLambdaString.Replace($"{segments[1]}", $"{segments[1]}.ToLower().Contains(\"{filterQuery}\")");
+            }
+            else if (deeplyNestedPropertyType == typeof(int))
+            {
+                // Parse the filterQuery as follow:
+                // If it is a single int:
+                //    a. Preceded with ">" then return entities with ints greater than it
+                //    b. Preceded with "<" then return entities with ints lees than it
+                //    c. Preceded with "=" then return entities with ints equal to it
+                //    d. Preceded with ">=" then return entities with ints greater than or equal to it
+                //    e. Preceded with "<=" then return entities with ints less than or equal to it
+                // 2. If it is two ints separated by a "~" then return entities with ints between them
+                string symbol = "";
+                // Get the symbol from the string
+                foreach (string op in singleOperandOperators)
+                {
+                    if (filterQuery.Contains(op))
+                    {
+                        symbol = op;
+                    }
+                }
+                // Check if the string contains a single int and the a correct operator
+                if (!string.IsNullOrEmpty(symbol) && int.TryParse(filterQuery.Substring(symbol.Length), out int queryInt))
+                {
+                    switch (symbol)
+                    {
+                        case "=":
+                            constructedLambdaString = constructedLambdaString.Replace($"{segments[1]}", $"{segments[1]} == {queryInt}");
+                            break;
+                        case ">":
+                        case "<":
+                        case ">=":
+                        case "<=":
+                            constructedLambdaString = constructedLambdaString.Replace($"{segments[1]}", $"{segments[1]} {symbol} {queryInt}");
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+                // Check if the string contains two ints
+                else if (filterQuery.Contains("~") && int.TryParse(filterQuery.Split("~")[0], out int queryInt1) && int.TryParse(filterQuery.Split("~")[1], out int queryInt2))
+                {
+                    
+                    if (isCollection)
+                    {
+                        // x.SomeCollection.Any(y => y.Id >= 2 AndAlso y.Id <= 5)
+                        constructedLambdaString = constructedLambdaString.Replace($"{segments[1]}", $"{segments[1]} >= {queryInt1} AndAlso {segments[1]} <= {queryInt2}");
+
+                    }
+                    else
+                    {
+                        // x.Id >= 2 AndAlso x.Id <= 5
+                        constructedLambdaString = constructedLambdaString.Replace($"{segments[1]}", $"{segments[1]} >= {queryInt1} AndAlso {segments[0]}.{segments[1]} <= {queryInt2}");
+                    }
+                }
+                // Else throw exception with instructions for correct format
+                else
+                {
+                    throw new FormatException("Please make sure to use the correct format for date. Please follow the following instructions for guidance: \n " +
+                         "If you want to fetch records with:\n" +
+                         "1. exact date, use the following format: =100\n" +
+                         "2. date greater than or equal to, use the following format: >=100\n" +
+                         "3. date less than or equal to, use the following format: <=100\n" +
+                         "4. date greater than, use the following format: >100\n" +
+                         "5. date less than, use the following format: <100\n" +
+                         "6. dates between two dates, use the following format: 100~200\n");
+                }
+
+            }
+            else
+            {
+                throw new ArgumentException("Filtering on this property is not supported");
+            }
+            return constructedLambdaString;
+        }
+
+
 
         public static Expression<Func<T, object>> BuildOrderByFunction<T>(PropertyInfo propertyInfo)
         {
