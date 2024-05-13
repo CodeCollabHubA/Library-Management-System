@@ -68,14 +68,14 @@ namespace Library.Api.Controllers.Base
             {
                 throw new customWebExceptions.ValidationException(ex.Message)
                 {
-                    Code = "BadFilterFormat"
+                    Code = "BadFilterQueryFormat"
                 };
             }
             catch (ArgumentException ex)
             {
                 throw new customWebExceptions.ValidationException(ex.Message)
                 {
-                    Code = "BadFilterArgument"
+                    Code = "BadFilterOnArgument"
                 };
             }
 
