@@ -1,5 +1,6 @@
 ﻿using Library.Dal.Exceptions;
 using Library.Services.DataServices.Exceptions.User;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Library.Api.Controllers
 {
@@ -98,6 +99,37 @@ namespace Library.Api.Controllers
 
 
 
+            return Ok(authResponse);
+        }
+
+
+        // PUT: /api/Auth/ChangePassword
+        [HttpPut]
+        [Route("ChangePassword")]
+        [Authorize]
+        public async Task<ActionResult<AuthResponseDTO>> ChangePassword([FromBody] UpdatePasswordRequestDTO user)
+        {
+            if (!ModelState.IsValid)
+            {
+
+                Dictionary<string, string[]> errors = ModelState.ToDictionary(
+                    x => x.Key,
+                    x => x.Value.Errors.Select(y => y.ErrorMessage).ToArray());
+
+                throw new customWebExceptions.ValidationException(errors);
+            }
+            AuthResponseDTO authResponse;
+            try
+            {
+                authResponse = await _userDataService.UpdatePasswordAsync(user, _jwtOptions);
+            }
+            catch (InvalidUserException ex)
+            {
+                throw new customWebExceptions.ForbiddenException(ex.Message)
+                {
+                    Code = "InvalidOldPassword"
+                };
+            }
             return Ok(authResponse);
         }
     }
