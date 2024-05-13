@@ -25,7 +25,7 @@ const Nav = ({noBorrow}) => {
                                 <FontAwesomeIcon fontSize={'1.5rem'} icon={faBell} />
                                     <span className="absolute -top-3 -left-3 -z-10 bg-red-600 text-sm font-bold text-white rounded-full w-5 h-5 flex items-center justify-center ">8</span>
                                 </div>
-                                <div className="relative">
+                                <Link to="/dashboard/reviewPage" className="relative cursor-pointer">
                                     <FontAwesomeIcon fontSize={'1.5rem'} icon={faBagShopping} />
                                     {noBorrow === null ?
                                         null :
@@ -33,7 +33,7 @@ const Nav = ({noBorrow}) => {
                                             {noBorrow}
                                         </span>
                                     }
-                                </div>
+                                </Link>
                                 <Link to="/dashboard/profile" type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span className="sr-only">Open user menu</span>
                                     <img className="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user" />

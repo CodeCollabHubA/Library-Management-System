@@ -23,6 +23,7 @@ import ProtectedRoute from "../components/common/protectedRoute";
 
 import { useState } from "react";
 import { useMyContext } from "../context/ContextProvider";
+import UserReviewPage from "./reviewPage";
 
 
 const DashboardContainer = () => {
@@ -58,6 +59,7 @@ const DashboardContainer = () => {
               {/* </Route> */}
               <Route path='booksGallery/*' element={<BookGallery handleBorrow={handleBorrow} handleClose={handleClose} setOpen={setOpen} open={open} />} />
               <Route path='profile' element={<Profile />} />
+              <Route path='reviewPage' element={<UserReviewPage />} />
               <Route path='profile/update' element={<ProfileForm />} />
               <Route path='profile/updatePassword' element={<ProfilePasswordForm />} />
             </Route>

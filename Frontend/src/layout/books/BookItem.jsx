@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardCheck, faDragon, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faEye } from '@fortawesome/free-solid-svg-icons';
 
 import Button from '../../components/common/buttons/_button';
 import Modal from '../../components/common/pupUpModal';
