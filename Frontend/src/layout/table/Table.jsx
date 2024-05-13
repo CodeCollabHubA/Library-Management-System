@@ -60,6 +60,7 @@ const Table = ({ children, resource, header, footer, tbodyStyle }) => {
                         </tfoot>
                         : null
                     }
+                    <Pagination span={5} />
                 </table >
             </div >
         </>
