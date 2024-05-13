@@ -2,11 +2,10 @@ import apiEndPoints from "./apiEndPoints";
 import http from "./httpService";
 
 
-export async function createUpdateApi({ myContext, setDefaultValues, id, form, resource, operation, method, setState }) {
+export async function createUpdateApi({ myContext, setDefaultValues = {}, id, form, resource, operation, method, setState }) {
     const resourceCapital = resource.charAt(0).toUpperCase() + resource.slice(1)
     const resourceWithS = resource + "s"
     const resourceSetState = "set" + resourceCapital + "s"
-
     try {
         if (method === "put" && !id) return console.log("id not found")
         if (!method) return console.log("unknown method")
@@ -15,35 +14,50 @@ export async function createUpdateApi({ myContext, setDefaultValues, id, form, r
         if (resource === "borrowing") {
             if (method === "post") url = apiEndPoints.borrowingApiPost
             if (method === "put") url = apiEndPoints.borrowingApiPut
+        } else {
+            url = id ? `${url}/${id}` : url;
         }
-        url = id ? `${url}/${id}` : url;
 
-        let data
+        let res
         if (form.imageURL) {
-            data = await http[method](url, {
+            res = await http[method](url, {
                 data: form,
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
         } else {
-            data = await http[method](url, form)
+            res = await http[method](url, form)
         }
-        if (method === "put") {
-            myContext[resourceSetState](myContext[resourceWithS]
-                .map(item =>
-                    item.id === data.data.id ?
-                        data.data
+        if (resource !== "borrowing") {
+            if (method === "put") {
+                myContext[resourceSetState](oldData =>
+                    oldData.map(item =>
+                        item.id === res.data.id ?
+                            res.data
+                            :
+                            item
+                    ))
+            } else if (method === "post") {
+                myContext[resourceSetState](oldData => [...oldData, res.data])
+            }
+            setDefaultValues(res.data)
+        }
+        else {
+            if (method === "put" && (res.status === 200 || res.status === 201)) {
+                let arr = myContext[resourceWithS].map(item =>
+                    item.id === res.data.success[0].id ?
+                        res.data.success[0]
                         :
                         item
-                ))
-
-        } else if (method === "post") {
-            myContext[resourceSetState](oldData => [...oldData, data.data])
-
+                )
+                myContext[resourceSetState](arr)
+            }
+            else if (method === "post" && res.status === 201) {
+                myContext.setBorrowings(oldData => [...oldData, ...res.data.success])
+            }
         }
-        setDefaultValues(data.data)
-        setState({ status: "success", message: `${resource} ${operation}d successfully` })
 
-        return data
+        setState({ status: "success", message: `${resource} ${operation}d successfully` })
+        return res
 
     } catch (error) {
         console.error(error);

@@ -8,7 +8,10 @@ export const navbarItem = [
 export const textLikeInput = ["text", "number", "email", "password"]
 
 export const statusArray = ["success", "info", "error"]
+
 export const PAGE_SIZE = 10
+
+export const userLocalStorage = 'user'
 
 export const initialStatusMessage = { status: "initial", message: "Hi There 😘" }
 
