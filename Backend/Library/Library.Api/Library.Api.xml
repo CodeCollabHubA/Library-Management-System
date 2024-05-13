@@ -61,6 +61,12 @@
             <param name="entity">Entity to update</param>
             <returns>Updated record</returns>
         </member>
+        <member name="M:Library.Api.Controllers.BorrowingController.GetAll(System.String,System.String,System.String,System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Gets all records
+            </summary>
+            <returns>All records</returns>
+        </member>
         <member name="M:Library.Api.Controllers.BorrowingController.InitiateBorrowingAsync(Library.Models.DTO.PendingBorrowingRequestDTO)">
             <summary>
             Initiate a borrowing request for one or more books
