@@ -46,6 +46,7 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.OpenApi.Any;
 global using Microsoft.OpenApi.Models;
 
+global using Microsoft.AspNetCore.Mvc.Versioning;
 global using Swashbuckle.AspNetCore.Annotations;
 global using Swashbuckle.AspNetCore.SwaggerGen;
 

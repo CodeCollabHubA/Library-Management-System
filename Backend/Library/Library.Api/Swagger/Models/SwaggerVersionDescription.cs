@@ -10,7 +10,7 @@ public class SwaggerVersionDescription
 
     public int MinorVersion { get; set; }
 
-    public string status { get; set; }
+    public string Status { get; set; }
 
     public string Description { get; set; }
 

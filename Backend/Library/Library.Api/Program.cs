@@ -3,9 +3,10 @@
 
 
 
+using Library.Api.ApiVersionSupport;
 using Library.Api.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
@@ -58,6 +59,8 @@ builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddLibraryApiVersionConfiguration(new ApiVersion(1, 0, "Beta"));
+
 builder.Services.AddAndConfigureSwagger(
     builder.Configuration,
     Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"),
@@ -151,7 +154,18 @@ using (var scope = app.Services.CreateScope())
 
 // Swagger
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(
+    options =>
+    {
+        using var scope = app.Services.CreateScope();
+        var versionProvider = scope.ServiceProvider.GetRequiredService<IApiVersionDescriptionProvider>();
+        // build a swagger endpoint for each discovered API version
+        foreach (var description in versionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                $"Library - {description.GroupName.ToUpperInvariant()}");
+        }
+    });
 
 
 app.UseHttpsRedirection();
