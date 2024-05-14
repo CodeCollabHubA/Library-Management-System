@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../components/common/buttons/_button';
 
 const Pagination = ({ span }) => {
-    let arr = [1, 2, 3, 4]
 
     const myContext = useMyContext()
     const [pageCount, setPageCount] = useState()
@@ -24,12 +23,12 @@ const Pagination = ({ span }) => {
 
     const api = apiEndPoints[`${resource.slice(0, -1)}Api`]
 
-    const pageCountCalc = async () => {
+    const calculatePagesCount = async () => {
         const { data } = await http.get(`${api}?pageSize=10000`)
         const pageCount = Math.round(data.length / PAGE_SIZE)
         setPageCount(pageCount);
     }
-    const goToPageNumber = async () => {
+    const loadaData = async () => {
         try {
             const query = window.location.search
             const url = api + query
@@ -53,14 +52,18 @@ const Pagination = ({ span }) => {
     }
 
     useEffect(() => {
-        pageCountCalc()
+        calculatePagesCount()
     }, [])
 
     useEffect(() => {
         searchParams.set("pageSize", PAGE_SIZE)
         searchParams.set("pageNumber", currentPage)
+        if (currentPage === 1) {
+            searchParams.delete("pageSize")
+            searchParams.delete("pageNumber")
+        }
         setSearchParams(searchParams)
-        goToPageNumber(currentPage)
+        loadaData()
     }, [currentPage])
 
 
