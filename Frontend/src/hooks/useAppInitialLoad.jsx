@@ -55,6 +55,7 @@ const useAppInitialLoad = () => {
     }, [])
 
     useEffect(() => {
+        setBorrowings(borrowings)
         if (user?.userRole === "Admin") {
             setBorrowingsActions(borrowings.filter(borrowing => ["Pending", "Borrowed"].includes(borrowing.status)))
         } else if (user?.userRole === "User") {
