@@ -24,10 +24,14 @@ const useFormOperations = ({ schema }) => {
         }
     }, [data])
 
-    // const onSubmit = async (data, resource, operation, method,) => {
     const onSubmit = async (data) => {
         setIsLoading(true)
-        let form = { ...data, ...(file ? { imageURL: file } : {}) }
+        let form
+        if (resource === "borrowing") {
+            form = data
+        } else {
+            form = { ...data, ...(file ? { imageURL: file } : {}) }
+        }
         if (method === "put") {
             form = { ...defaultValues, ...form }
         }

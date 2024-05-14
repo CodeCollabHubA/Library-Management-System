@@ -1,34 +1,25 @@
 import { dateFormater } from "../../../utils/Utils";
 import ActionButtons from "../common/ActionButtons";
 import EmptyTable from "../common/EmptyTable";
+import BorrowStatusButton from "./BorrowStatusButton";
 
 const Borrowing = ({ body, handleDelete }) => {
 
-
-
-    return (
-        <>
-            {
-                body?.length > 0 ?
-                    body.map((item, i) =>
-                        Array.from({ length: item.bookBorrowings?.length }, (_, index) =>
-                            <tr key={`${i} ${index}`} >
-                                <td>{item.userId}</td>
-                                <td>{item.bookBorrowings[index].bookNavigation.title}</td>
-                                <td>{item.bookBorrowings[index].isReturned ? "yes" : "no"}</td>
-                                <td>{item.bookBorrowings[index].bookNavigation.credit}</td>
-                                <td>{item.dueDate}</td>
-                                <td>{item.dateOut}</td>
-                                <ActionButtons handleDelete={handleDelete} item={item} />
-                            </tr>
-                        ))
-
-                    :
-                    <EmptyTable length={7} />
-            }
-        </>
-    )
-
+    return body?.length > 0 
+      ?
+        body.map((item) =>
+            <tr key={item.id} >
+                <td>{item.userNavigation?.name}</td>
+                <td>{item.status}</td>
+                <td>{item.bookNavigation?.title}</td>
+                <td>{item.bookNavigation?.credit}</td>
+                <td>{dateFormater(item.dueDate)}</td>
+                <td>{dateFormater(item.dateOut)}</td>
+                <td>{dateFormater(item.createdAt)}</td>
+                <ActionButtons handleDelete={handleDelete} item={item} />
+            </tr>
+          )
+    : <EmptyTable length={7} />
 }
 
 export default Borrowing;

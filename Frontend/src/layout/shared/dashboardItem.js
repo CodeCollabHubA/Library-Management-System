@@ -45,6 +45,20 @@ export const dashboardItem = [
         role: ['Admin']
     },
     {
+        id: 5.2,
+        to: '/dashboard/borrowings/actions',
+        icon: faSwatchbook,
+        name: 'Borrowing Actions',
+        role: ['Admin']
+    },
+    {
+        id: 5.3,
+        to: '/dashboard/borrowings/actions',
+        icon: faSwatchbook,
+        name: 'Borrowing Actions',
+        role: ['User']
+    },
+    {
         id: 6,
         to: '/dashboard/authors',
         icon: faPenNib,

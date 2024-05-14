@@ -54,12 +54,12 @@ export const signupSchema = yup.object({
 // ******************
 
 export const userHeader = [
-    { name: 'name' },
-    { name: 'email' },
-    { name: 'address' },
-    { name: 'phone' },
-    { name: 'credit', type: "number" },
-    { name: 'userRole' },
+    { value: 'name', label: 'name', type: "text" },
+    { value: 'address', label: 'address', type: "text" },
+    { value: 'email', label: 'email', type: "text" },
+    { value: 'phone', label: 'phone', type: "text" },
+    { value: 'credit', label: 'credit', type: "number" },
+    { value: 'userRole', label: 'userRole', type: "text" },
 ]
 
 
@@ -101,9 +101,9 @@ export const profileSchema = yup.object({
 // ******************
 
 export const publisherHeader = [
-    { name: 'Name' },
-    { name: 'Email' },
-    { name: 'Address' },
+    { value: "name", label: 'Name', type: "text" },
+    { value: "email", label: 'Email', type: "text" },
+    { value: "address", label: 'Address', type: "text" },
 ]
 
 export const publisherInputs = [
@@ -125,12 +125,12 @@ export const publisherSchema = yup.object({
 // ******************
 
 export const bookHeader = [
-    { name: "title" },
-    { name: "authors" },
-    { name: "publishers" },
-    { name: "credit", type: "number" },
-    { name: "numberOfTotalCopies", label: "numberOfTotalCopies", type: "number" },
-    { name: "numberOfAvailableCopies", label: "numberOfAvailableCopies", type: "number" }
+    { label: "title", value: "title", type: "text" },
+    { label: "authors", value: "authors.name", type: "text" },
+    { label: "publishers", value: "publishers.name", type: "text" },
+    { label: "credit", value: "credit", type: "number" },
+    { label: "Total Copies", value: "numberOfTotalCopies", type: "number" },
+    { label: "Available Copies", value: "numberOfAvailableCopies", type: "number" }
 ]
 
 export const bookInputs = ({ authorOptions, publisherOptions }) => [
@@ -161,17 +161,16 @@ export const bookSchema = yup.object({
 // ******************
 
 export const borrowingHeader = [
-    { name: "user" },
-    { name: "status" },
-    { name: "book title" },
-    { name: "book credit" },
-    { name: "dueDate", type: "date" },
-    { name: "dateOut", type: "date" },
-    { name: "createdAt", type: "date" },
+    { label: "user", value: "userNavigation.name", type: "text" },
+    { label: "status", value: "status", type: "text" },
+    { label: "book title", value: "bookNavigation.title", type: "text" },
+    { label: "book credit", value: "bookNavigation.credit", type: "number" },
+    { label: "dueDate", value: "dueDate", type: "date" },
+    { label: "dateOut", value: "dateOut", type: "date" },
+    { label: "createdAt", value: "createdAt", type: "date" },
 ]
 
-export const borrowingSelectInputs = ({ usersOptions, bookOptions }) => [
-    { name: "userId", label: "user", type: "select", options: usersOptions, isMulti: false },
+export const borrowingSelectInputs = ({ bookOptions }) => [
     { name: "bookIds", label: "books", type: "select", options: bookOptions, isMulti: true },
 ]
 
@@ -187,7 +186,7 @@ export const borrowingSchema = yup.object({
 // ******************
 
 export const authorHeader = [
-    { name: 'Name' },
+    { value: "name", label: 'Name', type: "text" },
 ]
 
 export const authorInputs = [

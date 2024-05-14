@@ -1,9 +1,11 @@
+import { setUser } from "@sentry/react";
 import { jwtDecode } from "jwt-decode";
+
+import { userLocalStorage } from "../utils/constant";
 import { apiUrl } from './apiEndPoints'
 import http from './httpService';
-import { setUser } from "@sentry/react";
 
-const userLocalStorage = 'user'
+
 const LogApiEndpoint = apiUrl + '/Auth/Login';
 const RegApiEndpoint = apiUrl + '/Auth/Register';
 

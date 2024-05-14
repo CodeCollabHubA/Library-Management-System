@@ -10,11 +10,10 @@ const SearchFilter = ({ header, resource }) => {
 
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const [filtertype, setFiltertype] = useState("text")
-    const [filterOn, setFilterOn] = useState(searchParams.get("filterOn") || header[0]?.name)
+    const [filterOn, setFilterOn] = useState({ value: searchParams.get("filterOn") || header[0]?.value })
     const [filterQuery, setFilterQuery] = useState(searchParams.get("filterQuery") || "")
-    const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || header[0]?.name)
-    const [isAscending, setIsAscending] = useState(searchParams.get("isAscending") || true)
+    const [sortBy, setSortBy] = useState("")
+    const [isAscending, setIsAscending] = useState(searchParams.get("isAscending") || "")
 
     const myContext = useMyContext()
 
@@ -35,40 +34,45 @@ const SearchFilter = ({ header, resource }) => {
     }
 
     useEffect(() => {
-        searchParams.set("filterQuery", filterQuery)
-        searchParams.set("filterOn", filterOn)
-        setSearchParams(searchParams)
-        const query = window.location.search
-        if (filterQuery?.length > 0) {
-            loadData(api + query)
-        } else {
-            loadData(api)
+        if (filterQuery) {
+            const value = filterOn?.type === "number" || filterOn?.type === "date" ? `>${filterQuery}` : filterQuery
+            searchParams.set("filterOn", filterOn.value || header[0]?.value)
+            searchParams.set("filterQuery", value)
+        } else if (filterQuery?.length === 0) {
+            searchParams.delete("filterQuery")
+            searchParams.delete("filterOn")
+            setFilterQuery("")
         }
-    }, [filterOn, filterQuery])
-
-
-    useEffect(() => {
-        searchParams.set("isAscending", isAscending)
-        searchParams.set("sortBy", sortBy)
+        if (sortBy || isAscending !== "") {
+            searchParams.set("isAscending", isAscending || true)
+            console.log({ isAscending, sortBy })
+            searchParams.set("sortBy", sortBy || header[0]?.value)
+        }
         setSearchParams(searchParams)
         const query = window.location.search
         loadData(api + query)
-    }, [sortBy, isAscending])
-
+    }, [sortBy, isAscending, filterOn, filterQuery])
 
     return (
         <div>
-            <input type="search" value={filterQuery} onChange={(e) => setFilterQuery(e.target.value)}
-            />
+            <input type={filterOn?.type ? filterOn?.type : "text"} value={filterQuery} onChange={(e) => setFilterQuery(e.target.value)} />
             <label htmlFor="">filter on</label>
-            <select value={filterOn} onChange={(e) => { setFilterOn(e.target.value) }}
-            >{header?.map((item, i) => <option key={i} value={item.name}>{item.name}</option>)}
+            <select value={filterOn.value || ""}
+                onChange={(e) => {
+                    const target = e.target;
+                    const option = target.options[target.selectedIndex];
+                    const type = option.dataset.type || "text"
+                    const value = target.value
+                    setFilterOn({ value, type })
+                }
+                }
+            >{header?.map((item, i) => <option key={i} value={item.value} data-type={item.type}>{item.label}</option>)}
             </select>
             <label htmlFor="">sortby</label>
-            <select value={sortBy} onChange={(e) => { setSortBy(e.target.value) }}
-            >{header?.map((item, i) => <option key={i} value={item.name}>{item.name}</option>)}
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}
+            >{header?.map((item, i) => <option key={i} value={item.value} data-type={item.type}>{item.label}</option>)}
             </select>
-            <label htmlFor="">is Ascending</label>
+            <label htmlFor="">order</label>
             <select value={isAscending} onChange={(e) => { setIsAscending(e.target.value) }}>
                 <option value={true}>ascending</option>
                 <option value={false}>descending</option>
