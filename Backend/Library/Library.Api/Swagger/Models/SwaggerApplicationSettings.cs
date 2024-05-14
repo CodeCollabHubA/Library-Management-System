@@ -12,4 +12,6 @@ public class SwaggerApplicationSettings
 
     public string ContactEmail { get; set; }
 
+    public string ContactUrl { get; set; }
+
 }

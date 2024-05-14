@@ -9,7 +9,8 @@ namespace Library.Api.Controllers.Base
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0-Beta")]
     public class BaseCrudController<TEntity, TController, TCreateRequestDto, TUpdateRequestDto, TResponseDto> : ControllerBase
         where TEntity : BaseEntity, new()
         where TController : class
@@ -46,9 +47,7 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(404, "The requested resource was not found")]
         [SwaggerResponse(500, "An internal server error has occurred")]
-        //[ApiVersion("0.1-Beta")]
         [HttpGet]
-        //[Authorize (Roles = "Admin")]
         public async virtual Task<ActionResult<IEnumerable<TResponseDto>>> GetAll(
             [FromQuery] string? filterOn, [FromQuery] string? filterQuery, // Filtering
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,    // Sorting
@@ -107,7 +106,6 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(404, "The requested resource was not found")]
         [SwaggerResponse(500, "An internal server error has occurred")]
-        //[ApiVersion("0.1-Beta")]
         [HttpGet("{id}")]
         public async virtual Task<ActionResult<TResponseDto>> GetOneAsync(int id)
         {
@@ -142,7 +140,6 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(404, "The requested resource was not found")]
         [SwaggerResponse(500, "An internal server error has occurred")]
-        //[ApiVersion("0.1-Beta")]
         [HttpPut("{id}")]
         public async virtual Task<ActionResult<TResponseDto>> UpdateOneAsync(int id, TUpdateRequestDto entity)
         {
@@ -214,7 +211,6 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(401, "Unauthorized access attempted")]
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(500, "An internal server error has occurred")]
-        //[ApiVersion("0.1-Beta")]
         [HttpPost]
         public async virtual Task<ActionResult<TResponseDto>> AddOneAsync(TCreateRequestDto entity)
         {
@@ -277,7 +273,6 @@ namespace Library.Api.Controllers.Base
         [SwaggerResponse(403, "Forbidden access attempted")]
         [SwaggerResponse(404, "The requested resource was not found")]
         [SwaggerResponse(500, "An internal server error has occurred")]
-        //[ApiVersion("0.1-Beta")]
         [HttpDelete("{id}")]
         public async virtual Task<ActionResult> DeleteOneAsync(int id, BaseDTO entity)
         {

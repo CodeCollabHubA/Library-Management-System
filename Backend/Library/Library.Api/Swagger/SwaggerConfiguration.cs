@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Library.Api.Swagger;
@@ -11,9 +12,11 @@ public static class SwaggerConfiguration
         bool addBearerSecurity)
     {
         services.Configure<SwaggerApplicationSettings>(config.GetSection(nameof(SwaggerApplicationSettings)));
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigOptions>();
         services.AddSwaggerGen(c =>
         {
             c.EnableAnnotations();
+            c.DocumentFilter<SwaggerDocumentFilter>();
             c.IncludeXmlComments(xmlPathAndFile);
             if (!addBearerSecurity)
             {

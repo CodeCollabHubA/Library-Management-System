@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 namespace Library.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0-Beta")]
     public class AuthController : ControllerBase
     {
 
