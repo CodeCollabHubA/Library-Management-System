@@ -98,15 +98,16 @@ Borrow and Return: Our intuitive borrowing and returning system makes it a breez
 dotnet build
 dotnet run
 ```
-3. Open your browser to: `http://localhost:5053/swagger/index.html` for Swagger UI.
+4. Open your browser to: `http://localhost:5053/swagger/index.html` for Swagger UI.
 
 ![Swagger UI](images/swagger.png)
-4. In another terminal, navigate to the `Frontend` folder and run the following `npm` commands:
+5. [Download and install Node.Js](https://nodejs.org/en/download)
+6. In another terminal, navigate to the `Frontend` folder and run the following `npm` commands:
 ```sh
 npm install
 npm start
 ```
-5. The webpack dev server hosts the front-end and your browser will open to: `http://localhost:3000`
+7. The webpack dev server hosts the front-end and your browser will open to: `http://localhost:3000`
 
 ![Frontend](images/screenshot.png)
 
