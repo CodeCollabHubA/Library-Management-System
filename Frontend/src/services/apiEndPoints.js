@@ -1,4 +1,4 @@
-export const apiUrl = "http://localhost:5053/api"
+export const apiUrl = "http://localhost:5053/api/v1-Beta"
 
 const apiEndPoints = {
   apiUrl,

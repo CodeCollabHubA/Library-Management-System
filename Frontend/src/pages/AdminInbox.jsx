@@ -9,15 +9,15 @@ const Inbox = () => {
     
     const inboxHeader = [
         {
-            name: "Sender",
+            label: "Sender",
             style: ""
         },
         {
-            name: "Subject",
+            label: "Subject",
             style: ""
         },
         {
-            name: "Date",
+            label: "Date",
             style: ""
         }];
     const inboxFooter = [
@@ -29,25 +29,7 @@ const Inbox = () => {
     const inboxBody = [
         {
             name: 'Shahad Ismail',
-            subject: 'this user Asking for approve to his book borrow Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil atque doloribus consequuntur mollitia? Beatae, nemo fuga vero repudiandae quidem hic quibusdam illo harum, vitae aut quis earum, ea amet! Necessitatibus. ',
-            date: '24-5-2024',
-            Detail:''
-        },
-        {
-            name: 'Ahmed Ismail',
-            subject: 'this user Asking for approve to his book borrow Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil atque doloribus consequuntur mollitia? Beatae, nemo fuga vero repudiandae quidem hic quibusdam illo harum, vitae aut quis earum, ea amet! Necessitatibus. ',
-            date: '24-5-2024',
-            Detail:''
-        },
-        {
-            name: 'Shatha Ismail',
-            subject: 'this user Asking for approve to his book borrow Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil atque doloribus consequuntur mollitia? Beatae, nemo fuga vero repudiandae quidem hic quibusdam illo harum, vitae aut quis earum, ea amet! Necessitatibus. ',
-            date: '24-5-2024',
-            Detail:''
-        },
-        {
-            name: 'Shyma Ismail',
-            subject: 'this user Asking for approve to his book borrow Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil atque doloribus consequuntur mollitia? Beatae, nemo fuga vero repudiandae quidem hic quibusdam illo harum, vitae aut quis earum, ea amet! Necessitatibus. ',
+            subject: 'this user Asking for approve to his book borrow Lorem ipsum',
             date: '24-5-2024',
             Detail:''
         },
@@ -59,7 +41,7 @@ const Inbox = () => {
     const handleChecked = () => {
         setChecked(!checked);
     }
-
+    
     return (
         <div>
             <h1 className="text-5xl font-semibold">Inbox</h1>

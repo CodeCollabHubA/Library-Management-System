@@ -8,7 +8,7 @@ import SearchFilter from "./common/SearchFilter";
 
 
 const Table = ({ children, resource, header, footer, tbodyStyle }) => {
-
+    
     return (
         <>
             {resource ?
@@ -18,16 +18,16 @@ const Table = ({ children, resource, header, footer, tbodyStyle }) => {
                         resource !== "user" &&
                         <Link to="create" className="w-44 flex justify-center items-center bg-blue-700 text-white rounded-md">Add {resource}</Link>
                     }
+                <SearchFilter header={header} resource={resource} />
                 </div>
                 : null
             }
-            <SearchFilter header={header} resource={resource} />
             <div className=" relative overflow-x-auto ">
                 <table className="capitalize w-full text-sm text-gray-500 ">
                     <thead className=" text-gray-700 bg-gray-50 ">
                         <tr className="">
                             {header.map((item, i) =>
-                                <td key={i} scope="col" className={`${item?.style} px-6 py-3`}>
+                                <td key={i} className={`${item?.style} px-6 py-3`}>
                                     {item?.label}
                                 </td>
                             )}
@@ -35,9 +35,9 @@ const Table = ({ children, resource, header, footer, tbodyStyle }) => {
                         </tr>
                     </thead>
 
-                    <tbody className="w-full bg-white" >
+                    <tbody className="w-full bg-white " >
                         {children ? children :
-                            <td colSpan={4} className="bg-white text-center">
+                            <td colSpan={4} className="bg-white h-fit text-center">
                                 no request msg
                             </td>
                         }
@@ -50,9 +50,8 @@ const Table = ({ children, resource, header, footer, tbodyStyle }) => {
                                         <div className="flex justify-between">
                                             <span>{item.span}</span>
                                             <span>
+                                            {/* <Pagination  /> */}
                                             </span>
-                                            <FontAwesomeIcon style={{ marginInline: '.5rem' }} icon={faArrowLeft} />
-                                            <FontAwesomeIcon style={{ marginInline: '.5rem' }} icon={faArrowRight} />
                                         </div>
                                     </td>
                                 )}
@@ -60,7 +59,6 @@ const Table = ({ children, resource, header, footer, tbodyStyle }) => {
                         </tfoot>
                         : null
                     }
-                    <Pagination span={5} />
                 </table >
             </div >
         </>
