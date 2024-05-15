@@ -19,8 +19,6 @@
   <p align="center">
     A modern Library Management System for automating all library operations
     <br />
-    <a href="https://github.com/CodeCollabHubA/Library-Management-System"><strong>Explore the docs »</strong></a>
-    <br />
     <br />
     <a href="https://github.com/CodeCollabHubA/Library-Management-System">View Demo</a>
     ·
@@ -28,6 +26,7 @@
     ·
     <a href="https://github.com/CodeCollabHubA/Library-Management-System/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
+    <br />
 </div>
 
 
