@@ -75,7 +75,7 @@ namespace Library.Api.Controllers
         /// Updates a single record
         /// </summary>
         /// <param name="id">Primary key of the record to update</param>
-        /// <param name="entity">Entity to update</param>
+        /// <param name="editedBookDto">Entity to update</param>
         /// <returns>Updated record</returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]

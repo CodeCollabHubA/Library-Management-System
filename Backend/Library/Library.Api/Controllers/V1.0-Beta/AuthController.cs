@@ -21,7 +21,19 @@ namespace Library.Api.Controllers
         }
 
 
-        // POST: /api/Auth/Register
+        /// <summary>
+        /// Registers a new user with the provided registration details.
+        /// </summary>
+        /// <param name="registerRequestDto">The request DTO containing the user's registration information.</param>
+        /// <returns>An ActionResult containing an AuthResponseDTO with authentication details upon successful registration.</returns>
+        /// <remarks>
+        /// This endpoint allows the registration of a new user by processing the provided registration details.
+        /// The registration request includes user-specific information such as email, password.
+        /// Upon successful registration, the endpoint returns an authentication response DTO containing authentication details
+        /// such as jwt access token, expiration time, and user information.
+        /// </remarks>
+        /// <param name="registerRequestDto">The request DTO containing the user's registration information.</param>
+        /// <returns>An ActionResult containing an AuthResponseDTO with authentication details upon successful registration.</returns>
         [HttpPost]
         [Route("Register")]
         public async Task<ActionResult<AuthResponseDTO>> Register([FromBody] RegisterUserRequestDTO registerRequestDto)
@@ -66,7 +78,18 @@ namespace Library.Api.Controllers
         }
 
 
-        // POST: /api/Auth/Login
+        /// <summary>
+        /// Logs in a user with the provided credentials.
+        /// </summary>
+        /// <param name="user">The request DTO containing the user's login credentials (email and password).</param>
+        /// <returns>An ActionResult containing an AuthResponseDTO with authentication details upon successful login.</returns>
+        /// <remarks>
+        /// This endpoint allows a registered user to log in by providing their email and password.
+        /// Upon successful login, the endpoint returns an authentication response DTO containing authentication details
+        /// such as jwt access token, expiration time, and user information.
+        /// </remarks>
+        /// <param name="user">The request DTO containing the user's login credentials (email and password).</param>
+        /// <returns>An ActionResult containing an AuthResponseDTO with authentication details upon successful login.</returns>
         [HttpPost]
         [Route("Login")]
         public async Task<ActionResult<AuthResponseDTO>> Login([FromBody] LoginUserRequestDTO user)
@@ -105,7 +128,18 @@ namespace Library.Api.Controllers
         }
 
 
-        // PUT: /api/Auth/ChangePassword
+        /// <summary>
+        /// Changes the password for the authenticated user.
+        /// </summary>
+        /// <param name="user">The request DTO containing the user's current password and new password.</param>
+        /// <returns>An ActionResult containing an AuthResponseDTO with authentication details upon successful password change.</returns>
+        /// <remarks>
+        /// This endpoint allows an authenticated user to change their password by providing their current password and new password.
+        /// Upon successful password change, the endpoint returns an authentication response DTO containing updated authentication details
+        /// such as access token, expiration time, and user information.
+        /// </remarks>
+        /// <param name="user">The request DTO containing the user's current password and new password.</param>
+        /// <returns>An ActionResult containing an AuthResponseDTO with authentication details upon successful password change.</returns>
         [HttpPut]
         [Route("ChangePassword")]
         [Authorize]

@@ -33,9 +33,32 @@ namespace Library.Api.Controllers.Base
         }
 
         /// <summary>
-        /// Gets all records
+        /// Gets all records with optional filtering, sorting, and pagination.
         /// </summary>
-        /// <returns>All records</returns>
+        /// <param name="filterOn">The property to filter records on. Supports filtering by various formats:.  
+        /// - Nested property filtering: Use syntax => {Property.NestedProperty}.  
+        /// - Boolean property filtering: Exact value: true.  
+        /// - String property filtering: Contains: "value".  
+        /// - Date Time property filtering:.  
+        ///     * Exact date: =2022-01-01.  
+        ///     * Date greater than or equal to: &gt;=2022-01-01.  
+        ///     * Date less than or equal to: &lt;=2022-01-01.  
+        ///     * Dates between two dates: 2022-01-01~2022-01-02.  
+        /// - Numeric property filtering:.  
+        ///     * Exact value: =42.  
+        ///     * Greater than or equal to: &gt;=100.  
+        ///     * Less than or equal to: &lt;=50.  
+        ///     * Range between two values: 10~20.  
+        /// </param>
+        /// <param name="filterQuery">The query string for filtering based on the specified property.</param>
+        /// <param name="sortBy">The property to sort records by.</param>
+        /// <param name="isAscending">Specifies the sort order (ascending or descending).</param>
+        /// <param name="pageSize">The number of records to return per page (default is 10).</param>
+        /// <param name="pageNumber">The page number to retrieve (default is 1).</param>
+        /// <remarks>
+        /// Supports various filtering formats, including nested properties, boolean values, string matching, date comparisons, and numeric comparisons.
+        /// </remarks>
+        /// <returns>All records matching the specified criteria.</returns>
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
