@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const BookItem = ({handleBorrow,open,setOpen,handleClose, id, imageURL, title, description, authors, publishers, credit, numberOfCopiesOwned, numberOfCopiesExist }) => {
     
     const navigate = useNavigate()
-    const dataToSend = 'Specific data to be sent';
+    
     const handleGo = (id) => {
         navigate(`../books/${id}`, {
             state:

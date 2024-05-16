@@ -1,9 +1,16 @@
+
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBagShopping, faBell, faBookOpenReader } from "@fortawesome/free-solid-svg-icons";
-const Nav = ({noBorrow}) => {
+import { faBagShopping, faBookOpenReader} from "@fortawesome/free-solid-svg-icons";
+import NotificationIcon from "./notifiacationIcon";
+
+
+const Nav = ({ no_Borrow }) => {
+    
+    
+    
     return (
-        <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
             <div className="h-[70px] px-3 py-3 lg:px-5 lg:pl-3 lg:mx-10">
                 <div className="h-full flex items-center justify-between">
                     <div className="flex items-center justify-start rtl:justify-end">
@@ -21,16 +28,13 @@ const Nav = ({noBorrow}) => {
                     <div className="flex items-center">
                         <div className="flex items-center ms-3">
                             <div className="w-32 flex justify-between items-center">
-                            <div className="relative">
-                                <FontAwesomeIcon fontSize={'1.5rem'} icon={faBell} />
-                                    <span className="absolute -top-3 -left-3 -z-10 bg-red-600 text-sm font-bold text-white rounded-full w-5 h-5 flex items-center justify-center ">8</span>
-                                </div>
+                                <NotificationIcon/>
                                 <Link to="/dashboard/reviewPage" className="relative cursor-pointer">
                                     <FontAwesomeIcon fontSize={'1.5rem'} icon={faBagShopping} />
-                                    {noBorrow === null ?
+                                    {no_Borrow === null ?
                                         null :
                                         <span className="absolute -top-3 -left-3 -z-10 bg-red-600 text-sm font-bold text-white rounded-full w-5 h-5 flex items-center justify-center ">
-                                            {noBorrow}
+                                            {no_Borrow}
                                         </span>
                                     }
                                 </Link>
@@ -51,22 +55,22 @@ const Nav = ({noBorrow}) => {
                                 <ul className="py-1" role="none">
                                     <li>
                                         <a href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem">
                                             Dashboard</a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                             Settings</a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                             Earnings</a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                             Sign out</a>
                                     </li>
                                 </ul>
