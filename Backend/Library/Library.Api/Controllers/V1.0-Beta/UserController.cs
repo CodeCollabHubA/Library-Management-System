@@ -27,7 +27,26 @@ namespace Library.Api.Controllers
             return NoContent();
         }
 
-
+        /// <summary>
+        /// Updates a single record
+        /// </summary>
+        /// <param name="id">Primary key of the record to update</param>
+        /// <param name="entity">Entity to update</param>
+        /// <returns>Updated record</returns>
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerResponse(200, "The execution was successful")]
+        [SwaggerResponse(400, "The request was invalid")]
+        [SwaggerResponse(401, "Unauthorized access attempted")]
+        [SwaggerResponse(403, "Forbidden access attempted")]
+        [SwaggerResponse(404, "The requested resource was not found")]
+        [SwaggerResponse(500, "An internal server error has occurred")]
+        [HttpPut("{id}")]
         [ValidateImageUpload("entity")]
         [Authorize]
         public async override Task<ActionResult<UserResponseDTO>> UpdateOneAsync(int id, [FromForm] UserUpdateRequestDTO entity)
