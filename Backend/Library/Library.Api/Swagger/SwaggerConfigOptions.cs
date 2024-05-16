@@ -38,8 +38,8 @@ public class SwaggerConfigOptions : IConfigureOptions<SwaggerGenOptions>
             Version = description.ApiVersion.ToString(),
             Description = $"<p style=\"font-family: Verdana; font-size: 17px; font-style: italic; color: #333;\">{versionDesc?.Description}</p>",
             Contact = new OpenApiContact() { Name = settings.ContactName, Email = settings.ContactEmail, Url = new Uri(settings.ContactUrl) },
-            TermsOfService = new System.Uri("https://www.linktotermsofservice.com"),
-            License = new OpenApiLicense() { Name = "MIT", Url = new System.Uri("https://opensource.org/licenses/MIT") }
+            TermsOfService = new System.Uri("https://github.com/CodeCollabHubA/Library-Management-System"),
+            License = new OpenApiLicense() { Name = "MIT", Url = new System.Uri("https://github.com/CodeCollabHubA/Library-Management-System/blob/main/LICENSE") }
         };
         if (description.IsDeprecated)
         {
