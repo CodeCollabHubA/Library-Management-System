@@ -9,6 +9,8 @@ namespace Library.Models.DTO
         public string? Bio { get; set; }
         public string? Address { get; set; }
 
+        public Sex? UserSex { get; set; }
+
         public int? Credit { get; set; }
 
         public IFormFile? Image { get; set; }
