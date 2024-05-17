@@ -11,6 +11,8 @@ namespace Library.Models.DTO
 
         public string? Description { get; set; }
 
+        public Genre? BookGenre { get; set; }
+
         public int Credit { get; set; }
 
         public string? ImageURL { get; set; }
