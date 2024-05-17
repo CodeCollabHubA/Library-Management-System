@@ -164,6 +164,7 @@ namespace Library.Services.DataServices.Dal
             userToEdit.Name = entity.Name;
             userToEdit.Bio = entity.Bio != null ? entity.Bio : userToEdit.Bio;
             userToEdit.Address = entity.Address != null ? entity.Address : userToEdit.Address;
+            userToEdit.UserSex = entity.UserSex != null ? entity.UserSex : userToEdit.UserSex;
             userToEdit.Email = entity.Email;
             userToEdit.Phone = entity.Phone != null ? entity.Phone : userToEdit.Phone;
 
