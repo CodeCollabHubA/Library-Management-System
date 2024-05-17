@@ -17,6 +17,9 @@ namespace Library.Models.Entities
 
         public string? Address { get; set; }
 
+        [Column("Sex")]
+        public Sex? UserSex { get; set; }
+
         public int? Credit { get; set; }
 
         public string? ImageURL { get; set; }
@@ -55,6 +58,12 @@ namespace Library.Models.Entities
     {
         Admin,
         User
+    }
+
+    public enum Sex
+    {
+        Male,
+        Female
     }
 
 }
