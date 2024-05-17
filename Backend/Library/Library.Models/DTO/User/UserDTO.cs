@@ -12,6 +12,8 @@ namespace Library.Models.DTO
 
         public string? Address { get; set; }
 
+        public Sex? UserSex { get; set; }
+
         public int? Credit { get; set; }
 
 
