@@ -62,10 +62,10 @@ Welcome to our Library Management System, a streamlined solution crafted with AS
 
 #### Key Features:
 
-User Registration: Our system offers a seamless registration process, enabling users to quickly join and start utilizing library services.
-User Authentication: Secure login functionality ensures that user accounts are protected and transactions are safe.
-Manage Library Items: Easily add, update, or remove library items, keeping your collection up-to-date with minimal effort.
-Borrow and Return: Our intuitive borrowing and returning system makes it a breeze for users to check out and return books.
+* User Registration: Our system offers a seamless registration process, enabling users to quickly join and start utilizing library services.
+* User Authentication: Secure login functionality ensures that user accounts are protected and transactions are safe.
+* Manage Library Items: Easily add, update, or remove library items, keeping your collection up-to-date with minimal effort.
+* Borrow and Return: Our intuitive borrowing and returning system makes it a breeze for users to check out and return books.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -90,26 +90,36 @@ Borrow and Return: Our intuitive borrowing and returning system makes it a breez
 
 <!-- GETTING STARTED -->
 ## Getting Started
-1. [Download and install the .NET Core SDK](https://dotnet.microsoft.com/download)
-    * [Download and install SQL Server Express](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb)
-2. Open a terminal such as **PowerShell**, **Command Prompt**, or **bash** and navigate to the `Backend/Library/Library.Api` folder
-3. Run the following `dotnet` commands:
-```sh
-dotnet build
-dotnet run
-```
-4. Open your browser to: `http://localhost:5053/swagger/index.html` for Swagger UI.
+**Prerequisites:**
+1. Download and install the .NET Core SDK from [here](https://dotnet.microsoft.com/download).
+2. Download and install SQL Server Express from [here](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb).
+3. Download and install Node.js from [here](https://nodejs.org/en/download).
 
-![Swagger UI](images/swagger.png)
-5. [Download and install Node.Js](https://nodejs.org/en/download)
-6. In another terminal, navigate to the `Frontend` folder and run the following `npm` commands:
-```sh
-npm install
-npm start
-```
-7. The webpack dev server hosts the front-end and your browser will open to: `http://localhost:3000`
 
+**Setup Instructions:**
+1. Open a terminal such as PowerShell, Command Prompt, or bash.
+2. Download the repo using the command below.
+    ```sh
+    curl -LJO https://github.com/CodeCollabHubA/Library-Management-System/archive/refs/heads/main.zip
+    ```
+3. Extract the .zip folder then navigate inside the project folder.
+4. Start a terminal in the project folder and use the follwoing commands start the `Backend` server
+      ```sh
+      cd Backend/Library/Library.Api
+      dotnet build
+      dotnet run
+      ```
+5. Open your web browser and navigate to `http://localhost:5053/swagger/index.html` for Swagger UI.
+  ![Swagger UI](images/swagger.png)
+6. Open new terminal on the project folder and run the following commands to start the `Frontend` development server :
+    ```sh
+    cd path/to/Frontend
+    npm install
+    npm start
+    ```
+8. The webpack dev server hosts the front-end, and your browser will automatically open to `http://localhost:3000`.
 ![Frontend](images/screenshot.png)
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
