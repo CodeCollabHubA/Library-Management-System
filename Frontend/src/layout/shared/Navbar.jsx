@@ -1,12 +1,12 @@
-
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBagShopping, faBookOpenReader} from "@fortawesome/free-solid-svg-icons";
+import { faBookOpenReader } from "@fortawesome/free-solid-svg-icons";
+
 import NotificationIcon from "./notifiacationIcon";
+import CartIcon from "./cartIcon";
 
 
-const Nav = ({ no_Borrow }) => {
-    
+const Nav = () => {
     
     
     return (
@@ -28,16 +28,14 @@ const Nav = ({ no_Borrow }) => {
                     <div className="flex items-center">
                         <div className="flex items-center ms-3">
                             <div className="w-32 flex justify-between items-center">
+
+                                {/* ######## notifaction section ########## */}
                                 <NotificationIcon/>
-                                <Link to="/dashboard/reviewPage" className="relative cursor-pointer">
-                                    <FontAwesomeIcon fontSize={'1.5rem'} icon={faBagShopping} />
-                                    {no_Borrow === null ?
-                                        null :
-                                        <span className="absolute -top-3 -left-3 -z-10 bg-red-600 text-sm font-bold text-white rounded-full w-5 h-5 flex items-center justify-center ">
-                                            {no_Borrow}
-                                        </span>
-                                    }
-                                </Link>
+
+                                {/* ######## cart section ########## */}
+                                <CartIcon />
+
+                                {/* ######## user avatar section ########## */}
                                 <Link to="/dashboard/profile" type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                     <span className="sr-only">Open user menu</span>
                                     <img className="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user" />

@@ -19,30 +19,21 @@ import MarginWrapper from "../layout/shared/MainWrapper";
 import NotFound from "../layout/shared/NotFound";
 import FooterSection from "../layout/shared/FooterSection";
 import useSideBarPosition from "../hooks/useSideBarPosition";
-import ProtectedRoute from "../components/common/protectedRoute";
-
-import { useState } from "react";
-import { useMyContext } from "../context/ContextProvider";
-import UserReviewPage from "./reviewPage";
+import UserCart from "./cart";
+// import ProtectedRoute from "../components/common/protectedRoute";
 
 
 const DashboardContainer = () => {
   const { footerRef, sideBarPosition } = useSideBarPosition()
-  const { noBorrow, setNoBorrow } = useMyContext()
-  const [open, setOpen] = useState(false)
+  
+  
 
 
-  const handleBorrow = () => {
-    setNoBorrow(noBorrow + 1)
-    setOpen(!open)
-  }
-  const handleClose = () => {
-    setOpen(!open)
-  }
+  
 
   return (
     <>
-      <Navbar noBorrow={noBorrow} />
+      <Navbar />
       <div className="main relative mt-[70px]">
         <SideBar sideBarPosition={sideBarPosition} />
         <section className="p bg-slate-100 min-h-lvh h-full lg:ml-[16rem] md:ml-[12rem] sm:ml-[9rem]">
@@ -57,9 +48,9 @@ const DashboardContainer = () => {
               <Route path='borrowings/*' element={<AdminBorrowing />} />
               <Route path='publishers/*' element={<AdminPublishers />} />
               {/* </Route> */}
-              <Route path='booksGallery/*' element={<BookGallery handleBorrow={handleBorrow} handleClose={handleClose} setOpen={setOpen} open={open} />} />
+              <Route path='booksGallery/*' element={<BookGallery />} />
               <Route path='profile' element={<Profile />} />
-              <Route path='reviewPage' element={<UserReviewPage />} />
+              <Route path='cart' element={<UserCart />} />
               <Route path='profile/update' element={<ProfileForm />} />
               <Route path='profile/updatePassword' element={<ProfilePasswordForm />} />
             </Route>
