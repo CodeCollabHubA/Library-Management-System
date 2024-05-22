@@ -13,11 +13,11 @@ const Button = ({ type, to, className, disabled, children, ...props }) => {
     }
     // if button type unknown not one of the above
     const buttonType = style[type] ? style[type] : style.default
-    let stylee = `${style.basic} ${buttonType} ${className} ${disabled ? "bg-gray-600 hover:bg-gray-600 hover:border-gray-600 hover:text-white" : ""}`
+    let stylee = `${style.basic} ${buttonType} ${className}`
 
     if (type === "icon") stylee = `${style.icon} ${className}`
     if (type === "checkbox") stylee = `${style.checkbox} ${className}`
-
+    if (disabled) stylee =`${style.basic} ${className} bg-green-200`
     return (
         to ?
             <Link className={stylee} to={`${to}`} type={type} disabled={disabled}  {...props}>{children}</Link>
