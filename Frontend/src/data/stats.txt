@@ -1,0 +1,124 @@
+// Users by Location:
+// Borrowings by User Sex: Number of borrowings segmented by user gender.
+
+
+const props = {
+    // user = {
+    //         id,
+    //         name,
+    //         email,
+    //         sex,
+    //         address,
+    //         birthday,
+    //         credit,
+    //         phone,
+    //         userRole,
+    //         createdAt,
+    // }
+    // publisher ={
+    //     id,
+    //     name,
+    //     email,
+    //     address,
+    // }
+    // author = {
+    //     id,
+    //     name,
+    // }
+    // book ={
+    //     id,
+    //     category,
+    //     title,
+    //     description,
+    //     credit,
+    //     numberOfTotalCopies,
+    //     numberOfAvailableCopies,
+    //     createdAt,
+    //     author,
+    //     publisher,
+    // }
+    // borrowing = {
+    //     id,
+    //     status,
+    //     numberOfTotalCopies,
+    //     numberOfAvailableCopies,
+    //     dateOut,
+    //     dueDate,
+    //     createdAt,
+    //     bookNavigation,
+    //     userNavigation,
+    // }
+}
+
+const User = {
+    // User Metrics
+    // Users by Role: Distribution of users by their role(e.g., admin, member).
+    // Users by Location:
+}
+const Book = {
+    // Book Metrics
+    // Total Number of Books: Total count of books in the library.
+    // Books Added per Month: Number of books added to the library each month.
+    // Books by Availability: Number of available copies versus total copies for each book.
+    // Most Borrowed Books: List of books that are borrowed the most.
+}
+const Borrowing = {
+    // Borrowing Metrics
+    // Total Number of Borrowings: The total count of borrowing transactions.
+    // Borrowings per Month: Number of borrowings each month.
+    // Active Borrowings: Current ongoing borrowings(borrowings that are not yet returned).
+    // Overdue Borrowings: Number of borrowings that are overdue.
+    // Borrowings by User: Number of borrowings per user.
+    // Borrowings by User Role: Number of borrowings segmented by user roles.
+    // Borrowings by User Sex: Number of borrowings segmented by user gender.
+    // Average Borrowing Duration: Average time a book is borrowed before being returned.
+    // Frequent Borrowers: Users who borrow books the most frequently.
+}
+
+const Credit = {
+    // Credit Metrics
+    // Total Credits Earned: Total credits earned by all users.
+    // Credits by User: Distribution of credits among users.
+    // Average Credits per User: Average number of credits held by users.
+}
+
+const Author = {
+    // Author Metrics
+    // Total Number of Authors: Total count of authors with books in the library.
+    // Books per Author: Number of books written by each author.
+    // Most Popular Authors: Authors whose books are borrowed the most.
+}
+
+const Publisher = {
+    // Publisher Metrics
+    // Total Number of Publishers: Total count of publishers with books in the library.
+    // Books per Publisher: Number of books published by each publisher.
+    // Most Popular Publishers: Publishers whose books are borrowed the most.
+}
+const DateBased = {
+    // Date-Based Metrics
+    // Borrowings by Day/Week/Month/Year: Number of borrowings segmented by time periods.
+    // Books Added by Day/Week/Month/Year: Number of books added segmented by time periods.
+    // Users Registered by Day/Week/Month/Year: Number of users registered segmented by time periods.
+}
+const VisualizationSuggestions = {
+    // Visualization Suggestions
+    // Bar Charts: For comparing counts of books, users, borrowings by categories, authors, publishers, etc.
+    // Line Charts: For trends over time, such as borrowings per month, new users per month, etc.
+    // Pie Charts: For showing proportions, such as users by sex, books by category, etc.
+    // Histograms: For distribution of numerical data, such as user age, credits per user, etc.
+    // Heatmaps: For showing borrowing activity over different time periods.
+    // Tables: For detailed lists, such as overdue borrowings, most borrowed books, etc.
+}
+
+// Total Number of Books: Total count of books in the library.
+// Books by Category: Distribution of books by their category.
+
+// Books by Availability: Number of available copies versus total copies for each book.
+// Most Borrowed Books: List of books that are borrowed the most.
+
+// Active Borrowings: Current ongoing borrowings(borrowings that are not yet returned).
+// Overdue Borrowings: Number of borrowings that are overdue.
+// Average Borrowing Duration: Average time a book is borrowed before being returned.
+
+// Most Popular Authors: Authors whose books are borrowed the most.;

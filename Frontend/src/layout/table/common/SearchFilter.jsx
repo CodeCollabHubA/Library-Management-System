@@ -12,7 +12,7 @@ const SearchFilter = ({ header, resource }) => {
 
     const [filterOn, setFilterOn] = useState({ value: searchParams.get("filterOn") || header[0]?.value })
     const [filterQuery, setFilterQuery] = useState(searchParams.get("filterQuery") || "")
-    const [sortBy, setSortBy] = useState("")
+    const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "")
     const [isAscending, setIsAscending] = useState(searchParams.get("isAscending") || "")
 
     const myContext = useMyContext()
@@ -45,7 +45,6 @@ const SearchFilter = ({ header, resource }) => {
         }
         if (sortBy || isAscending !== "") {
             searchParams.set("isAscending", isAscending || true)
-            console.log({ isAscending, sortBy })
             searchParams.set("sortBy", sortBy || header[0]?.value)
         }
         setSearchParams(searchParams)

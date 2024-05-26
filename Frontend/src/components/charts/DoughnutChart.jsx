@@ -1,23 +1,15 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useThemeProvider } from '../../utils/ThemeContext';
-
-
 import { chartColors } from './ChartjsConfig';
-import {
-  Chart, DoughnutController, ArcElement, TimeScale, Tooltip,
-} from 'chart.js';
+import { Chart, DoughnutController, ArcElement, TimeScale, Tooltip } from 'chart.js';
 import 'chartjs-adapter-moment';
 
 // Import utilities
-import { tailwindConfig } from '../../utils/Utils';
+import { tailwindConfig } from '../../utils/utils';
 
 Chart.register(DoughnutController, ArcElement, TimeScale, Tooltip);
 
-function DoughnutChart({
-  data,
-  width,
-  height
-}) {
+function DoughnutChart({ data, cutout, width, height }) {
 
   const [chart, setChart] = useState(null)
   const canvas = useRef(null);
@@ -33,7 +25,7 @@ function DoughnutChart({
       type: 'doughnut',
       data: data,
       options: {
-        cutout: '80%',
+        cutout,
         layout: {
           padding: 24,
         },
@@ -108,7 +100,7 @@ function DoughnutChart({
     setChart(newChart);
     return () => newChart.destroy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (!chart) return;
