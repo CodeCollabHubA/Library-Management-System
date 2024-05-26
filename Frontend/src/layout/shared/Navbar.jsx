@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpenReader } from "@fortawesome/free-solid-svg-icons";
 
 import NotificationIcon from "./notifiacationIcon";
-import CartIcon from "./cartIcon";
+// import CartIcon from "./cartIcon";
 
 
 const Nav = () => {
-    
-    
+
+
     return (
         <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
             <div className="h-[70px] px-3 py-3 lg:px-5 lg:pl-3 lg:mx-10">
@@ -30,10 +30,10 @@ const Nav = () => {
                             <div className="w-32 flex justify-between items-center">
 
                                 {/* ######## notifaction section ########## */}
-                                <NotificationIcon/>
+                                <NotificationIcon />
 
                                 {/* ######## cart section ########## */}
-                                <CartIcon />
+                                {/* <CartIcon /> */}
 
                                 {/* ######## user avatar section ########## */}
                                 <Link to="/dashboard/profile" type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
