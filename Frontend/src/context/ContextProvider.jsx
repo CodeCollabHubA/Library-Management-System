@@ -6,9 +6,10 @@ import { initialStatusMessage, userLocalStorage } from '../utils/constant';
 const Context = createContext()
 
 const ContextProvider = ({ children }) => {
+    const [data, setData] = useState([])
     const [state, setState] = useState(initialStatusMessage)
     const [books, setBooks] = useState([])
-    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem(userLocalStorage)))
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem(userLocalStorage) || "{}"))
     const [publishers, setPublishers] = useState([])
     const [authors, setAuthors] = useState([])
     const [users, setUsers] = useState({})
@@ -20,6 +21,7 @@ const ContextProvider = ({ children }) => {
 
 
     const value = {
+        data, setData,
         state, setState,
         user, setUser,
         books, setBooks,

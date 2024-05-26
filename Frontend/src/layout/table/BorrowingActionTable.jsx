@@ -4,7 +4,7 @@ import Pagination from "./Pagination";
 import SearchFilter from "./common/SearchFilter";
 
 
-import { dateFormater } from "../../utils/Utils";
+import { dateFormater } from "../../utils/utils";
 import ActionButtons from "./common/ActionButtons";
 import EmptyTable from "./common/EmptyTable";
 import BorrowStatusButton from "./body/BorrowStatusButton";

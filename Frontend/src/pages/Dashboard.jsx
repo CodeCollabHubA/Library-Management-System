@@ -19,17 +19,17 @@ import MarginWrapper from "../layout/shared/MainWrapper";
 import NotFound from "../layout/shared/NotFound";
 import FooterSection from "../layout/shared/FooterSection";
 import useSideBarPosition from "../hooks/useSideBarPosition";
-import UserCart from "./cart";
+// import UserCart from "./cart";
 // import ProtectedRoute from "../components/common/protectedRoute";
 
 
 const DashboardContainer = () => {
   const { footerRef, sideBarPosition } = useSideBarPosition()
-  
-  
 
 
-  
+
+
+
 
   return (
     <>
@@ -50,7 +50,7 @@ const DashboardContainer = () => {
               {/* </Route> */}
               <Route path='booksGallery/*' element={<BookGallery />} />
               <Route path='profile' element={<Profile />} />
-              <Route path='cart' element={<UserCart />} />
+              {/* <Route path='cart' element={<UserCart />} /> */}
               <Route path='profile/update' element={<ProfileForm />} />
               <Route path='profile/updatePassword' element={<ProfilePasswordForm />} />
             </Route>

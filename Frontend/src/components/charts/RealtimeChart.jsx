@@ -1,22 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useThemeProvider } from '../../utils/ThemeContext';
-
-import { chartColors } from './ChartjsConfig';
-import {
-  Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip,
-} from 'chart.js';
+import { Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip } from 'chart.js';
 import 'chartjs-adapter-moment';
 
-// Import utilities
-import { tailwindConfig, formatValue } from '../../utils/Utils';
+import { chartColors } from './ChartjsConfig';
+
+import { tailwindConfig, formatValue } from '../../utils/utils';
+
 
 Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip);
 
-function RealtimeChart({
-  data,
-  width,
-  height
-}) {
+function RealtimeChart({ data, width, height }) {
 
   const [chart, setChart] = useState(null)
   const canvas = useRef(null);
@@ -144,7 +138,7 @@ function RealtimeChart({
 
 
   return (
-    <React.Fragment>
+    <>
       <div className="px-5 py-3">
         <div className="flex items-start">
           <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2 tabular-nums">$<span ref={chartValue}>57.81</span></div>
@@ -154,7 +148,7 @@ function RealtimeChart({
       <div className="grow">
         <canvas ref={canvas} width={width} height={height}></canvas>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
