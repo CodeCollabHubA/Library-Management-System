@@ -5,6 +5,7 @@ function WelcomeBanner() {
 
   const { user = "Anonymous" } = useMyContext()
 
+
   return (
     <div className="relative bg-indigo-200 dark:bg-indigo-500 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
       {/* Background illustration */}
@@ -13,6 +14,7 @@ function WelcomeBanner() {
       </div>
 
       <div className="relative">
+        feature/statistics-metrics
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">Hello {user?.userName}. 👋</h1>
         <p className="capitalize dark:text-indigo-200">Here is helpful insights about borrowing requests:</p>
       </div>

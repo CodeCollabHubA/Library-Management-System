@@ -15,7 +15,8 @@ const ContextProvider = ({ children }) => {
     const [users, setUsers] = useState({})
     const [borrowings, setBorrowings] = useState([])
     const [borrowingsActions, setBorrowingsActions] = useState([])
-    const [noBorrow, setNoBorrow] = useState(null)
+    const [bag,setBag]= useState([])
+    const toBorrow = bag.length
 
 
 
@@ -29,7 +30,8 @@ const ContextProvider = ({ children }) => {
         users, setUsers,
         borrowings, setBorrowings,
         borrowingsActions, setBorrowingsActions,
-        noBorrow, setNoBorrow,
+        toBorrow,
+        bag,setBag,
     }
 
     return (
