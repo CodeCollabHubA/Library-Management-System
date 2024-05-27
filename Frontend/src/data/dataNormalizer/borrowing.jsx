@@ -1,35 +1,52 @@
-import { insertMissingHours, countUniqueStrings, insertMissingMonths, sortbyDate, topCountSort, countUniqueStringsById } from "../utils/utils"
 import moment from "moment";
+import { statusActionArray } from "../../utils/utils";
+import {
+    categorizeAge, insertMissingHours, countUniqueStrings,
+    insertMissingMonths, sortbyDate, topCountSort,
+    countUniqueStringsById
+} from "../utils/utils"
 
+
+// categorize users by age
+const usersAgeCategories = (arr) => {
+    const ages = countUniqueStrings(arr?.map(item => moment().diff(item.birthday, "years")) || [])
+    return categorizeAge(ages)
+}
+
+// get the count of users registered in the last 'n' months
+const registerdUserslastMonths = (arr, n) => {
+    const registerdUsersPerMonth = countUniqueStrings(arr?.map(item => `${item.createdAt.slice(0, 7)}-01`) || []) || []
+    return insertMissingMonths(sortbyDate(registerdUsersPerMonth))?.slice(0, n)
+}
 
 // Females vs. Males: Borrowings Over the Last 6 Months
 const femaleVsMaleLast6Month = (arr = [], n = 6) => {
-    let temp = { female: [], male: [] }
+    let temp = { Female: [], Male: [] }
     arr?.forEach(item =>
-        temp[item.userNavigation.sex].push(`${item.createdAt.slice(0, 7)}-01`)
+        temp[item.userNavigation.userSex]?.push(`${item.createdAt.slice(0, 7)}-01`)
     ) || []
-    let males = insertMissingMonths(sortbyDate(countUniqueStrings(temp.female)))?.slice(0, n)
-    let females = insertMissingMonths(sortbyDate(countUniqueStrings(temp.male)))?.slice(0, n)
+    let males = insertMissingMonths(sortbyDate(countUniqueStrings(temp.Female)))?.slice(0, n)
+    let females = insertMissingMonths(sortbyDate(countUniqueStrings(temp.Male)))?.slice(0, n)
     return { males, females }
 }
 
 // Females vs. Males: Top 5 Borrowed Book Categories
 const topCategoryByMalevsFemale = (arr = [], n) => {
 
-    const temp = { female: [], male: [] }
+    const temp = { Female: [], Male: [] }
     arr.forEach(item => {
-        temp[item.userNavigation.sex].push(item.bookNavigation.category)
+        temp[item.userNavigation.userSex]?.push(item.bookNavigation.bookGenre)
     })
 
-    let males = topCountSort(countUniqueStrings(temp.female))?.slice(0, n)
-    let females = topCountSort(countUniqueStrings(temp.male))?.slice(0, n)
+    let males = topCountSort(countUniqueStrings(temp.Female))?.slice(0, n)
+    let females = topCountSort(countUniqueStrings(temp.Male))?.slice(0, n)
 
     return { males, females }
 }
 
 // Top Borrowed Book Categories
 const topBorrowingCategory = (arr, n, showOthers = true) => {
-    return countUniqueStrings(arr?.map(item => item.bookNavigation.category) || [], n, showOthers)
+    return countUniqueStrings(arr?.map(item => item.bookNavigation.bookGenre) || [], n, showOthers)
         || []
 }
 
@@ -180,7 +197,9 @@ const recentBorrowingActivities = (arr) => {
  * @returns {Array} An array containing the top 'n' unique rejection reasons along with their counts.
  */
 const countRejectionReasons = (arr, n) => {
-    return countUniqueStrings(arr?.map(item => item.rejecotionReason) || [], n, true)
+    let newArr = []
+    arr?.forEach(item => { if (item.rejecotionReason) newArr.push(item.rejecotionReason) })
+    return countUniqueStrings(newArr, n, true)
 }
 
 /**
@@ -192,7 +211,7 @@ const countRejectionReasons = (arr, n) => {
  */
 const getBorrowingsToProcess = (arr, n) => {
     let newArr = []
-    arr?.slice(0, 100).forEach(item => { if (["Pending", "Borrowed"].includes(item.status)) newArr.push(item) })
+    arr?.slice(0, 100).forEach(item => { if (statusActionArray.includes(item.status)) newArr.push(item) })
     return newArr.slice(0, n)
 }
 
@@ -225,12 +244,12 @@ const generateLibraryInsights = ({ data, prev, next }) => {
     }
 
     const booksCurr = LibraryLastMonthInsights(data?.books, next)
-    const usersCurr = LibraryLastMonthInsights(data?.users, next)
-    const borrowingsCurr = LibraryLastMonthInsights(data?.borrowings, next)
+    const usersCurr = LibraryLastMonthInsights(data?.User, next)
+    const borrowingsCurr = LibraryLastMonthInsights(data?.Borrowing, next)
 
     const booksPrev = LibraryBetweenDatesInsights({ arr: data?.books, prev, next })
-    const usersPrev = LibraryBetweenDatesInsights({ arr: data?.users, prev, next })
-    const borrowingsPrev = LibraryBetweenDatesInsights({ arr: data?.borrowings, prev, next })
+    const usersPrev = LibraryBetweenDatesInsights({ arr: data?.User, prev, next })
+    const borrowingsPrev = LibraryBetweenDatesInsights({ arr: data?.Borrowing, prev, next })
 
     const users = {
         count: usersCurr,
@@ -251,24 +270,31 @@ const generateLibraryInsights = ({ data, prev, next }) => {
 
 const useDataNormalizer = (data) => {
 
-    const totalBorrowings = data?.borrowings?.length || 0
-    const femalevsMaleBorrowing = femaleVsMaleLast6Month(data?.borrowings, 6)
-    const top5CategoryMalesvsFemales = topCategoryByMalevsFemale(data?.borrowings, 5)
-    const topBorrowingBookCategory = topBorrowingCategory(data?.borrowings, 6, true)
-    const borrowingHoursInsights = borrowingHours(data?.borrowings)
-    const topAuthors = topBorrowedAuthors(data?.borrowings, 5)
-    const trendingBooks = topBorrowedBooks(data?.borrowings, 3)
-    const topAddresses = topUserAddresses(data?.borrowings)
+    const totalBooks = data?.Book?.length || 0
+    const totalAuthors = data?.Author?.length || 0
+    const totalUsers = data?.User?.length || 0
+    const ageCategories = usersAgeCategories(data?.User)
+    const registerdUserslast12Month = registerdUserslastMonths(data?.User, 12)
+
+
+    const totalBorrowings = data?.Borrowing?.length || 0
+    const femalevsMaleBorrowing = femaleVsMaleLast6Month(data?.Borrowing, 6)
+    const top5CategoryMalesvsFemales = topCategoryByMalevsFemale(data?.Borrowing, 5)
+    const topBorrowingBookCategory = topBorrowingCategory(data?.Borrowing, 6, true)
+    const borrowingHoursInsights = borrowingHours(data?.Borrowing)
+    const topAuthors = topBorrowedAuthors(data?.Borrowing, 5)
+    const trendingBooks = topBorrowedBooks(data?.Borrowing, 3)
+    const topAddresses = topUserAddresses(data?.Borrowing)
+    const recentActivities = recentBorrowingActivities(data?.Borrowing, 8)
+    const rejecotionReasons = countRejectionReasons(data?.Borrowing, 6)
+    const borrowingsToProcess = getBorrowingsToProcess(data?.Borrowing, 12)
     const topActiveUsers = topUsers({
-        arr: data?.borrowings,
+        arr: data?.Borrowing,
         // arbitrary number user for better appearnce of he number
         prev: moment().subtract(8, "week"),
         next: moment().subtract(5, "week"),
         n: 6
     })
-    const recentActivities = recentBorrowingActivities(data?.borrowings, 8)
-    const rejecotionReasons = countRejectionReasons(data?.borrowings, 6)
-    const borrowingsToProcess = getBorrowingsToProcess(data?.borrowings, 6)
     const getLibraryInsights = generateLibraryInsights({
         data,
         // arbitrary number user for better appearnce of he number
@@ -278,7 +304,14 @@ const useDataNormalizer = (data) => {
 
 
 
+
+
     return {
+        totalBooks,
+        totalAuthors,
+        totalUsers,
+        ageCategories,
+        registerdUserslast12Month,
         totalBorrowings,
         femalevsMaleBorrowing,
         top5CategoryMalesvsFemales,

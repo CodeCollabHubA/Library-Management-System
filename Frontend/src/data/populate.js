@@ -1,7 +1,62 @@
+import bcrypt from 'bcryptjs'
 import { faker } from '@faker-js/faker';
 import fs from 'fs'
+import moment from 'moment';
 
-const date = { from: '2023-06-01T00:00:00.000Z', to: '2024-05-15T00:00:00.000Z' }
+const profileImage = (sex) => {
+    return `${sex}${faker.helpers.arrayElement(Array.from({ length: 9 }, (_, i) => i))}.jpg`
+}
+
+const bookCoverImage = (ISBN) => {
+    // from https://openlibrary.org/dev/docs/api/covers
+    // `https://covers.openlibrary.org/b/$key/$value-$size.jpg`
+    return `https://covers.openlibrary.org/b/isbn/ISBN-L.jpg`
+}
+
+const date = (startDate = new Date(moment().subtract(1, "year"))) => {
+    const createdAt = faker.date.between({ from: startDate, to: new Date() }).toISOString();
+    const updatedAt = faker.date.between({ from: createdAt, to: new Date() }).toISOString()
+    return { createdAt, updatedAt }
+}
+
+const timeStamp = (updatedAt) => {
+    return `${faker.string.alpha(8)}#${updatedAt}`
+}
+
+const byAdmin = ({ status, admin }) => {
+    const byAdmin = {}
+
+    adminProcessedStatus.forEach(item => byAdmin[`${item.toLowerCase()}ByNavigation`] = null)
+
+    if (adminProcessedStatus.includes(status)) {
+        byAdmin[`${status.toLowerCase()}ByNavigation`] = admin
+    }
+    return byAdmin
+}
+
+const rejecotionReason = (status) => {
+    return status === "Rejected"
+        ?
+        faker.helpers.arrayElement(rejecotionReasons)
+        :
+        null
+}
+
+const bookBorrowingDuration = 2
+
+const userRoleArray = ["Admin", "User"]
+
+const adminProcessedStatus = ["Rejected", "Approved", "Returned"]
+
+
+const BorrowingActionstring = [
+    "Request",
+    "Confirm",
+    "Cancel",
+    "Approve",
+    "Reject",
+    "Return"
+]
 
 const rejecotionReasons = [
     'Outstanding Fines or Fees',
@@ -27,26 +82,28 @@ const BorrowingsStatusArray = [
     "Returned",
 ]
 
-const category = [
-    "Fiction",
-    "Science Fiction",
-    "Fantasy",
+
+const genreArray = [
     "Romance",
-    "History",
-    "Biography",
-    "Self-Help",
+    "Anime",
+    "Fiction",
+    "Fantasy",
+    "Thriller",
+    "SelfHelp",
     "Horror",
-    "Poetry",
-    // "Classics",
-    // "Adventure",
-    // "Mystery",
-    // "Thriller",
-    // "Children's Books",
-    // "Health & Wellness",
-    // "Business & Economics",
+    "History",
+    "Medicine",
+    "Biography",
+    "Business",
+    // "None",
+    // "Other",
+    // "Children", "Comedy", "Comics", "Cooking", "Drama", "Cartoon",
+    // "Film", "Game", "Health", "Historical", Music","Education","Law",
+    // "Science", "ScienceFiction", "Technology", "Travel","Art","Arts",
+    // "Mystery", "Politics", "Poetry", "Psychology", "Religion","Animation"
 ];
 
-const uae = [
+const UAEProvineArray = [
     'Abu Dhabi',
     'Fujairah',
     'Sharjah',
@@ -56,23 +113,32 @@ const uae = [
     'Ajman'
 ];
 
+
 const user = () => {
     const sex = faker.person.sexType();
+    const userSex = sex[0].toUpperCase() + sex.slice(1)
     const firstName = faker.person.firstName(sex);
     const lastName = faker.person.lastName();
+    const rawPassword = faker.internet.password()
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(rawPassword, salt);
 
     return {
         id: faker.string.uuid(),
         name: firstName + " " + lastName,
         email: faker.internet.email({ firstName, lastName }),
-        sex,
-        address: faker.helpers.arrayElement(uae),
+        userSex,
+        password: hashedPassword,
+        address: faker.helpers.arrayElement(UAEProvineArray),
         birthday: faker.date.birthdate(),
-        credit: Number(faker.string.numeric(1)) * 10,
+        imageURL: profileImage(sex),
         phone: faker.phone.imei(),
-        image: `${faker.helpers.arrayElement(Array.from({ length: 9 }, (_, i) => i))}.jpg`,
-        userRole: faker.helpers.arrayElement(['Admin', 'User']),
-        createdAt: faker.date.between(date),
+        credit: Number(faker.string.numeric(1)) * 10,
+        bio: faker.word.words({ count: { min: 5, max: 30 } }),
+        userRole: faker.helpers.arrayElement(userRoleArray),
+        timeStamp: timeStamp(date().updatedAt),
+        createdAt: date().createdAt,
     }
 }
 
@@ -80,43 +146,55 @@ const publisher = () => ({
     id: faker.string.uuid(),
     name: faker.person.fullName(),
     email: faker.internet.email(),
-    address: faker.helpers.arrayElement(uae),
-
+    address: faker.helpers.arrayElement(UAEProvineArray),
+    timeStamp: timeStamp(date().updatedAt),
+    createdAt: date().createdAt,
 })
 
 const author = () => ({
     id: faker.string.uuid(),
     name: faker.person.fullName(),
+    timeStamp: timeStamp(date().updatedAt),
+    createdAt: date().createdAt,
 })
 
-const book = ({ author, publisher }) => ({
-    id: faker.string.uuid(),
-    category: faker.helpers.arrayElement(category),
-    title: faker.word.words({ count: { min: 6, max: 10 } }),
-    description: faker.word.words({ count: { min: 30, max: 100 } }),
-    credit: Number(faker.string.numeric(2)),
-    numberOfTotalCopies: Number(faker.string.numeric(2)),
-    numberOfAvailableCopies: Number(faker.string.numeric(2)),
-    createdAt: faker.date.between(date),
-    author,
-    publisher,
-})
+const book = ({ author, publisher }) => {
+    const ISBN = "0385472579"
 
-const borrowing = ({ book, user }) => ({
-    id: faker.string.uuid(),
-    status: faker.helpers.arrayElement(BorrowingsStatusArray),
-    numberOfTotalCopies: Number(faker.string.numeric(2)),
-    numberOfAvailableCopies: Number(faker.string.numeric(2)),
-    dateOut: faker.date.between(date),
-    dueDate: faker.date.between(date),
-    createdAt: faker.date.between(date),
-    bookNavigation: book,
-    userNavigation: user,
-    rejecotionReason: faker.helpers.arrayElement(rejecotionReasons),
-    RejectedBy: faker.person.fullName(),
-    ApprovedBy: faker.person.fullName(),
-    ReturnedBy: faker.person.fullName(),
-})
+    return {
+        id: faker.string.uuid(),
+        bookGenre: faker.helpers.arrayElement(genreArray),
+        title: faker.word.words({ count: { min: 3, max: 8 } }),
+        description: faker.word.words({ count: { min: 20, max: 100 } }),
+        credit: Number(faker.string.numeric(2)),
+        numberOfTotalCopies: Number(faker.string.numeric(2)),
+        numberOfAvailableCopies: Number(faker.string.numeric(2)),
+        author,
+        publisher,
+        ISBN,
+        imageURL: bookCoverImage(ISBN),
+        timeStamp: timeStamp(date().updatedAt),
+        createdAt: date().createdAt,
+    }
+}
+
+
+const borrowing = ({ book, user, admin }) => {
+    const status = faker.helpers.arrayElement(BorrowingsStatusArray)
+
+    return {
+        status,
+        id: faker.string.uuid(),
+        dateOut: date().updatedAt,
+        dueDate: new Date(moment(date().updatedAt).add(bookBorrowingDuration, "week")),
+        rejecotionReason: rejecotionReason(status),
+        bookNavigation: book,
+        userNavigation: user,
+        ...byAdmin({ status, admin }),
+        timeStamp: timeStamp(date().updatedAt),
+        createdAt: date().createdAt,
+    }
+}
 
 const generateData = (length, object) => {
     const arr = [];
@@ -129,8 +207,8 @@ const generateData = (length, object) => {
 const generateBook = ({ length, book, data }) => {
     const arr = [];
     for (let i = 0; i < length; i++) {
-        const author = data.authors[Math.floor(Math.random() * data.authors.length)]
-        const publisher = data.publishers[Math.floor(Math.random() * data.publishers.length)]
+        const author = data.Author[Math.floor(Math.random() * data.Author.length)]
+        const publisher = data.Publisher[Math.floor(Math.random() * data.Publisher.length)]
         arr.push(book({ author, publisher }));
     }
     return arr;
@@ -139,29 +217,32 @@ const generateBook = ({ length, book, data }) => {
 const generateBorrowing = ({ length, borrowing, data }) => {
     const arr = [];
     for (let i = 0; i < length; i++) {
-        const book = data.books[Math.floor(Math.random() * data.books.length)]
-        const user = data.users[Math.floor(Math.random() * data.users.length)]
-        arr.push(borrowing({ user, book }));
+        const book = data.Book[Math.floor(Math.random() * data.Book.length)]
+        const user = data.User[Math.floor(Math.random() * data.User.length)]
+        const admin = data.User[Math.floor(Math.random() * data.User.length)]
+        arr.push(borrowing({ user, book, admin }));
     }
     return arr;
 };
 
-function populate(x1, x2, x3, x4, x5) {
+function populate({ users, publishers, authors, books, borrowings }) {
 
     const data = {
-        users: generateData(x1, user),
-        publishers: generateData(x2, publisher),
-        authors: generateData(x3, author),
+        User: generateData(users, user),
+        Publisher: generateData(publishers, publisher),
+        Author: generateData(authors, author),
     }
-    data.books = generateBook({ length: x4, book, data })
-    data.borrowings = generateBorrowing({ length: x5, borrowing, data })
+    data.Book = generateBook({ length: books, book, data })
+    data.Borrowing = generateBorrowing({ length: borrowings, borrowing, data })
 
     return data
 
 }
 
+const data = populate({ users: 150, publishers: 100, authors: 300, books: 5230, borrowings: 9800 })
+// const data = populate({ users: 1, publishers: 1, authors: 1, books: 1, borrowings: 1 })
 
-const dataJson = JSON.stringify(populate(130, 120, 300, 5000, 8500), null, 2);
+const dataJson = JSON.stringify(data, null, 2);
 
 // Write JSON string to a file
 fs.writeFile('../../public/data.json', dataJson, (err) => {

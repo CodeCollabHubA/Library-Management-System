@@ -6,6 +6,9 @@ export const statusToAction = {
         ],
         "Borrowed": [
             { name: "Return", color: "Returned" },
+        ],
+        "Approved": [
+            { name: "Reject", color: "Rejected" },
         ]
     },
     "User": {

@@ -1,6 +1,5 @@
 import { useMyContext } from '../context/ContextProvider';
 import useBorrowingNormalizer from '../data/dataNormalizer/borrowing';
-import useUserNormalizer from '../data/dataNormalizer/user';
 
 import Icon1 from '../assets/icons/icon-01.svg';
 import Icon2 from '../assets/icons/icon-02.svg';
@@ -27,6 +26,11 @@ function Dashboard() {
   const { data } = useMyContext()
 
   const {
+    totalUsers,
+    totalBooks,
+    totalAuthors,
+    ageCategories,
+    registerdUserslast12Month,
     totalBorrowings,
     femalevsMaleBorrowing,
     top5CategoryMalesvsFemales,
@@ -42,10 +46,6 @@ function Dashboard() {
     getLibraryInsights,
   } = useBorrowingNormalizer(data)
 
-  const { totalUsers, ageCategories, registerdUserslast12Month } = useUserNormalizer(data)
-
-  const totalBooks = data?.books?.length || 0
-  const totalAuthors = data?.authors?.length || 0
 
   return (
     <main>
