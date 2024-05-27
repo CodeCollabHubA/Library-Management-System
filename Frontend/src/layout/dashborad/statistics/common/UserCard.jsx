@@ -8,7 +8,7 @@ const UserCard = ({ item }) => {
             <td className="p-2 whitespace-nowrap">
                 <div className="flex items-center">
                     <div className="w-10 h-10 shrink-0 mr-2 sm:mr-3">
-                        <img className="rounded-full" src={`/src/assets/images/profile/${item.image}`} width="40" height="40" alt={item.name} />
+                        <img className="rounded-full" src={`/src/assets/images/profile/${item.imageURL}`} width="40" height="40" alt={item.name} />
                     </div>
                     <div className="font-medium text-slate-800 dark:text-slate-100">{item.name}</div>
                 </div>

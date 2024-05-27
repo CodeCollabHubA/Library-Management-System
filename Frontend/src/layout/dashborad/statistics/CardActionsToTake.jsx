@@ -41,7 +41,7 @@ function Card({ data, className }) {
                   <div className="uppercase rounded-sm text-slate-700 font-bold p-2">yesterday</div>
                 </td>
               </tr>
-              {data.slice(2).map((item, i) => <ActionCard key={i} item={item} />)}
+              {data.slice(2, 6).map((item, i) => <ActionCard key={i} item={item} />)}
             </tbody>
           </table>
         </div>

@@ -97,3 +97,38 @@ export const resourceToIcon = {
   "Borrowing": "faExchange",
   "User": "faUser"
 }
+
+export const statusActionArray = ["Pending", "Approved", "Borrowed"]
+
+
+export const bookBorrowingDuration = 2
+
+export const userSexArray = ["Male", "Female"]
+
+export const userRoleArray = ["Admin", "User"]
+
+export const adminProcessedStatus = ["Rejected", "Approved", "Returned"]
+
+
+const BorrowingActionstring = [
+  "Request",
+  "Confirm",
+  "Cancel",
+  "Approve",
+  "Reject",
+  "Return"
+]
+
+const rejecotionReasons = [
+  'Outstanding Fines or Fees',
+  'Outdated Membership Card',
+  'All Copies Currently Borrowed',
+  'Exceeded Borrowing Limit',
+  'Overdue Books Not Returned',
+  'Account Suspended or Inactive',
+  'Insufficient Account Privileges',
+  'Duplicate Borrowing Request',
+  'Incomplete User Information',
+  'Restricted Borrowing Access',
+  // 'Other'
+];
