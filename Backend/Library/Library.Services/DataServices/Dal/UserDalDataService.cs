@@ -162,6 +162,7 @@ namespace Library.Services.DataServices.Dal
             // Map dto to the user
             userToEdit.TimeStamp = entity.TimeStamp;
             userToEdit.Name = entity.Name;
+            userToEdit.BirthDate = entity.BirthDate != null ? entity.BirthDate : userToEdit.BirthDate;
             userToEdit.Bio = entity.Bio != null ? entity.Bio : userToEdit.Bio;
             userToEdit.Address = entity.Address != null ? entity.Address : userToEdit.Address;
             userToEdit.UserSex = entity.UserSex != null ? entity.UserSex : userToEdit.UserSex;

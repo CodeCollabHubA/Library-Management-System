@@ -15,6 +15,8 @@ namespace Library.Models.Entities
 
         public string? Bio { get; set; }
 
+        public DateOnly? BirthDate { get; set; }
+
         public string? Address { get; set; }
 
         [Column("Sex")]
