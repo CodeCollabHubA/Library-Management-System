@@ -8,8 +8,10 @@ namespace Library.Models.DTO
         public string Name { get; set; }
         public string? Bio { get; set; }
         public string? Address { get; set; }
+        public DateOnly? BirthDate { get; set; }
 
         public Sex? UserSex { get; set; }
+
 
         public int? Credit { get; set; }
 
