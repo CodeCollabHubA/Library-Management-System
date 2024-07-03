@@ -20,7 +20,7 @@
     A modern Library Management System for automating all library operations
     <br />
     <br />
-    <a href="https://github.com/CodeCollabHubA/Library-Management-System">View Demo</a>
+    <a href="https://elib.ahmedyassin.dev/">View Demo</a>
     ·
     <a href="https://github.com/CodeCollabHubA/Library-Management-System/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
